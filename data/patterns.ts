@@ -162,3 +162,19 @@ export const AB_MODEL = { change: "one", control: "random", kpi: "conv", size: "
 export const hasHypothesis = (s: string) => /\b(if|wenn|falls)\b/i.test(s) && /\b(because|since|as|weil|da|denn)\b/i.test(s);
 /** A decision rule names a number to decide by. */
 export const hasRuleNumber = (s: string) => /\d/.test(s);
+
+/** The decisive phrase inside each metric's own text, for "Highlight the key words" (never which kind it points to). */
+export const REC_KEY: Record<string, string> = bi({
+  p01: t("deals ÷ journeys", "Abschlüsse ÷ Journeys"),
+  p02: t("Revenue per customer across all channels", "Umsatz pro Kunde über alle Kanäle"),
+  p03: t("customers who renew their contract", "Kunden, die ihren Vertrag verlängern"),
+  p04: t("the next channel sees the customer's history", "der nächste Kanal die Historie des Kunden sieht"),
+  p05: t("Hours from an online request to the first contact", "Stunden von einer Online-Anfrage bis zum ersten Kontakt"),
+  p06: t("customers who use two or more channels", "Kunden, die zwei oder mehr Kanäle nutzen"),
+  p07: t("have to repeat their information at a hand-over", "bei einer Übergabe ihre Angaben wiederholen müssen"),
+  p08: t("Complaints about contradictory information", "Beschwerden über widersprüchliche Informationen"),
+  p09: t("withdraw their consent to data use", "ihre Einwilligung zur Datennutzung zurückziehen"),
+  p10: t("Number of channels OmniTech offers", "Zahl der Kanäle, die OmniTech anbietet"),
+  p11: t("Downloads of the customer app", "Downloads der Kunden-App"),
+  p12: t("Chatbot conversations per month", "Chatbot-Gespräche pro Monat"),
+});

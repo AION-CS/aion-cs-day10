@@ -3,6 +3,7 @@
 import { Bul, Diagram } from "@/components/materi/kit";
 import { AutomationGrid, DelayCost, FairTest, KpiTree, MomentProfile, PilotExample, ScoreExample } from "@/components/materi/diagramsA";
 import { Callout, DataTable, MaterialCard } from "@/components/ui/MaterialCard";
+import { ShowMore } from "@/components/ui/ShowMore";
 import { LEVEL_TESTS } from "@/data/ladder";
 import { PATTERNS, PATTERN_IDS, PATTERN_PAIR_TESTS, RISK_RULE } from "@/data/patterns";
 import { EXPLAIN_RULE } from "@/data/measures";
@@ -26,22 +27,26 @@ export function CardA1() {
       ]}
       sources={["verhoef2015", "neslin2006", "lemon2016"]}
     >
-      <p className={p}>
-        {tt(
-          "Verhoef, Kannan and Inman (2015) describe the step from multichannel to omnichannel: channels and touchpoints are managed together, so that the experience across them is optimised, not each channel alone. Neslin and colleagues (2006) had already named the hardest part: joining the data of all channels and measuring across them. Lemon and Verhoef (2016) show that customers experience the whole journey, before, during and after the purchase.",
-          "Verhoef, Kannan und Inman (2015) beschreiben den Schritt von Multichannel zu Omnichannel: Kanäle und Touchpoints werden gemeinsam gesteuert, sodass das Erlebnis über alle optimiert wird, nicht jeder Kanal für sich. Neslin und Kollegen (2006) hatten den schwierigsten Teil schon benannt: die Daten aller Kanäle zu verbinden und über sie hinweg zu messen. Lemon und Verhoef (2016) zeigen, dass Kunden die ganze Journey erleben, vor, während und nach dem Kauf.",
-        )}
-      </p>
+      <ShowMore id="A1" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Verhoef, Kannan and Inman (2015) describe the step from multichannel to omnichannel: channels and touchpoints are managed together, so that the experience across them is optimised, not each channel alone. Neslin and colleagues (2006) had already named the hardest part: joining the data of all channels and measuring across them. Lemon and Verhoef (2016) show that customers experience the whole journey, before, during and after the purchase.",
+            "Verhoef, Kannan und Inman (2015) beschreiben den Schritt von Multichannel zu Omnichannel: Kanäle und Touchpoints werden gemeinsam gesteuert, sodass das Erlebnis über alle optimiert wird, nicht jeder Kanal für sich. Neslin und Kollegen (2006) hatten den schwierigsten Teil schon benannt: die Daten aller Kanäle zu verbinden und über sie hinweg zu messen. Lemon und Verhoef (2016) zeigen, dass Kunden die ganze Journey erleben, vor, während und nach dem Kauf.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Single channel, multichannel, omnichannel · a worked example on Weser Systemhaus", "Ein Kanal, Multichannel, Omnichannel · ein Beispiel mit Weser Systemhaus")} caption={tt("Switch between the three ways Weser runs its channels and watch the journey and the share of customers who repeat themselves.", "Wechseln Sie zwischen den drei Arten, wie Weser seine Kanäle betreibt, und beobachten Sie die Journey und den Anteil der Kunden, die sich wiederholen.")}>
         <DelayCost />
       </Diagram>
-      <Bul
-        items={[
-          tt("Seamless transition: the switch from one channel to the next works; someone takes over, in time.", "Nahtloser Übergang: Der Wechsel von einem Kanal zum nächsten funktioniert; jemand übernimmt, rechtzeitig."),
-          tt("Recognition: the next channel knows who the customer is and what they already did.", "Wiedererkennung: Der nächste Kanal weiß, wer der Kunde ist und was er schon getan hat."),
-          tt("Consistency: every channel says the same about prices, promises and facts.", "Konsistenz: Jeder Kanal sagt dasselbe über Preise, Zusagen und Fakten."),
-        ]}
-      />
+      <ShowMore id="A1" part="notes" label={tt("Show two short notes", "Zwei kurze Hinweise zeigen")}>
+        <Bul
+          items={[
+            tt("Seamless transition: the switch from one channel to the next works; someone takes over, in time.", "Nahtloser Übergang: Der Wechsel von einem Kanal zum nächsten funktioniert; jemand übernimmt, rechtzeitig."),
+            tt("Recognition: the next channel knows who the customer is and what they already did.", "Wiedererkennung: Der nächste Kanal weiß, wer der Kunde ist und was er schon getan hat."),
+            tt("Consistency: every channel says the same about prices, promises and facts.", "Konsistenz: Jeder Kanal sagt dasselbe über Preise, Zusagen und Fakten."),
+          ]}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -60,18 +65,22 @@ export function CardA2() {
       ]}
       sources={["dixon2010", "lemon2016", "gdpr2016"]}
     >
-      <p className={p}>
-        {tt(
-          "Dixon, Freeman and Toman (2010) found that what drives customers away is effort more than a lack of delight: having to repeat information, switch channels and wait. Lemon and Verhoef (2016) describe the experience as built from all touchpoints together, so a single weak transition colours the whole journey.",
-          "Dixon, Freeman und Toman (2010) fanden, dass Kunden eher durch Aufwand vertrieben werden als durch fehlende Begeisterung: Angaben wiederholen, Kanäle wechseln und warten müssen. Lemon und Verhoef (2016) beschreiben das Erlebnis als aus allen Touchpoints zusammen gebaut, sodass ein einziger schwacher Übergang die ganze Journey färbt.",
-        )}
-      </p>
+      <ShowMore id="A2" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Dixon, Freeman and Toman (2010) found that what drives customers away is effort more than a lack of delight: having to repeat information, switch channels and wait. Lemon and Verhoef (2016) describe the experience as built from all touchpoints together, so a single weak transition colours the whole journey.",
+            "Dixon, Freeman und Toman (2010) fanden, dass Kunden eher durch Aufwand vertrieben werden als durch fehlende Begeisterung: Angaben wiederholen, Kanäle wechseln und warten müssen. Lemon und Verhoef (2016) beschreiben das Erlebnis als aus allen Touchpoints zusammen gebaut, sodass ein einziger schwacher Übergang die ganze Journey färbt.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Three principles, three states · a worked example on Weser Systemhaus", "Drei Prinzipien, drei Zustände · ein Beispiel mit Weser Systemhaus")} caption={tt("Choose a principle and a state and read what the customer experiences; then try the worked sort below.", "Wählen Sie ein Prinzip und einen Zustand und lesen Sie, was der Kunde erlebt; probieren Sie dann die Beispielsortierung darunter.")}>
         <MomentProfile />
       </Diagram>
-      <Callout label={tt("The GDPR still applies", "Die DSGVO gilt weiter")} tone="rust">
-        <p>{tt("Joining the data of several channels is processing personal data: it needs a lawful basis (Art. 6), website tracking usually needs consent, and customers may object to direct marketing (Art. 21). Integration does not change any of it.", "Die Daten mehrerer Kanäle zu verbinden ist Verarbeitung personenbezogener Daten: Sie braucht eine Rechtsgrundlage (Art. 6), Website-Tracking braucht meist eine Einwilligung, und Kunden können der Direktwerbung widersprechen (Art. 21). Integration ändert daran nichts.")}</p>
-      </Callout>
+      <ShowMore id="A2" part="extra" label={tt("Show: The GDPR still applies", "Zeigen: Die DSGVO gilt weiter")}>
+        <Callout label={tt("The GDPR still applies", "Die DSGVO gilt weiter")} tone="rust">
+          <p>{tt("Joining the data of several channels is processing personal data: it needs a lawful basis (Art. 6), website tracking usually needs consent, and customers may object to direct marketing (Art. 21). Integration does not change any of it.", "Die Daten mehrerer Kanäle zu verbinden ist Verarbeitung personenbezogener Daten: Sie braucht eine Rechtsgrundlage (Art. 6), Website-Tracking braucht meist eine Einwilligung, und Kunden können der Direktwerbung widersprechen (Art. 21). Integration ändert daran nichts.")}</p>
+        </Callout>
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -92,24 +101,28 @@ export function CardA3() {
       ]}
       sources={["rawson2013", "adam2021", "provost2013"]}
     >
-      <p className={p}>
-        {tt(
-          "Rawson, Duncan and Jones (2013) show that whole journeys, not single touchpoints, predict satisfaction, and that the breaks sit between departments. Adam, Wessel and Benlian (2021) find that chatbots handle first contact well when they are designed for it and know their limits. Provost and Fawcett (2013) explain how predictive models learn from past data, and why they are only as good as the data they see.",
-          "Rawson, Duncan und Jones (2013) zeigen, dass ganze Journeys, nicht einzelne Touchpoints, die Zufriedenheit vorhersagen, und dass die Brüche zwischen den Abteilungen liegen. Adam, Wessel und Benlian (2021) finden, dass Chatbots den Erstkontakt gut bewältigen, wenn sie dafür gestaltet sind und ihre Grenzen kennen. Provost und Fawcett (2013) erklären, wie Vorhersagemodelle aus vergangenen Daten lernen und warum sie nur so gut sind wie die Daten, die sie sehen.",
-        )}
-      </p>
+      <ShowMore id="A3" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Rawson, Duncan and Jones (2013) show that whole journeys, not single touchpoints, predict satisfaction, and that the breaks sit between departments. Adam, Wessel and Benlian (2021) find that chatbots handle first contact well when they are designed for it and know their limits. Provost and Fawcett (2013) explain how predictive models learn from past data, and why they are only as good as the data they see.",
+            "Rawson, Duncan und Jones (2013) zeigen, dass ganze Journeys, nicht einzelne Touchpoints, die Zufriedenheit vorhersagen, und dass die Brüche zwischen den Abteilungen liegen. Adam, Wessel und Benlian (2021) finden, dass Chatbots den Erstkontakt gut bewältigen, wenn sie dafür gestaltet sind und ihre Grenzen kennen. Provost und Fawcett (2013) erklären, wie Vorhersagemodelle aus vergangenen Daten lernen und warum sie nur so gut sind wie die Daten, die sie sehen.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Critical transitions, and where AI can build · a worked example on Weser Systemhaus", "Kritische Übergänge, und wo KI aufbauen kann · ein Beispiel mit Weser Systemhaus")} caption={tt("Choose a transition on the grid or in the list and read where it falls and why.", "Wählen Sie einen Übergang im Raster oder in der Liste und lesen Sie, wo er liegt und warum.")}>
         <AutomationGrid />
       </Diagram>
-      <DataTable
-        head={[tt("AI tool", "KI-Werkzeug"), tt("What it does", "Was es tut"), tt("What it needs to work", "Was es braucht, um zu wirken")]}
-        rows={[
-          [tt("Chatbot", "Chatbot"), tt("Answers routine questions at any hour, hands over to a person", "Beantwortet Routinefragen zu jeder Zeit, übergibt an einen Menschen"), tt("The customer's contract and tickets, and a hand-over with the conversation attached", "Vertrag und Tickets des Kunden, und eine Übergabe mit angehängtem Gespräch")],
-          [tt("Predictive analytics", "Predictive Analytics"), tt("Estimates who will renew, buy more or leave", "Schätzt, wer verlängert, mehr kauft oder geht"), tt("Contacts from every channel over time, and a person who acts on the list", "Kontakte aus jedem Kanal über die Zeit, und ein Mensch, der nach der Liste handelt")],
-          [tt("Personalised offers", "Personalisierte Angebote"), tt("Chooses an offer from what the customer did", "Wählt ein Angebot aus dem, was der Kunde tat"), tt("What every channel knows and agreed, not only one channel's data", "Was jeder Kanal weiß und vereinbart hat, nicht nur die Daten eines Kanals")],
-        ]}
-        caption={tt("Three AI tools and what each needs from integration", "Drei KI-Werkzeuge und was jedes von der Integration braucht")}
-      />
+      <ShowMore id="A3" part="table" label={tt("Show the table: three AI tools and what each needs from integration", "Tabelle zeigen: Drei KI-Werkzeuge und was jedes von der Integration braucht")}>
+        <DataTable
+          head={[tt("AI tool", "KI-Werkzeug"), tt("What it does", "Was es tut"), tt("What it needs to work", "Was es braucht, um zu wirken")]}
+          rows={[
+            [tt("Chatbot", "Chatbot"), tt("Answers routine questions at any hour, hands over to a person", "Beantwortet Routinefragen zu jeder Zeit, übergibt an einen Menschen"), tt("The customer's contract and tickets, and a hand-over with the conversation attached", "Vertrag und Tickets des Kunden, und eine Übergabe mit angehängtem Gespräch")],
+            [tt("Predictive analytics", "Predictive Analytics"), tt("Estimates who will renew, buy more or leave", "Schätzt, wer verlängert, mehr kauft oder geht"), tt("Contacts from every channel over time, and a person who acts on the list", "Kontakte aus jedem Kanal über die Zeit, und ein Mensch, der nach der Liste handelt")],
+            [tt("Personalised offers", "Personalisierte Angebote"), tt("Chooses an offer from what the customer did", "Wählt ein Angebot aus dem, was der Kunde tat"), tt("What every channel knows and agreed, not only one channel's data", "Was jeder Kanal weiß und vereinbart hat, nicht nur die Daten eines Kanals")],
+          ]}
+          caption={tt("Three AI tools and what each needs from integration", "Drei KI-Werkzeuge und was jedes von der Integration braucht")}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -130,25 +143,29 @@ export function CardA4() {
       ]}
       sources={["provost2013", "rawson2013"]}
     >
-      <p className={p}>
-        {tt(
-          "Provost and Fawcett (2013) name rates, lift and expected value as the basic tools for reading any comparison: compare two groups, and put a value on the difference. Applied to journeys, as Rawson and colleagues (2013) suggest, the groups are journeys that flowed and journeys that broke. The worked example uses Weser Systemhaus's numbers; the steps are the same for any company.",
-          "Provost und Fawcett (2013) nennen Raten, Lift und Erwartungswert als Grundwerkzeuge, um jeden Vergleich zu lesen: zwei Gruppen vergleichen und dem Unterschied einen Wert geben. Auf Journeys angewandt, wie Rawson und Kollegen (2013) nahelegen, sind die Gruppen Journeys, die flossen, und Journeys, die brachen. Das Beispiel nutzt die Zahlen von Weser Systemhaus; die Schritte sind für jedes Unternehmen gleich.",
-        )}
-      </p>
+      <ShowMore id="A4" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Provost and Fawcett (2013) name rates, lift and expected value as the basic tools for reading any comparison: compare two groups, and put a value on the difference. Applied to journeys, as Rawson and colleagues (2013) suggest, the groups are journeys that flowed and journeys that broke. The worked example uses Weser Systemhaus's numbers; the steps are the same for any company.",
+            "Provost und Fawcett (2013) nennen Raten, Lift und Erwartungswert als Grundwerkzeuge, um jeden Vergleich zu lesen: zwei Gruppen vergleichen und dem Unterschied einen Wert geben. Auf Journeys angewandt, wie Rawson und Kollegen (2013) nahelegen, sind die Gruppen Journeys, die flossen, und Journeys, die brachen. Das Beispiel nutzt die Zahlen von Weser Systemhaus; die Schritte sind für jedes Unternehmen gleich.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("What a seamless hand-over is worth · worked example on Weser Systemhaus (Case assumption)", "Was eine nahtlose Übergabe wert ist · Beispiel mit Weser Systemhaus (Fallannahme)")} caption={tt("Move the slider to change how many channel-switching journeys Weser has in a year.", "Bewegen Sie den Regler, um zu ändern, wie viele kanalwechselnde Journeys Weser pro Jahr hat.")}>
         <PilotExample />
       </Diagram>
-      <DataTable
-        head={[tt("Step", "Schritt"), tt("Calculation · Weser Systemhaus", "Rechnung · Weser Systemhaus"), tt("Result", "Ergebnis")]}
-        rows={[
-          [tt("1 · Deal rate with the history", "1 · Abschlussquote mit Historie"), `${MOSEL.variant.orders} ÷ ${num(MOSEL.variant.sent)} × 100`, pct(r.rate)],
-          [tt("2 · Deal rate from zero", "2 · Abschlussquote bei null"), `${MOSEL.control.orders} ÷ ${num(MOSEL.control.sent)} × 100`, pct(r.other)],
-          [tt("3 · Lift", "3 · Lift"), `${num(r.rate)} ÷ ${num(r.other)}`, tt(`${num(r.lift)} times`, `${num(r.lift)}-mal`)],
-          [tt("4 · Extra revenue a year", "4 · Zusätzlicher Umsatz pro Jahr"), `${num(MOSEL.yearly)} × ${num((r.rate - r.other) / 100)} × ${euro(MOSEL.order)}`, euro(r.extra)],
-        ]}
-        caption={tt("The four steps, on other numbers than the task", "Die vier Schritte, mit anderen Zahlen als in der Aufgabe")}
-      />
+      <ShowMore id="A4" part="calc" label={tt("Show the table: the four steps, on other numbers than the task", "Tabelle zeigen: Die vier Schritte, mit anderen Zahlen als in der Aufgabe")}>
+        <DataTable
+          head={[tt("Step", "Schritt"), tt("Calculation · Weser Systemhaus", "Rechnung · Weser Systemhaus"), tt("Result", "Ergebnis")]}
+          rows={[
+            [tt("1 · Deal rate with the history", "1 · Abschlussquote mit Historie"), `${MOSEL.variant.orders} ÷ ${num(MOSEL.variant.sent)} × 100`, pct(r.rate)],
+            [tt("2 · Deal rate from zero", "2 · Abschlussquote bei null"), `${MOSEL.control.orders} ÷ ${num(MOSEL.control.sent)} × 100`, pct(r.other)],
+            [tt("3 · Lift", "3 · Lift"), `${num(r.rate)} ÷ ${num(r.other)}`, tt(`${num(r.lift)} times`, `${num(r.lift)}-mal`)],
+            [tt("4 · Extra revenue a year", "4 · Zusätzlicher Umsatz pro Jahr"), `${num(MOSEL.yearly)} × ${num((r.rate - r.other) / 100)} × ${euro(MOSEL.order)}`, euro(r.extra)],
+          ]}
+          caption={tt("The four steps, on other numbers than the task", "Die vier Schritte, mit anderen Zahlen als in der Aufgabe")}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -165,24 +182,28 @@ export function CardA5() {
         RISK_RULE.v,
         tt("How to use each kind: outcome → the target on the management dashboard; driver → the team that owns the hand-over, reviewed weekly; guardrail → a limit that stops a test or a rollout; vanity → stop reporting it as success. A bonus on a number rewards reporting it, not moving it.", "Wie man jede Art nutzt: Outcome → das Ziel im Management-Dashboard; Treiber → das Team, dem die Übergabe gehört, wöchentlich geprüft; Guardrail → eine Grenze, die einen Test oder Rollout stoppt; Vanity → nicht mehr als Erfolg berichten. Ein Bonus auf eine Zahl belohnt, dass sie berichtet wird, nicht dass sie bewegt wird."),
         tt("Think in the whole system: a KPI per channel rewards each channel for pushing customers on; a KPI across channels rewards the journey.", "Denken Sie im Gesamtsystem: Ein KPI pro Kanal belohnt jeden Kanal dafür, Kunden weiterzuschieben; ein kanalübergreifender KPI belohnt die Journey."),
-        tt("A good set of three KPIs has at least one outcome and one driver, each with where the number comes from and a target; a guardrail is a strong third.", "Ein gutes Set aus drei KPIs hat mindestens ein Outcome und einen Treiber, jeder mit Quelle der Zahl und einem Ziel; eine Guardrail ist ein starker dritter."),
+        tt("A good set of three KPIs has at least one outcome and one driver, each with where the number comes from, what you would aim for and why it is a KPI; a guardrail is a strong third.", "Ein gutes Set aus drei KPIs hat mindestens ein Outcome und einen Treiber, jeder mit Quelle der Zahl, dem, was Sie anstreben würden, und warum er ein KPI ist; eine Guardrail ist ein starker dritter."),
       ]}
       sources={["kaplan1992", "ries2011", "neslin2006"]}
     >
-      <p className={p}>
-        {tt(
-          "Kaplan and Norton (1992) argued that managers should steer by a few linked measures: the results, and the drivers that lead to them. Ries (2011) called the numbers that go up whatever you do “vanity metrics”. Neslin and colleagues (2006) add the omnichannel point: measure across channels, or each channel will claim the customer for itself.",
-          "Kaplan und Norton (1992) forderten, dass Führungskräfte nach wenigen verbundenen Kennzahlen steuern: den Ergebnissen und den Treibern, die zu ihnen führen. Ries (2011) nannte die Zahlen, die steigen, egal was man tut, „Vanity Metrics“. Neslin und Kollegen (2006) ergänzen den Omnichannel-Punkt: kanalübergreifend messen, sonst beansprucht jeder Kanal den Kunden für sich.",
-        )}
-      </p>
+      <ShowMore id="A5" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Kaplan and Norton (1992) argued that managers should steer by a few linked measures: the results, and the drivers that lead to them. Ries (2011) called the numbers that go up whatever you do “vanity metrics”. Neslin and colleagues (2006) add the omnichannel point: measure across channels, or each channel will claim the customer for itself.",
+            "Kaplan und Norton (1992) forderten, dass Führungskräfte nach wenigen verbundenen Kennzahlen steuern: den Ergebnissen und den Treibern, die zu ihnen führen. Ries (2011) nannte die Zahlen, die steigen, egal was man tut, „Vanity Metrics“. Neslin und Kollegen (2006) ergänzen den Omnichannel-Punkt: kanalübergreifend messen, sonst beansprucht jeder Kanal den Kunden für sich.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("A cross-channel KPI tree · a worked example on Weser Systemhaus", "Ein kanalübergreifender KPI-Baum · ein Beispiel mit Weser Systemhaus")} caption={tt("Choose a metric to read its kind, then show whether each moved with customer value last year.", "Wählen Sie eine Kennzahl, um ihre Art zu lesen, und zeigen Sie dann, ob sich jede letztes Jahr mit dem Kundenwert bewegte.")}>
         <KpiTree />
       </Diagram>
-      <DataTable
-        head={[tt("Kind", "Art"), tt("What it is", "Was es ist"), tt("Where it sits", "Wo es steht")]}
-        rows={PATTERN_IDS.map((x) => [PATTERNS[x].label, PATTERNS[x].means, PATTERNS[x].shape])}
-        caption={tt("The four kinds of metric", "Die vier Arten von Kennzahlen")}
-      />
+      <ShowMore id="A5" part="table" label={tt("Show the table: the four kinds of metric", "Tabelle zeigen: Die vier Arten von Kennzahlen")}>
+        <DataTable
+          head={[tt("Kind", "Art"), tt("What it is", "Was es ist"), tt("Where it sits", "Wo es steht")]}
+          rows={PATTERN_IDS.map((x) => [PATTERNS[x].label, PATTERNS[x].means, PATTERNS[x].shape])}
+          caption={tt("The four kinds of metric", "Die vier Arten von Kennzahlen")}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -204,34 +225,40 @@ export function CardA6() {
       ]}
       sources={["kohavi2020", "hubbard2014"]}
     >
-      <p className={p}>
-        {tt(
-          "Kohavi, Tang and Xu (2020) collected what makes controlled experiments trustworthy: a random split, one change at a time, a size fixed in advance, guardrail metrics, and no peeking to stop early. Hubbard (2014) reminds us that most business measurement is about reducing uncertainty enough to decide, which is what reading a trend over several periods does.",
-          "Kohavi, Tang und Xu (2020) haben gesammelt, was kontrollierte Experimente vertrauenswürdig macht: eine zufällige Aufteilung, eine Änderung auf einmal, eine vorab festgelegte Größe, Guardrail-Kennzahlen und kein vorzeitiges Hinschauen, um früh zu stoppen. Hubbard (2014) erinnert daran, dass die meiste Messung im Unternehmen Unsicherheit so weit verringern soll, dass man entscheiden kann; genau das tut ein Trend über mehrere Zeiträume.",
-        )}
-      </p>
+      <ShowMore id="A6" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Kohavi, Tang and Xu (2020) collected what makes controlled experiments trustworthy: a random split, one change at a time, a size fixed in advance, guardrail metrics, and no peeking to stop early. Hubbard (2014) reminds us that most business measurement is about reducing uncertainty enough to decide, which is what reading a trend over several periods does.",
+            "Kohavi, Tang und Xu (2020) haben gesammelt, was kontrollierte Experimente vertrauenswürdig macht: eine zufällige Aufteilung, eine Änderung auf einmal, eine vorab festgelegte Größe, Guardrail-Kennzahlen und kein vorzeitiges Hinschauen, um früh zu stoppen. Hubbard (2014) erinnert daran, dass die meiste Messung im Unternehmen Unsicherheit so weit verringern soll, dass man entscheiden kann; genau das tut ein Trend über mehrere Zeiträume.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("A fair test across channels, and how sure it is · a worked example on Weser Systemhaus", "Ein fairer kanalübergreifender Test, und wie sicher er ist · ein Beispiel mit Weser Systemhaus")} caption={tt("Switch between the four ways of running the test, then move the slider to change how many deals each group has.", "Wechseln Sie zwischen den vier Arten, den Test durchzuführen, und bewegen Sie dann den Regler, um zu ändern, wie viele Abschlüsse jede Gruppe hat.")}>
         <FairTest />
       </Diagram>
-      <DataTable
-        head={[tt("Transition at Weser", "Übergang bei Weser"), "Q1", "Q2", "Q3", "Q4", tt("Reading", "Lesart")]}
-        rows={[
-          [tt("Web form → sales", "Webformular → Vertrieb"), pct(60), pct(58), pct(40), pct(35), tt("A trend: it fell after the hand-over card in Q3 and held in Q4.", "Ein Trend: Er fiel nach der Übergabekarte in Q3 und hielt in Q4.")],
-          [tt("Sales → support", "Vertrieb → Support"), pct(55), pct(54), pct(52), pct(50), tt("Flat: small moves are noise, not a trend.", "Flach: Kleine Bewegungen sind Rauschen, kein Trend.")],
-          [tt("Chatbot → hotline", "Chatbot → Hotline"), pct(30), pct(45), pct(44), pct(46), tt("A shift: it jumped when the chatbot launched in Q2; customers now repeat themselves after the bot.", "Eine Verschiebung: Er sprang, als der Chatbot in Q2 startete; Kunden wiederholen sich jetzt nach dem Bot.")],
-        ]}
-        caption={tt("Reading a trend: Weser's share of customers who repeat themselves, by quarter (Case assumption)", "Einen Trend lesen: Anteil der Kunden bei Weser, die sich wiederholen, nach Quartal (Fallannahme)")}
-      />
-      <DataTable
-        head={[tt("Part of the test card", "Teil der Testkarte"), tt("Fair", "Fair"), tt("What goes wrong otherwise", "Was sonst schiefgeht")]}
-        rows={[
-          [tt("What changes", "Was sich ändert"), tt("One thing only", "Nur eine Sache"), tt("A win cannot be put down to anything", "Ein Gewinn lässt sich nichts zuschreiben")],
-          [tt("Control group", "Kontrollgruppe"), tt("Random half, same weeks", "Zufällige Hälfte, dieselben Wochen"), tt("Another quarter, another lead source or self-chosen cases explain the difference", "Ein anderes Quartal, eine andere Lead-Quelle oder selbst gewählte Fälle erklären den Unterschied")],
-          [tt("Success KPI", "Erfolgs-KPI"), tt("The result: deals per hand-over", "Das Ergebnis: Abschlüsse pro Übergabe"), tt("Cards are opened and nobody buys", "Karten werden geöffnet, und niemand kauft")],
-          [tt("Size and duration", "Größe und Dauer"), tt("Fixed: about 100 deals per group, one full sales cycle", "Fest: etwa 100 Abschlüsse pro Gruppe, ein voller Verkaufszyklus"), tt("A lucky moment on the dashboard is taken for a result", "Ein glücklicher Moment im Dashboard wird für ein Ergebnis gehalten")],
-        ]}
-        caption={tt("The test card, part by part", "Die Testkarte, Teil für Teil")}
-      />
+      <ShowMore id="A6" part="table" label={tt("Show the table: reading a trend: Weser's share of customers who repeat themselves, by quarter (Case assumption)", "Tabelle zeigen: Einen Trend lesen: Anteil der Kunden bei Weser, die sich wiederholen, nach Quartal (Fallannahme)")}>
+        <DataTable
+          head={[tt("Transition at Weser", "Übergang bei Weser"), "Q1", "Q2", "Q3", "Q4", tt("Reading", "Lesart")]}
+          rows={[
+            [tt("Web form → sales", "Webformular → Vertrieb"), pct(60), pct(58), pct(40), pct(35), tt("A trend: it fell after the hand-over card in Q3 and held in Q4.", "Ein Trend: Er fiel nach der Übergabekarte in Q3 und hielt in Q4.")],
+            [tt("Sales → support", "Vertrieb → Support"), pct(55), pct(54), pct(52), pct(50), tt("Flat: small moves are noise, not a trend.", "Flach: Kleine Bewegungen sind Rauschen, kein Trend.")],
+            [tt("Chatbot → hotline", "Chatbot → Hotline"), pct(30), pct(45), pct(44), pct(46), tt("A shift: it jumped when the chatbot launched in Q2; customers now repeat themselves after the bot.", "Eine Verschiebung: Er sprang, als der Chatbot in Q2 startete; Kunden wiederholen sich jetzt nach dem Bot.")],
+          ]}
+          caption={tt("Reading a trend: Weser's share of customers who repeat themselves, by quarter (Case assumption)", "Einen Trend lesen: Anteil der Kunden bei Weser, die sich wiederholen, nach Quartal (Fallannahme)")}
+        />
+      </ShowMore>
+      <ShowMore id="A6" part="table" label={tt("Show the table: the test card, part by part", "Tabelle zeigen: Die Testkarte, Teil für Teil")}>
+        <DataTable
+          head={[tt("Part of the test card", "Teil der Testkarte"), tt("Fair", "Fair"), tt("What goes wrong otherwise", "Was sonst schiefgeht")]}
+          rows={[
+            [tt("What changes", "Was sich ändert"), tt("One thing only", "Nur eine Sache"), tt("A win cannot be put down to anything", "Ein Gewinn lässt sich nichts zuschreiben")],
+            [tt("Control group", "Kontrollgruppe"), tt("Random half, same weeks", "Zufällige Hälfte, dieselben Wochen"), tt("Another quarter, another lead source or self-chosen cases explain the difference", "Ein anderes Quartal, eine andere Lead-Quelle oder selbst gewählte Fälle erklären den Unterschied")],
+            [tt("Success KPI", "Erfolgs-KPI"), tt("The result: deals per hand-over", "Das Ergebnis: Abschlüsse pro Übergabe"), tt("Cards are opened and nobody buys", "Karten werden geöffnet, und niemand kauft")],
+            [tt("Size and duration", "Größe und Dauer"), tt("Fixed: about 100 deals per group, one full sales cycle", "Fest: etwa 100 Abschlüsse pro Gruppe, ein voller Verkaufszyklus"), tt("A lucky moment on the dashboard is taken for a result", "Ein glücklicher Moment im Dashboard wird für ein Ergebnis gehalten")],
+          ]}
+          caption={tt("The test card, part by part", "Die Testkarte, Teil für Teil")}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -247,26 +274,32 @@ export function CardA7() {
         tt("Scalability: 3 if, once built, it serves every customer at little extra cost; 2 if it grows with cost or needs every team retrained; 1 if it depends on a person's time for each customer.", "Skalierbarkeit: 3, wenn sie, einmal gebaut, jedem Kunden mit wenig Zusatzkosten dient; 2, wenn sie mit den Kosten wächst oder jedes Team neu geschult werden muss; 1, wenn sie pro Kunde Personenzeit braucht."),
         tt("Match each measure to the problems it really answers: connecting data or handing the customer over answers “channels work in isolation”; making every channel know the customer and say the same answers “customer experience inconsistent”; only an AI tool answers “AI potential unused”. A stand-alone app or a dashboard per channel answers none of these.", "Ordnen Sie jede Maßnahme den Problemen zu, die sie wirklich beantwortet: Daten verbinden oder den Kunden übergeben beantwortet „Kanäle arbeiten isoliert“; jeden Kanal den Kunden kennen und dasselbe sagen lassen beantwortet „Kundenerlebnis inkonsistent“; nur ein KI-Werkzeug beantwortet „KI-Potenzial ungenutzt“. Eine allein stehende App oder ein Dashboard pro Kanal beantwortet keines davon."),
         tt("Evaluate an AI tool by its benefit, its data and its risk: what it improves for the customer, which data it needs from which channels, and what goes wrong if that data is missing or wrong.", "Bewerten Sie ein KI-Werkzeug nach Nutzen, Daten und Risiko: was es für den Kunden verbessert, welche Daten es aus welchen Kanälen braucht, und was schiefgeht, wenn diese Daten fehlen oder falsch sind."),
-        tt("Stay inside the budget. If the plan is over, leave out the lowest score; do not trim every measure a little.", "Bleiben Sie im Budget. Liegt der Plan darüber, lassen Sie den niedrigsten Wert weg, statt jede Maßnahme ein bisschen zu kürzen."),
+        tt("The label after the weeks says which kind of thing a measure is: a principle it builds (a seamless transition, recognition, consistency), an AI tool, or one channel on its own. The brief's three problems call for connecting the channels and for AI tools that build on that connection; a new app, a separate dashboard or more hotline staff improves one channel and connects nothing.", "Das Etikett hinter den Wochen sagt, was für eine Art Ding eine Maßnahme ist: ein Prinzip, das sie aufbaut (nahtloser Übergang, Wiedererkennung, Konsistenz), ein KI-Werkzeug oder ein Kanal für sich. Die drei Probleme des Auftrags verlangen, die Kanäle zu verbinden, und KI-Werkzeuge, die auf dieser Verbindung aufbauen; eine neue App, ein separates Dashboard oder mehr Hotline-Personal verbessert einen Kanal und verbindet nichts."),
+        tt("Give a reason for the two judged scores, in your own words and with a fact from the card: for effect, what the customer or visitor sees or does differently; for scalability, whether it reaches everyone without more people, and the weeks it needs.", "Geben Sie für die zwei beurteilten Werte einen Grund, in eigenen Worten und mit einer Tatsache von der Karte: bei der Wirkung, was der Kunde oder Besucher anders sieht oder tut; bei der Skalierbarkeit, ob es alle ohne mehr Personal erreicht, und die Wochen, die es braucht."),
+        tt("The budget is a limit to weigh, not a lock. If the plan is over, the rule is to leave out the lowest score rather than trim every measure a little; if you keep it anyway, say why.", "Das Budget ist eine Grenze zum Abwägen, keine Sperre. Liegt der Plan darüber, ist die Regel, den niedrigsten Wert wegzulassen, statt jede Maßnahme ein bisschen zu kürzen; behalten Sie ihn trotzdem, sagen Sie warum."),
         tt("Order by score and by dependency: what others read from goes first; an AI tool that needs joined data comes after the integration it needs.", "Ordnen Sie nach Wert und nach Abhängigkeit: Woraus andere lesen, kommt zuerst; ein KI-Werkzeug, das verbundene Daten braucht, kommt nach der Integration, die es braucht."),
       ]}
       sources={["davenport2018", "hubbard2014"]}
     >
-      <p className={p}>
-        {tt(
-          "Davenport and Ronanki (2018) found that AI projects succeed when they start from a business problem and fit into existing processes and systems, and fail when they are bought as stand-alone technology. Hubbard (2014) advises measuring what would change a decision. The plan names the evaluation for this day: integration × effect × scalability.",
-          "Davenport und Ronanki (2018) fanden, dass KI-Projekte gelingen, wenn sie von einem Geschäftsproblem ausgehen und in bestehende Prozesse und Systeme passen, und scheitern, wenn sie als allein stehende Technologie gekauft werden. Hubbard (2014) rät, zu messen, was eine Entscheidung ändern würde. Der Plan nennt die Bewertung für diesen Tag: Integration × Wirkung × Skalierbarkeit.",
-        )}
-      </p>
+      <ShowMore id="A7" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Davenport and Ronanki (2018) found that AI projects succeed when they start from a business problem and fit into existing processes and systems, and fail when they are bought as stand-alone technology. Hubbard (2014) advises measuring what would change a decision. The plan names the evaluation for this day: integration × effect × scalability.",
+            "Davenport und Ronanki (2018) fanden, dass KI-Projekte gelingen, wenn sie von einem Geschäftsproblem ausgehen und in bestehende Prozesse und Systeme passen, und scheitern, wenn sie als allein stehende Technologie gekauft werden. Hubbard (2014) rät, zu messen, was eine Entscheidung ändern würde. Der Plan nennt die Bewertung für diesen Tag: Integration × Wirkung × Skalierbarkeit.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Three measures of Weser Systemhaus, scored", "Drei Maßnahmen von Weser Systemhaus, bewertet")} caption={tt("Choose a measure to read its three scores and why each one is what it is.", "Wählen Sie eine Maßnahme, um ihre drei Werte zu lesen und warum jeder so ist.")}>
         <ScoreExample />
       </Diagram>
-      <Bul
-        items={[
-          tt("Integration is read from what the measure is printed to connect to, never guessed.", "Die Integration wird aus dem gelesen, womit die Maßnahme laut Beschreibung verbunden ist, nie geschätzt."),
-          tt("A clever tool that stands alone scores low: it adds an island instead of closing a gap.", "Ein kluges Werkzeug, das allein steht, punktet niedrig: Es fügt eine Insel hinzu, statt eine Lücke zu schließen."),
-        ]}
-      />
+      <ShowMore id="A7" part="notes" label={tt("Show two short notes", "Zwei kurze Hinweise zeigen")}>
+        <Bul
+          items={[
+            tt("Integration is read from what the measure is printed to connect to, never guessed.", "Die Integration wird aus dem gelesen, womit die Maßnahme laut Beschreibung verbunden ist, nie geschätzt."),
+            tt("A clever tool that stands alone scores low: it adds an island instead of closing a gap.", "Ein kluges Werkzeug, das allein steht, punktet niedrig: Es fügt eine Insel hinzu, statt eine Lücke zu schließen."),
+          ]}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }

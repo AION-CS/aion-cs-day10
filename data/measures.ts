@@ -13,6 +13,25 @@ export const BUDGET = 250000;
 export const MONTHS = 6;
 export type Bucket = 1 | 2 | 3;
 
+/**
+ * The category printed after the weeks (CLAUDE.md #45): which of the omnichannel principles taught in Materi A1 to A3 a measure builds (a seamless transition, recognition or consistency), whether it is an AI tool, or whether it only improves one channel on its own. A fact about the measure taken from those cards' own tests, never a
+ * score and never the problem it answers (that stays the learner's job).
+ */
+export type MeasureArea = "transition" | "recognition" | "consistency" | "ai" | "channel";
+export const MEASURE_AREA_LABEL = bi({
+  transition: t("Seamless transition", "Nahtloser Übergang"),
+  recognition: t("Recognition", "Wiedererkennung"),
+  consistency: t("Consistency", "Konsistenz"),
+  ai: t("AI tool", "KI-Werkzeug"),
+  channel: t("One channel on its own", "Ein Kanal für sich"),
+});
+export const AREA_NOTE = bi({
+  v: t(
+    "The brief names three problems: channels that work in isolation, an inconsistent experience and unused AI potential. They call for connecting the channels (a seamless transition, recognition, consistency) and for AI tools that build on that connection. A new app, a separate dashboard or more hotline staff improves one channel on its own and connects nothing.",
+    "Der Auftrag nennt drei Probleme: Kanäle, die isoliert arbeiten, ein uneinheitliches Erlebnis und ungenutztes KI-Potenzial. Sie verlangen, die Kanäle zu verbinden (nahtloser Übergang, Wiedererkennung, Konsistenz) und KI-Werkzeuge, die auf dieser Verbindung aufbauen. Eine neue App, ein separates Dashboard oder mehr Hotline-Personal verbessert einen Kanal für sich und verbindet nichts.",
+  ),
+});
+
 export type ProblemId = "bounce" | "interaction" | "coordination";
 export const PROBLEM_IDS: ProblemId[] = ["bounce", "interaction", "coordination"];
 export const PROBLEM_LABEL = bi({
@@ -46,6 +65,10 @@ export type Measure = {
   id: MeasureId;
   name: string;
   what: string;
+  /** One concrete scene from OmniTech's day, and who does what (CLAUDE.md #46). */
+  scene: string;
+  who: string;
+  area: MeasureArea;
   basis: string;
   joins: Joins;
   evidence: Evidence;
@@ -62,6 +85,9 @@ const RAW = bi([
     id: "unified" as MeasureId,
     name: t("One customer profile across all channels", "Ein Kundenprofil über alle Kanäle"),
     what: t("Website, shop, chat, sales and support write to one shared customer profile, and every channel reads from it.", "Website, Shop, Chat, Vertrieb und Support schreiben in ein gemeinsames Kundenprofil, und jeder Kanal liest daraus."),
+    scene: t("A customer who configured licences online calls support three months later, and the agent sees the configurator entries, the offer and the contract on one screen.", "Ein Kunde, der online Lizenzen konfiguriert hat, ruft drei Monate später den Support an, und der Mitarbeiter sieht Konfigurator-Eingaben, Angebot und Vertrag auf einem Bildschirm."),
+    who: t("IT builds the shared profile over twelve weeks; every channel team then reads from it and writes to it.", "Die IT baut das gemeinsame Profil in zwölf Wochen; danach liest und schreibt jedes Kanalteam darin."),
+    area: "recognition" as MeasureArea,
     basis: t("Connects to all channels and the CRM; in use after 12 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 12 Wochen."),
     joins: "all" as Joins,
     cost: 80000,
@@ -74,6 +100,9 @@ const RAW = bi([
     id: "handover" as MeasureId,
     name: t("Hand-over standard with a hand-over card", "Übergabestandard mit Übergabekarte"),
     what: t("At every switch from online to sales and from sales to support, a card with what the customer did so far goes with them, a named person takes over within four working hours, and the price and promises are copied, not retyped.", "Bei jedem Wechsel von online zum Vertrieb und vom Vertrieb zum Support geht eine Karte mit dem bisherigen Verlauf mit, eine benannte Person übernimmt innerhalb von vier Arbeitsstunden, und Preis und Zusagen werden übernommen, nicht neu getippt."),
+    scene: t("A salesperson closes a deal and passes the customer to support with a card: what was bought, what was promised, and the named person who calls within four working hours.", "Ein Vertriebsmitarbeiter schließt einen Abschluss und übergibt den Kunden mit einer Karte an den Support: was gekauft wurde, was versprochen wurde und die namentlich genannte Person, die innerhalb von vier Arbeitsstunden anruft."),
+    who: t("Sales and support agree the card once; the named person is always a person, never a queue.", "Vertrieb und Support einigen sich einmal auf die Karte; die genannte Person ist immer ein Mensch, nie eine Warteschlange."),
+    area: "transition" as MeasureArea,
     basis: t("Connects to one other system (the CRM); in use after 4 weeks.", "Verbunden mit einem anderen System (dem CRM); in Betrieb nach 4 Wochen."),
     joins: "one" as Joins,
     cost: 25000,
@@ -86,6 +115,9 @@ const RAW = bi([
     id: "predictive" as MeasureId,
     name: t("Predictive analytics in sales (B)", "Predictive Analytics im Vertrieb (B)"),
     what: t("A model reads the contacts of every channel and tells account managers each week which customers are likely to renew, to buy more or to leave.", "Ein Modell liest die Kontakte aller Kanäle und sagt Account Managern jede Woche, welche Kunden wahrscheinlich verlängern, mehr kaufen oder gehen."),
+    scene: t("On Monday an account manager opens a list of three customers who are likely to leave, built from calls, chats and orders.", "Am Montag öffnet ein Account Manager eine Liste von drei Kunden, die wahrscheinlich gehen, gebaut aus Anrufen, Chats und Bestellungen."),
+    who: t("A data team builds the model; account managers decide what to do with each name.", "Ein Datenteam baut das Modell; Account Manager entscheiden, was sie mit jedem Namen tun."),
+    area: "ai" as MeasureArea,
     basis: t("Connects to all channels and the CRM; in use after 10 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 10 Wochen."),
     joins: "all" as Joins,
     cost: 50000,
@@ -98,6 +130,9 @@ const RAW = bi([
     id: "chatbot" as MeasureId,
     name: t("Chatbot in customer service (A)", "Chatbot im Kundenservice (A)"),
     what: t("A chatbot answers common service questions at any hour and opens a ticket for the rest.", "Ein Chatbot beantwortet häufige Servicefragen zu jeder Zeit und eröffnet für den Rest ein Ticket."),
+    scene: t("At 9 p.m. a customer asks how to add a user and gets the answer at once; a billing question becomes a ticket for the next morning.", "Um 21 Uhr fragt ein Kunde, wie er einen Nutzer hinzufügt, und bekommt die Antwort sofort; eine Abrechnungsfrage wird ein Ticket für den nächsten Morgen."),
+    who: t("Service writes the answers; the chatbot talks to customers; service agents work the tickets it opens.", "Der Service schreibt die Antworten; der Chatbot spricht mit den Kunden; Service-Mitarbeiter bearbeiten die Tickets, die er eröffnet."),
+    area: "ai" as MeasureArea,
     basis: t("Connects to one other system (the ticket system); in use after 8 weeks.", "Verbunden mit einem anderen System (dem Ticketsystem); in Betrieb nach 8 Wochen."),
     joins: "one" as Joins,
     cost: 40000,
@@ -110,6 +145,9 @@ const RAW = bi([
     id: "offers" as MeasureId,
     name: t("Personalised offers by e-mail (C)", "Personalisierte Angebote per E-Mail (C)"),
     what: t("Customers get offers chosen from what they bought in the web shop.", "Kunden bekommen Angebote, die aus ihren Käufen im Webshop ausgewählt werden."),
+    scene: t("A customer who bought backup in the web shop gets an e-mail with the archive add-on that goes with it.", "Ein Kunde, der im Webshop Backup gekauft hat, bekommt eine E-Mail mit dem dazu passenden Archiv-Add-on."),
+    who: t("Marketing sets the rules; the shop's purchase data picks the offer for each customer.", "Das Marketing legt die Regeln fest; die Kaufdaten des Shops wählen für jeden Kunden das Angebot."),
+    area: "ai" as MeasureArea,
     basis: t("Connects to one other system (the shop); in use after 6 weeks.", "Verbunden mit einem anderen System (dem Shop); in Betrieb nach 6 Wochen."),
     joins: "one" as Joins,
     cost: 45000,
@@ -122,6 +160,9 @@ const RAW = bi([
     id: "app" as MeasureId,
     name: t("A new customer app", "Eine neue Kunden-App"),
     what: t("An app with news, the product catalogue and a contact form.", "Eine App mit Neuigkeiten, dem Produktkatalog und einem Kontaktformular."),
+    scene: t("A customer installs the app, reads company news and can open a contact form; the app does not show their contract or their tickets.", "Ein Kunde installiert die App, liest Firmen-Neuigkeiten und kann ein Kontaktformular öffnen; die App zeigt weder seinen Vertrag noch seine Tickets."),
+    who: t("An agency builds the app; nobody connects it to the CRM or the ticket system.", "Eine Agentur baut die App; niemand verbindet sie mit dem CRM oder dem Ticketsystem."),
+    area: "channel" as MeasureArea,
     basis: t("Connects to nothing: it stands alone; in use after 16 weeks.", "Mit nichts verbunden: steht allein; in Betrieb nach 16 Wochen."),
     joins: "none" as Joins,
     cost: 90000,
@@ -134,6 +175,9 @@ const RAW = bi([
     id: "suite" as MeasureId,
     name: t("Replace every system with one omnichannel suite", "Jedes System durch eine Omnichannel-Suite ersetzen"),
     what: t("A vendor suite replaces the shop, the CRM, the ticket system and the chat at once.", "Eine Anbieter-Suite ersetzt Shop, CRM, Ticketsystem und Chat auf einmal."),
+    scene: t("For thirty weeks the shop, the CRM, the ticket system and the chat are replaced at once, and every channel runs half old and half new.", "Dreißig Wochen lang werden Shop, CRM, Ticketsystem und Chat auf einmal ersetzt, und jeder Kanal läuft halb alt und halb neu."),
+    who: t("A vendor configures and migrates; OmniTech's teams retrain and keep the business running meanwhile.", "Ein Anbieter konfiguriert und migriert; die Teams von OmniTech lernen um und halten währenddessen das Geschäft am Laufen."),
+    area: "recognition" as MeasureArea,
     basis: t("Connects to all channels and the CRM; in use after 30 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 30 Wochen."),
     joins: "all" as Joins,
     cost: 180000,
@@ -146,6 +190,9 @@ const RAW = bi([
     id: "dashboards" as MeasureId,
     name: t("A separate dashboard for each channel team", "Ein eigenes Dashboard für jedes Kanalteam"),
     what: t("Web, sales, chat and support each get their own dashboard with their own KPIs.", "Web, Vertrieb, Chat und Support bekommen je ein eigenes Dashboard mit eigenen KPIs."),
+    scene: t("On Monday web, sales, chat and support each report their own numbers from their own screen, and the numbers do not add up.", "Am Montag berichten Web, Vertrieb, Chat und Support jeweils ihre eigenen Zahlen von ihrem eigenen Bildschirm, und die Zahlen passen nicht zusammen."),
+    who: t("Each team builds or buys its own dashboard with its own definitions.", "Jedes Team baut oder kauft sein eigenes Dashboard mit eigenen Definitionen."),
+    area: "channel" as MeasureArea,
     basis: t("Connects to nothing: each dashboard stands alone; in use after 3 weeks.", "Mit nichts verbunden: Jedes Dashboard steht allein; in Betrieb nach 3 Wochen."),
     joins: "none" as Joins,
     cost: 20000,
@@ -158,6 +205,9 @@ const RAW = bi([
     id: "hotline" as MeasureId,
     name: t("Three more people at the hotline", "Drei zusätzliche Personen an der Hotline"),
     what: t("The hotline gets three more staff to shorten waiting times.", "Die Hotline bekommt drei zusätzliche Mitarbeitende, um Wartezeiten zu verkürzen."),
+    scene: t("A customer waits three minutes instead of eight on the hotline, but the agent still cannot see the customer's online request.", "Ein Kunde wartet an der Hotline drei statt acht Minuten, aber der Mitarbeiter sieht die Online-Anfrage des Kunden immer noch nicht."),
+    who: t("HR hires three people; the hotline works as before.", "Die Personalabteilung stellt drei Personen ein; die Hotline arbeitet wie zuvor."),
+    area: "channel" as MeasureArea,
     basis: t("Connects to nothing: the hotline has no access to the other systems; in use after 4 weeks.", "Mit nichts verbunden: Die Hotline hat keinen Zugriff auf die anderen Systeme; in Betrieb nach 4 Wochen."),
     joins: "none" as Joins,
     cost: 60000,

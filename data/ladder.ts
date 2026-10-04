@@ -110,3 +110,16 @@ export const LEVEL_TESTS = bi([
   { name: t("Transition or recognition?", "Übergang oder Wiedererkennung?"), test: t("Ask whether anyone takes over. If nobody does, or the customer waits or circles, the transition fails. If someone takes over but does not know what happened before, recognition fails.", "Fragen Sie, ob jemand übernimmt. Tut es niemand, oder wartet der Kunde oder dreht sich im Kreis, scheitert der Übergang. Übernimmt jemand, weiß aber nicht, was vorher geschah, scheitert die Wiedererkennung.") },
   { name: t("Recognition or consistency?", "Wiedererkennung oder Konsistenz?"), test: t("Recognition is about what a channel knows of this customer. Consistency is about whether two channels give the same answer, whoever asks.", "Wiedererkennung betrifft, was ein Kanal über diesen Kunden weiß. Konsistenz betrifft, ob zwei Kanäle dieselbe Antwort geben, egal wer fragt.") },
 ]);
+
+/** The decisive phrase inside each weakness's own text, for "Highlight the key words" (never which principle it points to). */
+export const LINE_KEY: Record<string, string> = bi({
+  l1: t("nobody calls for nine days", "neun Tage lang ruft niemand an"),
+  l2: t("cannot hand over to a person", "kann nicht an einen Menschen übergeben"),
+  l3: t("without a name, a number or a ticket", "ohne Namen, Nummer oder Ticket"),
+  l4: t("all of which the customer entered in the configurator", "die der Kunde alle im Konfigurator eingegeben hat"),
+  l5: t("because the ticket system does not show the contract", "weil das Ticketsystem den Vertrag nicht anzeigt"),
+  l6: t("still sees banners for the free trial for new customers", "noch Banner für die kostenlose Testphase für Neukunden"),
+  l7: t("€38 per user and month; the offer from sales says €45", "38 € pro Nutzer und Monat; das Angebot des Vertriebs nennt 45 €"),
+  l8: t("a support response within four hours; the support contract says next business day", "eine Support-Antwort innerhalb von vier Stunden; der Supportvertrag sagt nächster Werktag"),
+  l9: t("hosted in Germany; the salesperson says “within the EU”", "in Deutschland gehostet; der Vertriebsmitarbeiter sagt „innerhalb der EU“"),
+});

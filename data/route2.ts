@@ -134,44 +134,12 @@ export const ARCH: ArchItem[] = bi([
   { id: "relaunch" as ArchId, name: t("A new customer app", "Eine neue Kunden-App"), what: t("An app with news, the catalogue and a contact form, not connected to the other systems.", "Eine App mit Neuigkeiten, Katalog und Kontaktformular, nicht mit den anderen Systemen verbunden."), cost: 90000, weeks: 16, blackBox: false },
 ]);
 export const ARCH_BY_ID = Object.fromEntries(ARCH.map((a) => [a.id, a])) as Record<ArchId, ArchItem>;
-export const BASELINE_ITEM: ArchId = "foundation";
-
-export type OwnerId = "cdo" | "datalead" | "cslead" | "saleslead" | "it";
-export const OWNER_IDS: OwnerId[] = ["cdo", "datalead", "cslead", "saleslead", "it"];
-export const OWNERS = bi({
-  cdo: { name: t("Chief Digital Officer (you)", "Chief Digital Officer (Sie)"), profile: t("Decides across teams and answers to the board. Should hold few items.", "Entscheidet über Teams hinweg und berichtet an den Vorstand. Sollte wenige Punkte halten.") },
-  datalead: { name: t("Head of Data & Analytics", "Leitung Data & Analytics"), profile: t("Owns the customer profile, the KPIs and their definitions, and the prediction models.", "Verantwortet das Kundenprofil, die KPIs und ihre Definitionen und die Vorhersagemodelle.") },
-  cslead: { name: t("Head of Customer Service", "Leitung Kundenservice"), profile: t("Owns support, the hotline, the chat and onboarding.", "Verantwortet Support, Hotline, Chat und Onboarding.") },
-  saleslead: { name: t("Head of Sales", "Vertriebsleitung"), profile: t("Leads sales and the account managers, and owns the offers and the price list.", "Führt Vertrieb und Account Manager und verantwortet Angebote und Preisliste.") },
-  it: { name: t("Head of IT", "IT-Leitung"), profile: t("Owns the systems, the interfaces between them, and consent.", "Verantwortet die Systeme, die Schnittstellen dazwischen und die Einwilligungen.") },
-});
-export const OWNER_ACCEPT: Record<ArchId, OwnerId[]> = {
-  foundation: ["datalead", "it"],
-  chat: ["saleslead", "cslead", "cdo"],
-  personal: ["cslead"],
-  routing: ["datalead", "saleslead"],
-  training: ["cslead", "saleslead"],
-  tracking: ["saleslead", "cdo"],
-  suite: ["cdo", "it"],
-  relaunch: ["cdo", "it"],
-};
-export const MODEL_ARCH: ArchId[] = ["foundation", "chat", "personal", "routing", "training", "tracking"];
-export const MODEL_START: Partial<Record<ArchId, number>> = { foundation: 1, chat: 1, training: 1, tracking: 2, personal: 3, routing: 3 };
-export const MODEL_TRIGGER = bi({
-  foundation: t("If fewer than 80% of hand-overs carry the history by the end of month 3, the chatbot and the predictions wait until they do.", "Nehmen bis Ende Monat 3 weniger als 80 % der Übergaben die Historie mit, warten Chatbot und Vorhersagen, bis es so ist."),
-  chat: t("If more than 20% of customers still repeat their information at a hand-over in month 2, the Head of Sales rewrites the card with the two worst transitions' teams.", "Wiederholen in Monat 2 noch mehr als 20 % der Kunden ihre Angaben bei einer Übergabe, überarbeitet die Vertriebsleitung die Karte mit den Teams der zwei schlechtesten Übergänge."),
-  personal: t("If customers have to repeat their question after more than 15% of bot hand-overs in any month, the bot hands over earlier until the answers are fixed.", "Müssen Kunden nach mehr als 15 % der Bot-Übergaben in einem Monat ihre Frage wiederholen, übergibt der Bot früher, bis die Antworten verbessert sind."),
-  routing: t("If the predicted renewal risk does not match at least 60% of actual cancellations by month 5, the model is retrained before sales plans by it.", "Trifft das vorhergesagte Verlängerungsrisiko bis Monat 5 nicht mindestens 60 % der tatsächlichen Kündigungen, wird das Modell neu trainiert, bevor der Vertrieb danach plant."),
-  training: t("If fewer than 80% of salespeople and service staff open the profile before a customer call by month 2, the training is repeated in each team.", "Öffnen bis Monat 2 weniger als 80 % der Vertriebs- und Servicemitarbeitenden das Profil vor einem Kundengespräch, wird das Training in jedem Team wiederholt."),
-  tracking: t("If more than 5 complaints per 1,000 contacts are about contradictory information in any month, the price list owner corrects the channel that differs within a week.", "Betreffen in einem Monat mehr als 5 Beschwerden pro 1.000 Kontakte widersprüchliche Informationen, korrigiert der Owner der Preisliste den abweichenden Kanal innerhalb einer Woche."),
-});
-
 /* ------------------------------------------------------------------ 3.6 · a decision under time pressure and uncertain data */
 
 export type DecisionId = "commit" | "stage" | "wait";
 export const DECISIONS = bi([
   { id: "commit" as DecisionId, label: t("Buy the all-in-one suite now and switch everything over", "Jetzt die All-in-one-Suite kaufen und alles umstellen"), detail: t("Replace every system with the vendor's omnichannel AI suite from month 1 to catch up with the competition in one step.", "Ab Monat 1 jedes System durch die Omnichannel-KI-Suite des Anbieters ersetzen, um in einem Schritt zum Wettbewerb aufzuschließen."), why: t("Bold, and it defends only if the suite works on OmniTech's complex landscape from day one.", "Mutig, und nur vertretbar, wenn die Suite vom ersten Tag an in der komplexen Landschaft von OmniTech funktioniert."), rejected: t("The suite is in use only after 30 weeks, it takes most of the budget, nobody can explain its decisions, and nothing changes for customers within the six months.", "Die Suite ist erst nach 30 Wochen in Betrieb, nimmt den Großteil des Budgets, niemand kann ihre Entscheidungen erklären, und in den sechs Monaten ändert sich für Kunden nichts.") },
-  { id: "stage" as DecisionId, label: t("Invest now, in stages, with a tripwire", "Jetzt investieren, in Stufen, mit Tripwire"), detail: t("Start in month 1 with the shared profile, the hand-over standard and one price list; add the AI tools on top from month 3; scale only if the tripwire is met.", "In Monat 1 mit gemeinsamem Profil, Übergabestandard und einer Preisliste starten; ab Monat 3 die KI-Werkzeuge darauf aufsetzen; nur skalieren, wenn der Tripwire erreicht ist."), why: t("It fixes the breaks customers feel within weeks, builds the AI on data that exists, and measures before it spends the rest.", "Es behebt die Brüche, die Kunden spüren, innerhalb von Wochen, baut die KI auf vorhandenen Daten auf und misst, bevor es den Rest ausgibt."), rejected: t("", "") },
+  { id: "stage" as DecisionId, label: t("Invest now, in stages, and watch one figure", "Jetzt investieren, in Stufen, und eine Zahl beobachten"), detail: t("Start in month 1 with the shared profile, the hand-over standard and one price list; add the predictions once the hand-overs carry the history; scale only if the figure you watch moves.", "In Monat 1 mit gemeinsamem Profil, Übergabestandard und einer Preisliste starten; die Vorhersagen ergänzen, sobald die Übergaben die Historie mitnehmen; nur skalieren, wenn sich die Zahl, die Sie beobachten, bewegt."), why: t("It fixes the breaks customers feel within weeks, builds the AI on data that exists, and measures before it spends the rest.", "Es behebt die Brüche, die Kunden spüren, innerhalb von Wochen, baut die KI auf vorhandenen Daten auf und misst, bevor es den Rest ausgibt."), rejected: t("", "") },
   { id: "wait" as DecisionId, label: t("Wait until the success of omnichannel AI is proven", "Warten, bis der Erfolg von Omnichannel-KI bewiesen ist"), detail: t("Spend the six months on studies and vendor comparisons before any money is invested.", "Die sechs Monate mit Studien und Anbietervergleichen verbringen, bevor Geld investiert wird."), why: t("", ""), rejected: t("The brief asks for an investment decision despite unclear prospects, and competitors are already ahead. Waiting keeps every break in the journey for six more months, while the hand-overs could be fixed within weeks.", "Der Auftrag verlangt eine Investitionsentscheidung trotz unklarer Aussichten, und der Wettbewerb ist schon voraus. Warten hält jeden Bruch in der Journey sechs weitere Monate, obwohl die Übergaben in Wochen behoben werden könnten.") },
 ]);
 export const MODEL_DECISION: DecisionId = "stage";
@@ -185,11 +153,3 @@ export const KPIS = bi([
   { id: "emails" as KpiId, label: t("App downloads per month", "App-Downloads pro Monat"), unit: t("downloads", "Downloads"), baseline: 300, better: "up" as const, behaviour: false },
 ]);
 export const KPI_BY_ID = Object.fromEntries(KPIS.map((k) => [k.id, k])) as Record<KpiId, (typeof KPIS)[number]>;
-export const MODEL_TRIPWIRE = { kpi: "conv" as KpiId, threshold: 20, month: 5 };
-export const R2_BASELINE_NOTE = bi({ v: t("Baselines are Case assumptions from OmniTech's CRM, shop, chat and support data of the last twelve months.", "Die Ausgangswerte sind Fallannahmen aus den CRM-, Shop-, Chat- und Supportdaten von OmniTech der letzten zwölf Monate.") });
-export const BOARD_CHALLENGE = bi({
-  v: t(
-    "It is month 3. The shared profile is live for sales and support, and customers who repeat their information fell from 45% to 20%. But the cross-channel deal rate only rose from 15% to 16%, and the chatbot is two weeks late because the ticket interface is harder than planned. A competitor has just launched an AI assistant. The Head of Sales wants to buy the all-in-one suite now; the finance director wants to stop the AI tools and keep only the profile. The board asks what you do.",
-    "Es ist Monat 3. Das gemeinsame Profil läuft für Vertrieb und Support, und der Anteil der Kunden, die ihre Angaben wiederholen, fiel von 45 % auf 20 %. Aber die kanalübergreifende Abschlussquote stieg nur von 15 % auf 16 %, und der Chatbot ist zwei Wochen im Verzug, weil die Ticket-Schnittstelle schwieriger ist als geplant. Ein Wettbewerber hat gerade einen KI-Assistenten gestartet. Die Vertriebsleitung will jetzt die All-in-one-Suite kaufen; der Finanzleiter will die KI-Werkzeuge stoppen und nur das Profil behalten. Der Vorstand fragt, was Sie tun.",
-  ),
-});

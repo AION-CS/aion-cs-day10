@@ -5,19 +5,16 @@ import { BUDGET, JOINS_LABEL, MEASURES, MODEL_COST, MODEL_MEASURES, PROBLEM_LABE
 import {
   ACTION_LABEL,
   ARCH_BY_ID,
+  ARCH_IDS,
   COMPS,
   COMP_BY_ID,
   CRIT_IDS,
   DECISIONS,
   KPIS,
   LOGIC_OWNER_LABEL,
-  MODEL_ARCH,
   MODEL_COMPS,
   MODEL_DECISION,
   MODEL_GREATEST,
-  MODEL_TRIPWIRE,
-  OWNERS,
-  OWNER_ACCEPT,
   OWNER_ACCEPT_LOGIC,
   PRINCIPLES,
   PRINCIPLE_IDS,
@@ -31,6 +28,8 @@ import {
   useOf,
 } from "@/data/route2";
 import type { ArchId } from "@/data/route2";
+import { MODEL_ARCH, MODEL_TIER, PANEL, TIER_LABEL } from "@/data/route2Panel";
+import { planOf, rangeOf } from "@/lib/r2Panel";
 import { MODEL_ORDER } from "@/data/mentorKey";
 import { euro } from "@/lib/lang";
 
@@ -236,42 +235,32 @@ export function logicKey(): AnswerKeyBlock {
   };
 }
 
-export function ownerKey(funded: ArchId[]): AnswerKeyBlock {
-  const ids = funded.length ? funded : MODEL_ARCH;
+export function architectureKey(): AnswerKeyBlock {
+  const spent = MODEL_ARCH.reduce((x, id) => x + ARCH_BY_ID[id].cost, 0);
+  const alt = { ...MODEL_TIER, routing: "now" as const };
+  const why: Record<ArchId, string> = {
+    foundation: "Now. Every AI tool reads it and is measured by it; it starts in month 1, no later than the first AI tool (the test “integration comes first”). At 12 weeks it is in use in month 4.",
+    chat: "Now. €25,000 for 4 weeks: a card with the history, a named person who takes over within four working hours, one price and one set of promises. It moves the share of hand-overs that carry the history, and it puts the history into the profile the predictions read, so it is the item “After data is ready” waits for.",
+    personal: "Now. The chatbot reads contract data that is 81% connected (66% if the data is weaker: it then rests on data below 80%, which is why Step B asks what the learner watches). Not now is defensible too, if the learner prefers to wait for the weaker-data case.",
+    routing: "After data is ready. Its data is only 60% connected; with the hand-over standard Now it starts in month 2 and is in use in month 5, inside the six months. Now is possible too, but it starts in month 1 on data below 80% and the data test opens.",
+    training: "Now. €20,000 for 3 weeks so that staff open the profile before a call and take over with the history. A defensible cut if the learner needs the room, and then the reading says so.",
+    tracking: "Now. €25,000 for 6 weeks: one price list and one set of promises remove the contradictory information a chatbot or a prediction would repeat. A defensible cut, and then the reading names the cost.",
+    suite: "Not now. A black box: no KPI it moves, its results are not shown, €180,000 takes the plan €140,000 over the budget, and at 30 weeks it is in use only in month 9, after the six months. Two tests open (purpose, budget and months).",
+    relaunch: "Not now. An app whose contact form is not connected names no KPI and adds one more channel that knows nothing about the others; it takes 16 weeks and €90,000 would push the plan €50,000 over the budget.",
+  };
   return {
-    title: "Block 3.5 · Owners, sequence and funding",
-    expected: `Model: ${MODEL_ARCH.map((id) => `${ARCH_BY_ID[id].name} (${OWNERS[OWNER_ACCEPT[id][0]].name})`).join(", ")} · ${euro(MODEL_ARCH.reduce((s, id) => s + ARCH_BY_ID[id].cost, 0))}`,
-    options: ids.map((id) => ({
-      label: `${ARCH_BY_ID[id].name} → ${OWNER_ACCEPT[id].map((o) => OWNERS[o].name).join(" or ")}`,
-      expected: true,
-      why:
-        id === "foundation"
-          ? "Head of Data (or IT, who owns the interfaces). It starts first: every other item reads from it and is measured by it."
-          : id === "suite"
-            ? "A black box: nobody at OmniTech can explain its decisions, and it is in use only after thirty weeks. Funding it breaks the third rule; the check flags it."
-            : id === "relaunch"
-              ? "One more channel that knows nothing about the others, and €90,000 would push the plan over."
-              : `The owner who can change it without asking anyone: ${OWNERS[OWNER_ACCEPT[id][0]].profile}`,
-    })),
-    teachingNote: `The check tests three rules: the shared profile starts no later than the first other item, total within ${euro(R2_BUDGET)}, nothing funded is a black box. Owners are not checked by the app; use this key. Leaving out the training instead of the price list defends if the learner argues that the hand-over card already carries the prices.`,
+    title: "Step A · The architecture: when does each item happen?",
+    expected: `Model: Now ${MODEL_ARCH.filter((id) => MODEL_TIER[id] === "now").map((id) => PANEL[id].short).join(", ")} · After data ${MODEL_ARCH.filter((id) => MODEL_TIER[id] === "later").map((id) => PANEL[id].short).join(", ")} (${euro(spent)} of ${euro(R2_BUDGET)}) · Not now ${ARCH_IDS.filter((id) => MODEL_TIER[id] === "not").map((id) => PANEL[id].short).join(", ")}`,
+    options: ARCH_IDS.map((id) => ({ label: `${PANEL[id].short} → ${TIER_LABEL[MODEL_TIER[id]]}`, expected: MODEL_TIER[id] !== "not", why: why[id] })),
+    teachingNote: `The panel shows four tests as facts, none a verdict, and the learner decides. A different, well-reasoned set is acceptable (CLAUDE.md #38): for example the predictions Now (the data test opens, ${planOf({ tier: alt }, 0).holding} of ${planOf({ tier: alt }, 0).applicable} tests hold), the training or the price list cut to make room, or going over the budget with a reason. Doing nothing (no item Now) is incomplete, not wrong: the missing list asks for at least one. The model set holds all four tests in the brief's data and opens the data test when the data is 15 points weaker (the chatbot, ${rangeOf({ tier: MODEL_TIER }).risk[1]}% of the money at risk).`,
   };
 }
 
 export function decisionKey(): AnswerKeyBlock {
   return {
-    title: "Block 3.6 · The investment decision",
+    title: "Step B · The investment decision",
     expected: DECISIONS.find((d) => d.id === MODEL_DECISION)!.label,
     options: DECISIONS.map((d) => ({ label: d.label, expected: d.id !== "wait", why: d.id === MODEL_DECISION ? d.why : d.id === "commit" ? `${d.why} ${d.rejected}` : d.rejected })),
-    teachingNote: "“Buy the suite” and “Invest in stages” are both decisions, with different reasoning; the check outlines only “Wait”, because the brief asks for an investment decision despite unclear prospects. Push a learner who buys the suite on what changes for customers in the six months.",
-  };
-}
-
-export function tripKey(): AnswerKeyBlock {
-  const k = KPIS.find((x) => x.id === MODEL_TRIPWIRE.kpi)!;
-  return {
-    title: "Block 3.6 · The tripwire",
-    expected: `${k.label} ≥ ${MODEL_TRIPWIRE.threshold}% by month ${MODEL_TRIPWIRE.month}, else adjust one rule`,
-    options: KPIS.map((x) => ({ label: `${x.label} (baseline ${x.baseline}${x.unit === "%" ? "%" : ` ${x.unit}`})`, expected: x.behaviour, why: x.behaviour ? "How customers behave: the result the system is meant to move." : "Counts OmniTech's own output, not how customers responded." })),
-    teachingNote: "Any customer metric with a threshold better than its baseline defends (for the repeat share, lower is better). Hours to first contact is the tempting one: it is our speed, a good trigger for the hand-over item in 3.5, and the wrong tripwire for whether customers buy. Channels offered and app downloads count our own output.",
+    teachingNote: "“Buy the suite” and “Invest in stages” are both decisions, with different reasoning; the plan rejects only “Wait”, because the brief asks for an investment decision despite unclear prospects: the hand-overs can be fixed within weeks, and every break in the journey stays meanwhile. All three stay selectable. The panel shows one plain hint when the decision and Step A disagree (wait while Step A builds; buy the suite while Step A leaves it out) and the learner explains the contradiction in their reason. Push a learner who buys the suite on how a 30-week platform fits into six months, and on who at OmniTech could explain its decisions.",
   };
 }

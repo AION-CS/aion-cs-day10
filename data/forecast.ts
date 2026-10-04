@@ -1,7 +1,7 @@
 import { bi, t } from "@/lib/lang";
 
 /**
- * Task 1 · Block 1.2, and the worked example of Materi A4: what a seamless hand-over is worth. OmniTech's journeys last year that started
+ * Task 1 · Block 1.2 (Optional, read-only: the rates are PRINTED, no figure is asked for, CLAUDE.md #44) and the worked example of Materi A4: what a seamless hand-over is worth. OmniTech's journeys last year that started
  * online and switched to sales, split by whether sales saw the customer's online history (Case assumption). The method is
  *
  *   deal rate                    = deals ÷ hand-overs × 100
@@ -33,60 +33,6 @@ export const FORECAST = {
     return extraOf(PILOT.yearly, this.f1, this.controlRate, PILOT.order);
   },
 };
-
-export type FigureId = "F1" | "F2" | "F3";
-export const FIGURE_IDS: FigureId[] = ["F1", "F2", "F3"];
-
-export const FIGURES = bi({
-  F1: {
-    id: "F1" as FigureId,
-    label: t("F1 · Deal rate when sales saw the online history, %", "F1 · Abschlussquote, wenn der Vertrieb die Online-Historie sah, %"),
-    question: t("Of the hand-overs in which sales saw what the customer had done online, what share became a deal?", "Welcher Anteil der Übergaben, bei denen der Vertrieb sah, was der Kunde online getan hatte, wurde zu einem Abschluss?"),
-    unit: "%",
-    example: "12.5",
-    answer: FORECAST.f1,
-    formula: t("Deal rate = deals ÷ hand-overs × 100. Use the two rows of the hand-overs where sales saw the online history.", "Abschlussquote = Abschlüsse ÷ Übergaben × 100. Nutzen Sie die zwei Zeilen der Übergaben, bei denen der Vertrieb die Online-Historie sah."),
-    taughtIn: "A4" as const,
-    clue: t("Did you divide the deals by the hand-overs of the same group, and multiply by 100?", "Haben Sie die Abschlüsse durch die Übergaben derselben Gruppe geteilt und mit 100 multipliziert?"),
-    sources: [
-      { label: t("Last year · sales saw the online history · hand-overs", "Letztes Jahr · Vertrieb sah die Online-Historie · Übergaben"), value: "240", target: "fc-var-sent" },
-      { label: t("Last year · sales saw the online history · deals", "Letztes Jahr · Vertrieb sah die Online-Historie · Abschlüsse"), value: "72", target: "fc-var-orders" },
-    ],
-  },
-  F2: {
-    id: "F2" as FigureId,
-    label: t("F2 · Lift: how many times the rate without the history", "F2 · Lift: wie viel Mal die Quote ohne Historie"),
-    question: t("How many times higher is the deal rate when sales saw the online history than when sales started from zero?", "Wie viel Mal höher ist die Abschlussquote, wenn der Vertrieb die Online-Historie sah, als wenn er bei null anfing?"),
-    unit: "×",
-    example: "1.5",
-    answer: FORECAST.f2,
-    formula: t("Lift = deal rate with the history ÷ deal rate without it. Work out the rate without the history from its rows first.", "Lift = Abschlussquote mit Historie ÷ Abschlussquote ohne Historie. Berechnen Sie die Quote ohne Historie zuerst aus ihren Zeilen."),
-    taughtIn: "A4" as const,
-    clue: t("You need two rates from two pairs of rows. Is the second one worked out from the rows without the history, the same way as F1?", "Sie brauchen zwei Quoten aus zwei Zeilenpaaren. Ist die zweite aus den Zeilen ohne Historie berechnet, genauso wie F1?"),
-    sources: [
-      { label: t("Your F1 (deal rate with the history)", "Ihr F1 (Abschlussquote mit Historie)"), value: "F1", target: "fig-F1" },
-      { label: t("Last year · sales started from zero · hand-overs", "Letztes Jahr · Vertrieb fing bei null an · Übergaben"), value: "720", target: "fc-ctl-sent" },
-      { label: t("Last year · sales started from zero · deals", "Letztes Jahr · Vertrieb fing bei null an · Abschlüsse"), value: "108", target: "fc-ctl-orders" },
-    ],
-  },
-  F3: {
-    id: "F3" as FigureId,
-    label: t("F3 · Extra revenue a year, €", "F3 · Zusätzlicher Umsatz pro Jahr, €"),
-    question: t("If sales saw the online history in every channel-switching journey next year and customers behaved as last year, how much extra revenue would it bring in a year?", "Wenn der Vertrieb im nächsten Jahr bei jeder kanalwechselnden Journey die Online-Historie sähe und Kunden sich wie im letzten Jahr verhielten: Wie viel zusätzlichen Umsatz brächte das in einem Jahr?"),
-    unit: "€",
-    example: "12500",
-    answer: FORECAST.f3,
-    formula: t("Extra revenue = channel-switching journeys a year × (deal rate with the history − deal rate without it, as a share of one) × average deal value.", "Zusätzlicher Umsatz = kanalwechselnde Journeys pro Jahr × (Abschlussquote mit Historie − Abschlussquote ohne, als Anteil von eins) × durchschnittlicher Auftragswert."),
-    taughtIn: "A4" as const,
-    clue: t("Only the difference between the two rates is extra, and it has to be a share of one (1 point = 0.01) before you multiply.", "Nur der Unterschied zwischen den beiden Quoten ist zusätzlich, und er muss ein Anteil von eins sein (1 Punkt = 0,01), bevor Sie multiplizieren."),
-    sources: [
-      { label: t("Next year · channel-switching journeys a year", "Nächstes Jahr · kanalwechselnde Journeys pro Jahr"), value: "2,000", target: "fc-yearly" },
-      { label: t("Your F1 (deal rate with the history)", "Ihr F1 (Abschlussquote mit Historie)"), value: "F1", target: "fig-F1" },
-      { label: t("Last year · sales started from zero · hand-overs and deals (its rate)", "Letztes Jahr · Vertrieb fing bei null an · Übergaben und Abschlüsse (ihre Quote)"), value: "108 ÷ 720", target: "fc-ctl-orders" },
-      { label: t("All deals · average deal value", "Alle Aufträge · durchschnittlicher Auftragswert"), value: t("€1,200", "1.200 €"), target: "fc-order" },
-    ],
-  },
-});
 
 /** The worked example of Materi A4: a different provider (Weser Systemhaus), the same method on other numbers. Case assumption. */
 export const MOSEL = { control: { sent: 400, orders: 40 }, variant: { sent: 200, orders: 50 }, yearly: 800, order: 1000 };

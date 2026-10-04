@@ -3,7 +3,8 @@
 import { Bul, Diagram } from "@/components/materi/kit";
 import { ArchExample, CompProfile, DataStages, LiftCases, SourceGrid } from "@/components/materi/diagramsB";
 import { Callout, DataTable, MaterialCard } from "@/components/ui/MaterialCard";
-import { CASES_MIN, CRITERIA, LIFT_ACT, LIFT_WATCH, QUALITY_BAR } from "@/data/route2";
+import { ShowMore } from "@/components/ui/ShowMore";
+import { CASES_MIN, CRITERIA, LIFT_ACT, LIFT_WATCH, QUALITY_BAR, R2_MONTHS } from "@/data/route2";
 import { tt } from "@/lib/lang";
 
 /** Materi B: the five cards of Route 2 (Level 3). 60 minutes in all. */
@@ -23,12 +24,14 @@ export function CardB1() {
       ]}
       sources={["verhoef2015", "lemon2016"]}
     >
-      <p className={p}>
-        {tt(
-          "Verhoef, Kannan and Inman (2015) describe omnichannel management as steering all channels and touchpoints together, so that the experience across them is optimised. Lemon and Verhoef (2016) add that the experience is built across the whole journey; a system that serves the journey needs the customer's data and the transitions to be managed, not only each channel.",
-          "Verhoef, Kannan und Inman (2015) beschreiben Omnichannel-Management als gemeinsame Steuerung aller Kanäle und Touchpoints, sodass das Erlebnis über alle optimiert wird. Lemon und Verhoef (2016) ergänzen, dass das Erlebnis über die ganze Journey entsteht; ein System, das der Journey dient, muss die Daten des Kunden und die Übergänge steuern, nicht nur jeden Kanal.",
-        )}
-      </p>
+      <ShowMore id="B1" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Verhoef, Kannan and Inman (2015) describe omnichannel management as steering all channels and touchpoints together, so that the experience across them is optimised. Lemon and Verhoef (2016) add that the experience is built across the whole journey; a system that serves the journey needs the customer's data and the transitions to be managed, not only each channel.",
+            "Verhoef, Kannan und Inman (2015) beschreiben Omnichannel-Management als gemeinsame Steuerung aller Kanäle und Touchpoints, sodass das Erlebnis über alle optimiert wird. Lemon und Verhoef (2016) ergänzen, dass das Erlebnis über die ganze Journey entsteht; ein System, das der Journey dient, muss die Daten des Kunden und die Übergänge steuern, nicht nur jeden Kanal.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Four stages towards an integrated system · a worked example on Isar Datentechnik", "Vier Stufen zu einem integrierten System · ein Beispiel mit Isar Datentechnik")} caption={tt("Click a stage and read what changes for the company at that stage.", "Klicken Sie eine Stufe an und lesen Sie, was sich auf dieser Stufe für das Unternehmen ändert.")}>
         <DataStages />
       </Diagram>
@@ -50,12 +53,14 @@ export function CardB2() {
       ]}
       sources={["rawson2013", "gdpr2016"]}
     >
-      <p className={p}>
-        {tt(
-          "Rawson, Duncan and Jones (2013) found that the journeys that matter most are few, and that firms improve fastest by managing those end to end, across departments. Joining data has limits too: under the GDPR, personal data needs a lawful basis and website tracking usually needs consent, so a profile with gaps is normal, not a failure. Start where the decision is and the data is good enough.",
-          "Rawson, Duncan und Jones (2013) fanden, dass die wichtigsten Journeys wenige sind und dass Unternehmen am schnellsten besser werden, wenn sie diese durchgängig über Abteilungen hinweg steuern. Auch das Verbinden von Daten hat Grenzen: Nach der DSGVO brauchen personenbezogene Daten eine Rechtsgrundlage, und Website-Tracking braucht meist eine Einwilligung, also ist ein Profil mit Lücken normal, kein Versagen. Beginnen Sie dort, wo die Entscheidung fällt und die Daten gut genug sind.",
-        )}
-      </p>
+      <ShowMore id="B2" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Rawson, Duncan and Jones (2013) found that the journeys that matter most are few, and that firms improve fastest by managing those end to end, across departments. Joining data has limits too: under the GDPR, personal data needs a lawful basis and website tracking usually needs consent, so a profile with gaps is normal, not a failure. Start where the decision is and the data is good enough.",
+            "Rawson, Duncan und Jones (2013) fanden, dass die wichtigsten Journeys wenige sind und dass Unternehmen am schnellsten besser werden, wenn sie diese durchgängig über Abteilungen hinweg steuern. Auch das Verbinden von Daten hat Grenzen: Nach der DSGVO brauchen personenbezogene Daten eine Rechtsgrundlage, und Website-Tracking braucht meist eine Einwilligung, also ist ein Profil mit Lücken normal, kein Versagen. Beginnen Sie dort, wo die Entscheidung fällt und die Daten gut genug sind.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Isar Datentechnik's processes, sorted by customer decision and connected data", "Prozesse von Isar Datentechnik, nach Kundenentscheidung und verbundenen Daten sortiert")} caption={tt("Click a process to read where it goes and why.", "Klicken Sie einen Prozess an, um zu lesen, wohin er gehört und warum.")}>
         <SourceGrid />
       </Diagram>
@@ -76,12 +81,14 @@ export function CardB3() {
       ]}
       sources={["kaplan1992", "neslin2006"]}
     >
-      <p className={p}>
-        {tt(
-          "Kaplan and Norton (1992) showed that managers steer better by a few linked measures, results and the drivers behind them, than by many unrelated ones. Neslin and colleagues (2006) name measuring across channels as a core challenge: when each channel counts its own success, the same customer is claimed several times and the breaks between channels are counted nowhere.",
-          "Kaplan und Norton (1992) zeigten, dass Führungskräfte besser nach wenigen verbundenen Kennzahlen steuern, Ergebnissen und den Treibern dahinter, als nach vielen unverbundenen. Neslin und Kollegen (2006) nennen kanalübergreifendes Messen eine Kernaufgabe: Zählt jeder Kanal seinen eigenen Erfolg, wird derselbe Kunde mehrfach beansprucht, und die Brüche zwischen Kanälen werden nirgends gezählt.",
-        )}
-      </p>
+      <ShowMore id="B3" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Kaplan and Norton (1992) showed that managers steer better by a few linked measures, results and the drivers behind them, than by many unrelated ones. Neslin and colleagues (2006) name measuring across channels as a core challenge: when each channel counts its own success, the same customer is claimed several times and the breaks between channels are counted nowhere.",
+            "Kaplan und Norton (1992) zeigten, dass Führungskräfte besser nach wenigen verbundenen Kennzahlen steuern, Ergebnissen und den Treibern dahinter, als nach vielen unverbundenen. Neslin und Kollegen (2006) nennen kanalübergreifendes Messen eine Kernaufgabe: Zählt jeder Kanal seinen eigenen Erfolg, wird derselbe Kunde mehrfach beansprucht, und die Brüche zwischen Kanälen werden nirgends gezählt.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Four KPI candidates of Isar Datentechnik on four tests", "Vier KPI-Kandidaten von Isar Datentechnik nach vier Tests")} caption={tt("Choose a candidate and compare its profile with the printed facts under it.", "Wählen Sie einen Kandidaten und vergleichen Sie sein Profil mit den gedruckten Fakten darunter.")}>
         <CompProfile />
       </Diagram>
@@ -104,24 +111,28 @@ export function CardB4() {
       ]}
       sources={["kohavi2020", "davenport2018"]}
     >
-      <p className={p}>
-        {tt(
-          "Kohavi, Tang and Xu (2020) describe how firms that test continuously decide on each result with rules agreed before the test: a minimum effect worth shipping, a minimum sample, and guardrail metrics that veto a rollout. Davenport and Ronanki (2018) add that AI pays where it is integrated into existing processes and systems, and rarely as a stand-alone tool.",
-          "Kohavi, Tang und Xu (2020) beschreiben, wie Firmen, die laufend testen, über jedes Ergebnis mit Regeln entscheiden, die vor dem Test vereinbart sind: ein Mindesteffekt, der einen Rollout lohnt, eine Mindeststichprobe und Guardrail-Kennzahlen, die einen Rollout verhindern können. Davenport und Ronanki (2018) ergänzen, dass KI sich dort lohnt, wo sie in bestehende Prozesse und Systeme integriert ist, und selten als allein stehendes Werkzeug.",
-        )}
-      </p>
+      <ShowMore id="B4" part="research" label={tt("Show the research behind this card", "Die Forschung hinter dieser Karte zeigen")}>
+        <p className={p}>
+          {tt(
+            "Kohavi, Tang and Xu (2020) describe how firms that test continuously decide on each result with rules agreed before the test: a minimum effect worth shipping, a minimum sample, and guardrail metrics that veto a rollout. Davenport and Ronanki (2018) add that AI pays where it is integrated into existing processes and systems, and rarely as a stand-alone tool.",
+            "Kohavi, Tang und Xu (2020) beschreiben, wie Firmen, die laufend testen, über jedes Ergebnis mit Regeln entscheiden, die vor dem Test vereinbart sind: ein Mindesteffekt, der einen Rollout lohnt, eine Mindeststichprobe und Guardrail-Kennzahlen, die einen Rollout verhindern können. Davenport und Ronanki (2018) ergänzen, dass KI sich dort lohnt, wo sie in bestehende Prozesse und Systeme integriert ist, und selten als allein stehendes Werkzeug.",
+          )}
+        </p>
+      </ShowMore>
       <Diagram label={tt("Roll out, keep testing or stop · move the two sliders", "Ausrollen, weiter testen oder stoppen · die zwei Regler bewegen")} caption={tt("Set an uplift and a number of conversions and read which decision the rule gives.", "Stellen Sie einen Uplift und eine Zahl von Conversions ein und lesen Sie, welche Entscheidung die Regel ergibt.")}>
         <LiftCases />
       </Diagram>
-      <DataTable
-        head={[tt("Isar test", "Test bei Isar"), tt("Uplift", "Uplift"), tt("Conversions", "Conversions"), tt("Rule gives", "Regel ergibt"), tt("Who acts", "Wer handelt")]}
-        rows={[
-          [tt("Chatbot that reads order status from the profile", "Chatbot, der den Bestellstatus aus dem Profil liest"), "+36%", "150", tt("Roll out", "Ausrollen"), tt("Service", "Service")],
-          [tt("Upgrade prediction for account managers", "Upgrade-Vorhersage für Account Manager"), "+28%", "30", tt("Keep testing", "Weiter testen"), tt("Data team", "Datenteam")],
-          [tt("Avatar video in every e-mail", "Avatar-Video in jeder E-Mail"), "+1%", "700", tt("Stop", "Stoppen"), tt("No one", "Niemand")],
-        ]}
-        caption={tt("A worked decision on other tests (Case assumption)", "Eine Beispielentscheidung mit anderen Tests (Fallannahme)")}
-      />
+      <ShowMore id="B4" part="table" label={tt("Show the table: a worked decision on other tests (Case assumption)", "Tabelle zeigen: Eine Beispielentscheidung mit anderen Tests (Fallannahme)")}>
+        <DataTable
+          head={[tt("Isar test", "Test bei Isar"), tt("Uplift", "Uplift"), tt("Conversions", "Conversions"), tt("Rule gives", "Regel ergibt"), tt("Who acts", "Wer handelt")]}
+          rows={[
+            [tt("Chatbot that reads order status from the profile", "Chatbot, der den Bestellstatus aus dem Profil liest"), "+36%", "150", tt("Roll out", "Ausrollen"), tt("Service", "Service")],
+            [tt("Upgrade prediction for account managers", "Upgrade-Vorhersage für Account Manager"), "+28%", "30", tt("Keep testing", "Weiter testen"), tt("Data team", "Datenteam")],
+            [tt("Avatar video in every e-mail", "Avatar-Video in jeder E-Mail"), "+1%", "700", tt("Stop", "Stoppen"), tt("No one", "Niemand")],
+          ]}
+          caption={tt("A worked decision on other tests (Case assumption)", "Eine Beispielentscheidung mit anderen Tests (Fallannahme)")}
+        />
+      </ShowMore>
     </MaterialCard>
   );
 }
@@ -130,31 +141,50 @@ export function CardB5() {
   return (
     <MaterialCard
       id="B5"
-      scan={tt("An investment decision under unclear success prospects is made in stages: invest now where the breaks cost most and the data is ready, measure from the first day, and agree on the result that makes you change course. The roadmap gives every funded item a start, one owner and a trigger.", "Eine Investitionsentscheidung bei unklaren Erfolgsaussichten fällt in Stufen: jetzt dort investieren, wo die Brüche am meisten kosten und die Daten bereit sind, ab dem ersten Tag messen und das Ergebnis vereinbaren, bei dem Sie den Kurs ändern. Die Roadmap gibt jedem finanzierten Punkt einen Start, einen Owner und einen Trigger.")}
+      scan={tt("An architecture is built in order: the base first (one shared profile and the KPIs), then the standards and the people, then the data, then the AI tools on connected data, and the rest held back. Four tests tell you whether it holds, and with six months the time test matters. Invest now, in stages, and say what you will watch and when you would stop.", "Eine Architektur wird der Reihe nach gebaut: zuerst die Basis (ein gemeinsames Profil und die KPIs), dann die Standards und die Menschen, dann die Daten, dann die KI-Werkzeuge auf verbundenen Daten, und der Rest wird zurückgehalten. Vier Tests sagen Ihnen, ob sie hält, und bei sechs Monaten zählt der Zeittest. Investieren Sie jetzt, in Stufen, und sagen Sie, was Sie beobachten und wann Sie aufhören würden.")}
       reasoning={[
+        tt("Build in this order. The base first: the shared customer profile and KPI system, so every channel reads one customer. Then the standards and the people: the hand-over standard so the history travels at every switch, one price list for every channel, and staff trained to take over with the history. Then the data an AI tool reads, connected. Then the AI tools that move a named KPI, on data that is connected. Hold back the rest.", "Bauen Sie in dieser Reihenfolge. Zuerst die Basis: gemeinsames Kundenprofil und KPI-System, damit jeder Kanal einen Kunden liest. Dann die Standards und die Menschen: der Übergabestandard, damit die Historie bei jedem Wechsel mitreist, eine Preisliste für jeden Kanal und Mitarbeitende, die geschult sind, mit der Historie zu übernehmen. Dann die Daten, die ein KI-Werkzeug liest, verbunden. Dann die KI-Werkzeuge, die einen benannten KPI bewegen, auf verbundenen Daten. Den Rest halten Sie zurück."),
+        tt(`Four tests check an architecture. Integration first: the shared profile and KPI system start no later than the first AI tool. Every funded item has a purpose: it moves a named KPI or makes one measurable; a black box and an app that names no KPI do neither. Data connected: an AI tool starts on data of which at least ${QUALITY_BAR}% already reaches the shared profile. It fits: inside the budget and in use by month ${R2_MONTHS}.`, `Vier Tests prüfen eine Architektur. Integration zuerst: Gemeinsames Profil und KPI-System starten nicht später als das erste KI-Werkzeug. Jeder finanzierte Punkt hat einen Zweck: Er bewegt einen benannten KPI oder macht einen messbar; eine Black Box und eine App, die keinen KPI nennt, tun keines von beidem. Daten verbunden: Ein KI-Werkzeug startet auf Daten, von denen mindestens ${QUALITY_BAR} % schon das gemeinsame Profil erreichen. Es passt: innerhalb des Budgets und bis Monat ${R2_MONTHS} im Einsatz.`),
+        tt(`Time: an item is in use in the month = start + weeks ÷ 4, rounded up. A Now item starts in month 1; an After data is ready item starts in the month the hand-over standard is in use, so the standard has to be Now itself: hand-overs that carry the history are what put the data into the profile. With ${R2_MONTHS} months, an item of 30 weeks is in use only in month 9.`, `Zeit: Ein Punkt ist im Monat = Start + Wochen ÷ 4, aufgerundet, im Einsatz. Ein Jetzt-Punkt startet in Monat 1; ein Punkt „Wenn die Daten bereit sind“ startet in dem Monat, in dem der Übergabestandard im Einsatz ist, der Standard muss also selbst auf Jetzt stehen: Übergaben, die die Historie mitnehmen, bringen die Daten ins Profil. Bei ${R2_MONTHS} Monaten ist ein Punkt mit 30 Wochen erst in Monat 9 im Einsatz.`),
+        tt(`Three bars show where the money sits: Budget (the money against the limit), Measurable (the share on items that are measured, whose data is connected and that are in use within the ${R2_MONTHS} months) and Risk (the share on a black box, on data below ${QUALITY_BAR}% connected or on an item in use only after the ${R2_MONTHS} months). Measurable and Risk are ranges, because the data may be weaker than the brief says: a plan that holds at both ends is the safer one.`, `Drei Balken zeigen, wo das Geld liegt: Budget (das Geld gegen die Grenze), Messbar (der Anteil auf Punkten, die gemessen werden, deren Daten verbunden sind und die innerhalb der ${R2_MONTHS} Monate im Einsatz sind) und Risiko (der Anteil auf einer Black Box, auf Daten unter ${QUALITY_BAR} % verbunden oder auf einem Punkt, der erst nach den ${R2_MONTHS} Monaten im Einsatz ist). Messbar und Risiko sind Spannen, weil die Daten schwächer sein können, als der Auftrag sagt: Ein Plan, der an beiden Enden hält, ist der sicherere.`),
         tt("Waiting until success is proven is also a decision: every break in the journey stays in the meantime, competitors move on, and the hand-overs could be fixed within weeks. The brief asks for an investment decision despite unclear prospects.", "Zu warten, bis der Erfolg bewiesen ist, ist auch eine Entscheidung: Jeder Bruch in der Journey bleibt in der Zwischenzeit, der Wettbewerb zieht weiter, und die Übergaben ließen sich in Wochen beheben. Der Auftrag verlangt eine Investitionsentscheidung trotz unklarer Aussichten."),
-        tt("Buying one big suite at once feels like catching up, but it is in use only after many months, takes most of the budget, and nothing is measured before the money is spent. Staging changes something for customers within weeks and spends the rest as the evidence arrives.", "Eine große Suite auf einmal zu kaufen fühlt sich wie Aufholen an, ist aber erst nach vielen Monaten in Betrieb, nimmt den Großteil des Budgets, und nichts wird gemessen, bevor das Geld ausgegeben ist. Stufenweise ändert sich innerhalb von Wochen etwas für Kunden, und der Rest wird ausgegeben, während die Evidenz kommt."),
-        tt("Integration first: the shared customer profile starts no later than the first other item, because every other item, including every AI tool, reads from it and is measured by it.", "Integration zuerst: Das gemeinsame Kundenprofil startet nicht später als der erste andere Punkt, weil jeder andere Punkt, auch jedes KI-Werkzeug, daraus liest und daran gemessen wird."),
-        tt("Fund inside the budget, and fund nothing nobody at the company can explain or measure: a black box cannot be steered.", "Finanzieren Sie innerhalb des Budgets, und nichts, was im Unternehmen niemand erklären oder messen kann: Eine Black Box lässt sich nicht steuern."),
-        tt("Owner test: who can change the item without asking anyone else? Trigger test: a metric, a number, a date and an action.", "Owner-Test: Wer kann den Punkt ändern, ohne jemanden zu fragen? Trigger-Test: eine Kennzahl, eine Zahl, ein Datum und eine Aktion."),
-        tt("A tripwire measures how customers behave (the cross-channel deal rate, customers who repeat themselves), not your own speed or output (hours to first contact, channels, downloads), and its threshold is better than today.", "Ein Tripwire misst, wie Kunden sich verhalten (kanalübergreifende Abschlussquote, Kunden, die sich wiederholen), nicht Ihr eigenes Tempo oder Ihren Output (Stunden bis zum ersten Kontakt, Kanäle, Downloads), und sein Schwellenwert ist besser als heute."),
-        tt("When the experience improves and deals lag, check whether the result moved where the change was made and whether the base is large enough before you change the plan; do not stop what works or buy what cannot run in time.", "Wenn das Erlebnis besser wird und die Abschlüsse hinterherhinken, prüfen Sie, ob sich das Ergebnis dort bewegte, wo die Änderung gemacht wurde, und ob die Basis groß genug ist, bevor Sie den Plan ändern; stoppen Sie nicht, was wirkt, und kaufen Sie nicht, was nicht rechtzeitig laufen kann."),
+        tt("Buying one big suite at once feels like catching up, but it is in use only after 30 weeks, takes most of the budget, and nothing is measured before the money is spent. Staging changes something for customers within weeks and spends the rest as the evidence arrives.", "Eine große Suite auf einmal zu kaufen fühlt sich wie Aufholen an, ist aber erst nach 30 Wochen in Betrieb, nimmt den Großteil des Budgets, und nichts wird gemessen, bevor das Geld ausgegeben ist. Stufenweise ändert sich innerhalb von Wochen etwas für Kunden, und der Rest wird ausgegeben, während die Evidenz kommt."),
+        tt("Fund inside the budget, and fund nothing nobody at the company can explain or measure: a black box cannot be steered. An app whose contact form is not connected to the other systems adds one more channel that knows nothing about the others.", "Finanzieren Sie innerhalb des Budgets, und nichts, was im Unternehmen niemand erklären oder messen kann: Eine Black Box lässt sich nicht steuern. Eine App, deren Kontaktformular nicht mit den anderen Systemen verbunden ist, fügt einen Kanal hinzu, der nichts von den anderen weiß."),
+        tt("What you will watch is one figure about customers (the cross-channel deal rate, the share of customers who repeat their information), not your own speed or output (hours to first contact, channels offered, app downloads), the month it can first be read, and what you do if it falls short: stop, pause or change one thing.", "Was Sie beobachten, ist eine Zahl über Kunden (die kanalübergreifende Abschlussquote, der Anteil der Kunden, die ihre Angaben wiederholen), nicht Ihr eigenes Tempo oder Ihr Output (Stunden bis zum ersten Kontakt, angebotene Kanäle, App-Downloads), der Monat, in dem sie sich zuerst lesen lässt, und was Sie tun, wenn sie zu kurz greift: stoppen, pausieren oder eine Sache ändern."),
+        tt("Every plan gives something and costs something. Say what it gives (measured, connected, inside the budget and the months) and what it leaves open (an item not now, data below 80% if the data is weaker, budget left unspent). A plan that differs from this order can still be argued: say why.", "Jeder Plan gibt etwas und kostet etwas. Sagen Sie, was er gibt (gemessen, verbunden, innerhalb von Budget und Monaten) und was er offen lässt (ein Punkt, der jetzt nicht kommt, Daten unter 80 %, wenn die Daten schwächer sind, ungenutztes Budget). Ein Plan, der von dieser Reihenfolge abweicht, lässt sich trotzdem vertreten: Sagen Sie, warum."),
       ]}
       sources={["courtney1997", "klein2007"]}
     >
-      <Diagram label={tt("Three funded items over six months · a worked example on Isar Datentechnik", "Drei finanzierte Punkte über sechs Monate · ein Beispiel mit Isar Datentechnik")} caption={tt("Click a row to read its owner, its trigger and why it starts when it does.", "Klicken Sie eine Zeile an, um Owner, Trigger und den Grund für den Start zu lesen.")}>
+      <Diagram label={tt("A chatbot and its base · a worked example on Isar Datentechnik", "Ein Chatbot und seine Basis · ein Beispiel mit Isar Datentechnik")} caption={tt("Change when the shared profile starts and how much of the data is connected, and watch the links.", "Ändern Sie, wann das gemeinsame Profil startet und wie viel der Daten verbunden ist, und beobachten Sie die Verbindungen.")}>
         <ArchExample />
       </Diagram>
-      <Bul
-        items={[
-          tt("Stage it: the no-regret items (the shared profile, the hand-over standard on the most critical transition) first, the AI tools when the joined data is there.", "Stufenweise: die No-regret-Punkte (gemeinsames Profil, Übergabestandard am kritischsten Übergang) zuerst, die KI-Werkzeuge, wenn die verbundenen Daten da sind."),
-          tt("Premortem: imagine the programme failed after six months, and write down why. Those reasons are your assumptions to watch.", "Premortem: Stellen Sie sich vor, das Programm sei nach sechs Monaten gescheitert, und schreiben Sie auf, warum. Diese Gründe sind die Annahmen, die Sie beobachten."),
-          tt("What does not fit gets a pickup point: the number and the date at which you look at it again.", "Was nicht passt, bekommt einen Pickup Point: die Zahl und das Datum, zu dem Sie es wieder ansehen."),
-        ]}
-      />
-      <Callout label={tt("Unclear prospects are not a reason to bet everything, or nothing", "Unklare Aussichten sind kein Grund, alles oder nichts zu setzen")} tone="signal">
-        <p>{tt("Courtney, Kirkland and Viguerie (1997) advise matching the commitment to what is known: no-regret moves now, options that can be scaled later, and big bets only when the evidence is in. A staged investment with a tripwire is decisive and still honest about what you do not know yet.", "Courtney, Kirkland und Viguerie (1997) raten, die Festlegung an das Bekannte anzupassen: No-regret-Schritte jetzt, Optionen, die sich später ausweiten lassen, und große Wetten erst, wenn die Evidenz da ist. Eine gestufte Investition mit Tripwire ist entschlossen und trotzdem ehrlich darüber, was Sie noch nicht wissen.")}</p>
-      </Callout>
+      <ShowMore id="B5" part="calc" label={tt("Show the worked numbers on another company (Case assumption)", "Die Rechenwege an einem anderen Unternehmen zeigen (Fallannahme)")}>
+        <DataTable
+          head={[tt("Rule", "Regel"), tt("Isar's figures", "Zahlen von Isar"), tt("Result", "Ergebnis")]}
+          rows={[
+            [tt("Month in use: starts in month 1, needs 8 weeks", "Monat im Einsatz: startet in Monat 1, braucht 8 Wochen"), "1 + 8 ÷ 4 = 1 + 2", tt("month 3", "Monat 3")],
+            [tt("After data is ready: the hand-over standard is in use in month 2, the item needs 10 weeks", "Wenn die Daten bereit sind: Der Übergabestandard ist in Monat 2 im Einsatz, der Punkt braucht 10 Wochen"), "2 + 10 ÷ 4 = 2 + 3", tt("starts month 2, in use month 5", "Start Monat 2, im Einsatz Monat 5")],
+            [tt("Time: a suite of 28 weeks that starts in month 1, in a plan of 6 months", "Zeit: eine Suite mit 28 Wochen, die in Monat 1 startet, in einem Plan von 6 Monaten"), "1 + 28 ÷ 4 = 1 + 7", tt("month 8: too late", "Monat 8: zu spät")],
+            [tt("Data connected: the chatbot's data is 90% connected, the bar is 80%", "Daten verbunden: Die Daten des Chatbots sind zu 90 % verbunden, die Grenze ist 80 %"), "90 ≥ 80", tt("ready", "bereit")],
+            [tt("The same chatbot when the data is 15 points weaker", "Derselbe Chatbot, wenn die Daten 15 Punkte schwächer sind"), "90 − 15 = 75 < 80", tt("not ready", "nicht bereit")],
+            [tt("Money: three funded items against Isar's €160,000", "Geld: drei finanzierte Punkte gegen Isars 160.000 €"), "70,000 + 30,000 + 20,000", tt("€120,000, €40,000 left", "120.000 €, 40.000 € übrig")],
+          ]}
+          caption={tt("Isar's numbers (Case assumption). The panel in the task does this for you and says what it means.", "Zahlen von Isar (Fallannahme). Das Panel in der Aufgabe macht das für Sie und sagt, was es bedeutet.")}
+        />
+      </ShowMore>
+      <ShowMore id="B5" part="notes" label={tt("Show two short notes", "Zwei kurze Hinweise zeigen")}>
+        <Bul
+          items={[
+            tt("Stage it: the no-regret items first (the shared profile, the hand-over standard on the most critical transition), the AI tools that need more connected data when the hand-overs carry the history.", "Stufenweise: die No-regret-Punkte zuerst (gemeinsames Profil, Übergabestandard am kritischsten Übergang), die KI-Werkzeuge, die mehr verbundene Daten brauchen, wenn die Übergaben die Historie mitnehmen."),
+            tt("Premortem: imagine the plan failed after six months, and write down why. Those reasons are what you watch.", "Premortem: Stellen Sie sich vor, der Plan sei nach sechs Monaten gescheitert, und schreiben Sie auf, warum. Diese Gründe beobachten Sie."),
+          ]}
+        />
+      </ShowMore>
+      <ShowMore id="B5" part="extra" label={tt("Show: Unclear prospects are not a reason to bet everything, or nothing", "Zeigen: Unklare Aussichten sind kein Grund, alles oder nichts zu setzen")}>
+        <Callout label={tt("Unclear prospects are not a reason to bet everything, or nothing", "Unklare Aussichten sind kein Grund, alles oder nichts zu setzen")} tone="signal">
+          <p>{tt("Courtney, Kirkland and Viguerie (1997) advise matching the commitment to what is known: no-regret moves now, options that can be scaled later, and big bets only when the evidence is in. A staged investment with a sentence on what you watch is decisive and still honest about what you do not know yet.", "Courtney, Kirkland und Viguerie (1997) raten, die Festlegung an das Bekannte anzupassen: No-regret-Schritte jetzt, Optionen, die sich später ausweiten lassen, und große Wetten erst, wenn die Evidenz da ist. Eine gestufte Investition mit einem Satz dazu, was Sie beobachten, ist entschlossen und trotzdem ehrlich darüber, was Sie noch nicht wissen.")}</p>
+        </Callout>
+      </ShowMore>
     </MaterialCard>
   );
 }

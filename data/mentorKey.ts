@@ -6,8 +6,9 @@ import { AB_MODEL, MEANING_TRUTH, MEASURE_TRUTH, PATTERN_IDS, RECORDS, TRUTH_COU
 import type { PatternId, PatternRow, RecId, UncId } from "@/data/patterns";
 import { MEASURE_BY_ID, MODEL_MEASURES, explainBucket } from "@/data/measures";
 import type { MeasureId, ProblemId } from "@/data/measures";
-import { COMP_BY_ID, MODEL_ARCH, MODEL_COMPS, MODEL_GREATEST, MODEL_START, MODEL_TRIGGER, MODEL_TRIPWIRE, OWNER_ACCEPT, OWNER_ACCEPT_LOGIC, SITUATIONS, SOURCES, actionOf, useOf } from "@/data/route2";
-import type { Criterion, LogicRow, OwnerId, Use } from "@/data/route2";
+import { ARCH_BY_ID, COMP_BY_ID, MODEL_COMPS, MODEL_GREATEST, OWNER_ACCEPT_LOGIC, R2_BUDGET, SITUATIONS, SOURCES, actionOf, useOf } from "@/data/route2";
+import { MODEL_ARCH, MODEL_TIER } from "@/data/route2Panel";
+import type { Criterion, LogicRow, Use } from "@/data/route2";
 import { euro, num, tt } from "@/lib/lang";
 import type { L1State, R2State, Score } from "@/store/useStore";
 
@@ -19,6 +20,25 @@ import type { L1State, R2State, Score } from "@/store/useStore";
 export const MENTOR_PASSCODE = "muchson123";
 export const MODEL_ORDER: MeasureId[] = ["unified", "handover", "predictive"];
 
+/** The model reason for the two judged scores of each model measure (CLAUDE.md #45): effect, scalability, and a printed fact. */
+const MEASURE_REASON: Record<string, () => string> = {
+  unified: () =>
+    tt(
+      "Effect 3: it removes the cause of both breaks customers feel, because every channel then sees the same customer. Scalability 3: once built, every channel and every customer uses it at no extra cost, although the card says 12 weeks.",
+      "Wirkung 3: Sie beseitigt die Ursache beider Brüche, die Kunden spüren, weil dann jeder Kanal denselben Kunden sieht. Skalierbarkeit 3: Einmal gebaut, nutzen sie jeder Kanal und jeder Kunde ohne Zusatzkosten, auch wenn die Karte 12 Wochen nennt.",
+    ),
+  handover: () =>
+    tt(
+      "Effect 3: it fixes the two critical transitions at once, because a card and a named person travel with every customer. Scalability 3: the same standard works for every hand-over, and the card says 4 weeks.",
+      "Wirkung 3: Er behebt die zwei kritischen Übergänge sofort, weil eine Karte und eine benannte Person mit jedem Kunden mitreisen. Skalierbarkeit 3: Derselbe Standard gilt für jede Übergabe, und die Karte nennt 4 Wochen.",
+    ),
+  predictive: () =>
+    tt(
+      "Effect 2: it is the AI tool that uses the joined-up data, but its effect comes through the account managers who act on it. Scalability 3: once the model runs it covers every customer, for 10 weeks of work.",
+      "Wirkung 2: Es ist das KI-Werkzeug, das die verbundenen Daten nutzt, aber seine Wirkung kommt über die Account Manager, die danach handeln. Skalierbarkeit 3: Läuft das Modell einmal, deckt es jeden Kunden ab, bei 10 Wochen Arbeit.",
+    ),
+};
+
 export function KEY_L1(): Partial<L1State> {
   return {
     sort: Object.fromEntries(LINES.map((r) => [r.id, r.truth])) as Record<LineId, LevelTag>,
@@ -26,10 +46,9 @@ export function KEY_L1(): Partial<L1State> {
       "When a customer's contract ends, the renewal offer comes from the shop as a standard e-mail, while the account manager is still discussing an upgrade with them, so the two offers contradict each other and the customer does not know which one holds.",
       "Wenn der Vertrag eines Kunden endet, kommt das Verlängerungsangebot als Standard-E-Mail aus dem Shop, während der Account Manager noch ein Upgrade mit ihm bespricht, sodass sich die beiden Angebote widersprechen und der Kunde nicht weiß, welches gilt.",
     ),
-    fig: { F1: String(FORECAST.f1), F2: String(FORECAST.f2), F3: String(FORECAST.f3) },
     meaning: tt(
-      `Hand-overs in which sales saw the online history closed at ${FORECAST.f1}% against ${FORECAST.controlRate}%, ${FORECAST.f2} times as often. Across ${num(PILOT.yearly)} channel-switching journeys a year that is about ${euro(FORECAST.f3)}, so OmniTech should first make the configurator's entries travel to sales, and test it fairly, because sales may have looked up the history only for the best leads.`,
-      `Übergaben, bei denen der Vertrieb die Online-Historie sah, schlossen zu ${num(FORECAST.f1)} % gegenüber ${num(FORECAST.controlRate)} % ab, ${num(FORECAST.f2)}-mal so oft. Bei ${num(PILOT.yearly)} kanalwechselnden Journeys pro Jahr sind das etwa ${euro(FORECAST.f3)}, also sollte OmniTech zuerst die Konfigurator-Eingaben an den Vertrieb weitergeben und das fair testen, weil der Vertrieb die Historie vielleicht nur bei den besten Leads nachschlug.`,
+      `Hand-overs in which sales saw the online history closed at ${FORECAST.f1}% against ${FORECAST.controlRate}%, ${FORECAST.f2} times as often, so OmniTech should first make the configurator's entries travel to sales, and test it fairly, because sales may have looked up the history only for the best leads.`,
+      `Übergaben, bei denen der Vertrieb die Online-Historie sah, schlossen zu ${num(FORECAST.f1)} % gegenüber ${num(FORECAST.controlRate)} % ab, ${num(FORECAST.f2)}-mal so oft, also sollte OmniTech zuerst die Konfigurator-Eingaben an den Vertrieb weitergeben und das fair testen, weil der Vertrieb die Historie vielleicht nur bei den besten Leads nachschlug.`,
     ),
     valuable: [...VALUABLE_TRUTH],
     churners: [...CHURN_TRUTH],
@@ -47,8 +66,8 @@ export function KEY_L1(): Partial<L1State> {
     unc: ["sample", "cause", "missing", "shift"] as UncId[],
     rows: Object.fromEntries(PATTERN_IDS.map((x) => [x, { risk: riskOf(TRUTH_LEFT[x], TRUTH_COUNTS[x]), meaning: MEANING_TRUTH[x], measure: MEASURE_TRUTH[x] }])) as Record<PatternId, PatternRow>,
     misread: tt(
-      "1) Deal rate of journeys that switch channels (outcome), from the CRM and the shared profile, target 20% by month 6 against 15% today. 2) Share of hand-overs in which the next channel sees the history (driver), from the CRM, target 80% by month 3. 3) Share of customers who repeat their information at a hand-over (guardrail), from a question in every service call, must fall below 20%.",
-      "1) Abschlussquote kanalwechselnder Journeys (Outcome), aus CRM und gemeinsamem Profil, Ziel 20 % bis Monat 6 gegenüber 15 % heute. 2) Anteil der Übergaben, bei denen der nächste Kanal die Historie sieht (Treiber), aus dem CRM, Ziel 80 % bis Monat 3. 3) Anteil der Kunden, die bei einer Übergabe ihre Angaben wiederholen müssen (Guardrail), aus einer Frage in jedem Servicegespräch, muss unter 20 % fallen.",
+      "1) Deal rate of journeys that switch channels (outcome), from the CRM and the shared profile, aim: up, above today's rate. 2) Share of hand-overs in which the next channel sees the history (driver), from the CRM, aim: up, towards every hand-over. 3) Share of customers who repeat their information at a hand-over (guardrail), from a question in every service call, aim: down, under a limit.",
+      "1) Abschlussquote kanalwechselnder Journeys (Outcome), aus CRM und gemeinsamem Profil, Ziel: hoch, über der heutigen Quote. 2) Anteil der Übergaben, bei denen der nächste Kanal die Historie sieht (Treiber), aus dem CRM, Ziel: hoch, Richtung jede Übergabe. 3) Anteil der Kunden, die bei einer Übergabe ihre Angaben wiederholen müssen (Guardrail), aus einer Frage in jedem Servicegespräch, Ziel: runter, unter eine Grenze.",
     ),
     ab: {
       ...AB_MODEL,
@@ -60,6 +79,7 @@ export function KEY_L1(): Partial<L1State> {
     exp: Object.fromEntries(MODEL_MEASURES.map((id) => [id, explainBucket(MEASURE_BY_ID[id].evidence)])) as Record<string, Score>,
     fea: Object.fromEntries(MODEL_MEASURES.map((id) => [id, MEASURE_BY_ID[id].model.feasibility])) as Record<string, Score>,
     eff: Object.fromEntries(MODEL_MEASURES.map((id) => [id, MEASURE_BY_ID[id].model.effect])) as Record<string, Score>,
+    reasons: Object.fromEntries(MODEL_MEASURES.map((id) => [id, MEASURE_REASON[id]()])) as Record<string, string>,
     order: [...MODEL_ORDER],
     why: tt(
       "The shared customer profile goes first: it scores 27, connects every channel and the CRM, and every other measure, including the AI, reads from it. The hand-over standard comes second and starts at once, because it fixes the two critical transitions within four weeks, where hand-overs with the history closed twice as often. Predictive analytics comes third, from month 3, because it needs the joined data to be worth anything. The three cost €155,000 of the €250,000; the new app and the full suite are left out, one because it adds an island and the other because it would not be in use within six months.",
@@ -89,31 +109,23 @@ export function KEY_R2(): Partial<R2State> {
       "Der Anteil der Übergaben, die die Historie mitnehmen, ist der Treiber, den der Auftrag nennt (Systeme nicht integriert). Er ist mit Abschlüssen verbunden, bewegt sich, sobald ein Übergang verbunden ist, deckt jeden Kunden ab und wird vom CRM gezählt, sodass sich jede Omnichannel-Maßnahme innerhalb von Wochen daran steuern lässt.",
     ),
     logic,
-    alloc: Object.fromEntries(MODEL_ARCH.map((id) => [id, true])),
-    start: { ...MODEL_START } as Record<string, number>,
-    owner: Object.fromEntries(MODEL_ARCH.map((id) => [id, OWNER_ACCEPT[id][0]])) as Record<string, OwnerId>,
-    trigger: Object.fromEntries(MODEL_ARCH.map((id) => [id, MODEL_TRIGGER[id as keyof typeof MODEL_TRIGGER]])) as Record<string, string>,
-    postponed: tt(
-      "The all-in-one omnichannel AI suite (€180,000) is left out: the six funded items cost €240,000 of the €280,000, the suite would push the plan €140,000 over, it is in use only after thirty weeks and nobody at OmniTech could explain its decisions. The new app (€90,000) adds one more channel that knows nothing about the others.",
-      "Die All-in-one-Omnichannel-KI-Suite (180.000 €) bleibt draußen: Die sechs finanzierten Punkte kosten 240.000 € von 280.000 €, die Suite brächte den Plan 140.000 € über das Budget, sie ist erst nach dreißig Wochen in Betrieb, und niemand bei OmniTech könnte ihre Entscheidungen erklären. Die neue App (90.000 €) fügt einen weiteren Kanal hinzu, der nichts über die anderen weiß.",
+    tier: { ...MODEL_TIER },
+    vision: tt(
+      "OmniTech gives every customer one continuous experience: every channel reads one customer profile and every switch carries the history, and the company steers by three cross-channel KPIs. Every new AI tool has to move one of them before it grows, so integration and AI grow together.",
+      "OmniTech gibt jedem Kunden ein durchgehendes Erlebnis: Jeder Kanal liest ein Kundenprofil und jeder Wechsel nimmt die Historie mit, und das Unternehmen steuert über drei kanalübergreifende KPIs. Jedes neue KI-Werkzeug muss einen davon bewegen, bevor es wächst, sodass Integration und KI gemeinsam wachsen.",
     ),
-    pickup: tt(
-      "If the cross-channel deal rate reaches 20% by month 5, we look again at an app for the next year, built on the shared profile.",
-      "Erreicht die kanalübergreifende Abschlussquote bis Monat 5 20 %, prüfen wir für das nächste Jahr erneut eine App, aufgebaut auf dem gemeinsamen Profil.",
+    giveUp: tt(
+      `The plan gives me one shared profile with the KPIs, a hand-over standard that makes the history travel, one price list for every channel, trained staff, and the chatbot on contract data that is already connected. The predictions start once the hand-overs carry the history. It costs me the all-in-one suite and the new app, which name no KPI (the suite is in use only in month 9). ${euro(R2_BUDGET - MODEL_ARCH.reduce((x, id) => x + ARCH_BY_ID[id].cost, 0))} stay unspent. If the data turns out weaker, the chatbot rests on data below 80% connected, so I watch it first.`,
+      `Der Plan gibt mir ein gemeinsames Profil mit den KPIs, einen Übergabestandard, der die Historie mitreisen lässt, eine Preisliste für jeden Kanal, geschulte Mitarbeitende und den Chatbot auf Vertragsdaten, die schon verbunden sind. Die Vorhersagen starten, sobald die Übergaben die Historie mitnehmen. Er kostet mich die All-in-one-Suite und die neue App, die keinen KPI nennen (die Suite ist erst in Monat 9 im Einsatz). ${euro(R2_BUDGET - MODEL_ARCH.reduce((x, id) => x + ARCH_BY_ID[id].cost, 0))} bleiben ungenutzt. Fallen die Daten schwächer aus, beruht der Chatbot auf Daten unter 80 % verbunden, also beobachte ich ihn zuerst.`,
     ),
     decision: "stage",
-    assumptions: [
-      tt("Seeing the history itself raises deals, not only the choice of good leads. This is wrong if a random-split test shows less than 1.2 times the deal rate with the hand-over card on 100 deals per group by month 4.", "Die Historie zu sehen erhöht selbst die Abschlüsse, nicht nur die Auswahl guter Leads. Das ist falsch, wenn ein Test mit zufälliger Aufteilung bis Monat 4 bei 100 Abschlüssen pro Gruppe weniger als das 1,2-Fache der Abschlussquote mit Übergabekarte zeigt."),
-      tt("Sales and service will use the shared profile. This is wrong if fewer than 80% of them open it before a customer call by month 2.", "Vertrieb und Service werden das gemeinsame Profil nutzen. Das ist falsch, wenn bis Monat 2 weniger als 80 % von ihnen es vor einem Kundengespräch öffnen."),
-      tt("The ticket system and the shop can be connected within the plan. This is wrong if fewer than 80% of hand-overs carry the history by the end of month 3.", "Ticketsystem und Shop lassen sich im Plan anbinden. Das ist falsch, wenn bis Ende Monat 3 weniger als 80 % der Übergaben die Historie mitnehmen."),
-    ],
-    tripKpi: MODEL_TRIPWIRE.kpi,
-    tripThreshold: String(MODEL_TRIPWIRE.threshold),
-    tripMonth: MODEL_TRIPWIRE.month,
-    tripAction: "adjust",
-    challenge: tt(
-      "I keep the profile and the AI tools, and I do not buy the suite. The profile works: repeated information fell from 45% to 20%, which is our guardrail and the break customers felt most. 15% to 16% after three months rests on too few deals to judge; the tripwire of 20% in month 5 decides. First I check whether the deal rate rose where the history now travels and not elsewhere. The one change: the chatbot starts on the contract data it can already read, and the ticket interface follows in month 4. Stopping the AI would leave the joined data unused while the competitor pulls ahead; the suite would not be in use within the six months and nobody could explain it.",
-      "Ich behalte das Profil und die KI-Werkzeuge und kaufe die Suite nicht. Das Profil wirkt: Wiederholte Angaben fielen von 45 % auf 20 %, das ist unsere Guardrail und der Bruch, den Kunden am stärksten spürten. 15 % zu 16 % nach drei Monaten beruhen auf zu wenigen Abschlüssen für ein Urteil; der Tripwire von 20 % in Monat 5 entscheidet. Zuerst prüfe ich, ob die Abschlussquote dort stieg, wo die Historie jetzt mitreist, und nicht anderswo. Die eine Änderung: Der Chatbot startet mit den Vertragsdaten, die er schon lesen kann, und die Ticket-Schnittstelle folgt in Monat 4. Die KI zu stoppen ließe die verbundenen Daten ungenutzt, während der Wettbewerber davonzieht; die Suite wäre in den sechs Monaten nicht in Betrieb, und niemand könnte sie erklären.",
+    decisionWhy: tt(
+      "It is the investment decision the brief asks for despite unclear prospects: invest now where the breaks cost most and the data is connected, measure from the first week through the shared profile, and spend the rest as the evidence arrives. The predictions wait for the hand-overs to carry the history, and the suite and the app stay out because neither names a KPI and the suite arrives only in month 9.",
+      "Es ist die Investitionsentscheidung, die der Auftrag trotz unklarer Aussichten verlangt: jetzt dort investieren, wo die Brüche am meisten kosten und die Daten verbunden sind, ab der ersten Woche über das gemeinsame Profil messen und den Rest ausgeben, wie die Evidenz kommt. Die Vorhersagen warten, bis die Übergaben die Historie mitnehmen, und Suite und App bleiben draußen, weil keine einen KPI nennt und die Suite erst in Monat 9 ankommt.",
+    ),
+    watch: tt(
+      "I watch the share of customers who repeat their information: today it is 45%, and if it is not clearly below that by month 3 on enough hand-overs, I stop adding AI tools and rewrite the hand-over card with the sales team. I also watch the data behind the chatbot: if it stays below 80% connected, I pause it until the hand-overs carry the history.",
+      "Ich beobachte den Anteil der Kunden, die ihre Angaben wiederholen: Heute liegt er bei 45 %, und liegt er bis Monat 3 bei genug Übergaben nicht deutlich darunter, höre ich auf, KI-Werkzeuge hinzuzufügen, und schreibe die Übergabekarte mit dem Vertriebsteam neu. Ich beobachte auch die Daten hinter dem Chatbot: Bleiben sie unter 80 % verbunden, pausiere ich ihn, bis die Übergaben die Historie mitnehmen.",
     ),
   };
 }
