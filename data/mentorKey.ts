@@ -5,7 +5,7 @@ import type { Basis } from "@/data/forecast";
 import { AB_MODEL, MEANING_TRUTH, MEASURE_TRUTH, PATTERN_IDS, RECORDS, TRUTH_COUNTS, TRUTH_LEFT, riskOf } from "@/data/patterns";
 import type { PatternId, PatternRow, RecId, UncId } from "@/data/patterns";
 import { MEASURE_BY_ID, MODEL_MEASURES, explainBucket } from "@/data/measures";
-import type { MeasureId, ProblemId } from "@/data/measures";
+import type { MeasureId } from "@/data/measures";
 import { ARCH_BY_ID, COMP_BY_ID, MODEL_COMPS, MODEL_GREATEST, OWNER_ACCEPT_LOGIC, R2_BUDGET, SITUATIONS, SOURCES, actionOf, useOf } from "@/data/route2";
 import { MODEL_ARCH, MODEL_TIER } from "@/data/route2Panel";
 import type { Criterion, LogicRow, Use } from "@/data/route2";
@@ -75,7 +75,6 @@ export function KEY_L1(): Partial<L1State> {
       rule: tt("Roll out if deals per hand-over are at least 10% higher than the control group with 100 deals per group and the share of customers who repeat their information does not rise; keep testing if 3 to 10% higher; stop if less than 3% higher.", "Ausrollen, wenn die Abschlüsse pro Übergabe bei 100 Abschlüssen pro Gruppe mindestens 10 % über der Kontrollgruppe liegen und der Anteil der Kunden, die ihre Angaben wiederholen, nicht steigt; weiter testen bei 3 bis 10 % darüber; stoppen bei weniger als 3 % darüber."),
     },
     chosen: [...MODEL_MEASURES],
-    aims: Object.fromEntries(MODEL_MEASURES.map((id) => [id, [...MEASURE_BY_ID[id].targets]])) as Record<string, ProblemId[]>,
     exp: Object.fromEntries(MODEL_MEASURES.map((id) => [id, explainBucket(MEASURE_BY_ID[id].evidence)])) as Record<string, Score>,
     fea: Object.fromEntries(MODEL_MEASURES.map((id) => [id, MEASURE_BY_ID[id].model.feasibility])) as Record<string, Score>,
     eff: Object.fromEntries(MODEL_MEASURES.map((id) => [id, MEASURE_BY_ID[id].model.effect])) as Record<string, Score>,

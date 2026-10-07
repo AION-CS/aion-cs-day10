@@ -39,7 +39,7 @@ export function taskBlocks(p: Persisted): Record<TaskBlockId, boolean> {
     b23: abComplete(l1.ab) && /\d/.test(l1.ab.rule),
     b24:
       l1.chosen.length === CHOOSE &&
-      l1.chosen.every((id) => l1.aims[id] !== undefined && !!l1.exp[id] && !!l1.fea[id] && !!l1.eff[id] && len(l1.reasons[id] ?? "") >= MIN_LINE) &&
+      l1.chosen.every((id) => !!l1.exp[id] && !!l1.fea[id] && !!l1.eff[id] && len(l1.reasons[id] ?? "") >= MIN_LINE) &&
       l1.order.length === CHOOSE &&
       l1.chosen.every((id) => l1.order.includes(id)) &&
       len(l1.why) >= 60,

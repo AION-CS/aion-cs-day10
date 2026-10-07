@@ -1,16 +1,22 @@
 import { bi, t } from "@/lib/lang";
 
 /**
- * Task 1 · Block 2.4. Nine measures OmniTech could fund inside €250,000 and six months (the plan's framework). Costs, weeks and what each
- * connects to are Case assumptions. What each measure does is written without naming the problem it answers, so the learner has to match
+ * Task 1 · Block 2.4. Six measures OmniTech could fund inside €250,000 and six months (the plan's framework). Costs, weeks and what each
+ * connects to are Case assumptions; every price is built from parts (set-up, a licence for the months, days or hours of work) so a learner
+ * sees why it is that number. What each measure does is written without naming the problem it answers, so the learner has to match
  * them (Materi A7). The score is the plan's own evaluation: Integration × Effect × Scalability. Integration follows from the printed
  * "connects to", so it is checkable; effect and scalability are the learner's judgement. (Field names keep the earlier ones: `exp` =
  * Integration, `fea` = Scalability, `eff` = Effect; `evidence` is the integration band, derived from `joins`; `targets` are the problems a
  * measure answers. The problem ids bounce/interaction/coordination now mean isolation/inconsistent/AI unused.)
+ *
+ * Three are strong, three are traps of different kinds: the chatbot is a good tool that sees only tickets, the app adds one more channel
+ * that connects to nothing, and the suite is fully joined up on paper but is in use only after the six months.
  */
-export type MeasureId = "unified" | "handover" | "predictive" | "chatbot" | "offers" | "app" | "suite" | "dashboards" | "hotline";
+export type MeasureId = "unified" | "handover" | "predictive" | "chatbot" | "app" | "suite";
 export const BUDGET = 250000;
 export const MONTHS = 6;
+/** The six months in weeks: the frame in which a measure has to start working. */
+export const FRAME_WEEKS = MONTHS * 4;
 export type Bucket = 1 | 2 | 3;
 
 /**
@@ -27,8 +33,8 @@ export const MEASURE_AREA_LABEL = bi({
 });
 export const AREA_NOTE = bi({
   v: t(
-    "The brief names three problems: channels that work in isolation, an inconsistent experience and unused AI potential. They call for connecting the channels (a seamless transition, recognition, consistency) and for AI tools that build on that connection. A new app, a separate dashboard or more hotline staff improves one channel on its own and connects nothing.",
-    "Der Auftrag nennt drei Probleme: Kanäle, die isoliert arbeiten, ein uneinheitliches Erlebnis und ungenutztes KI-Potenzial. Sie verlangen, die Kanäle zu verbinden (nahtloser Übergang, Wiedererkennung, Konsistenz) und KI-Werkzeuge, die auf dieser Verbindung aufbauen. Eine neue App, ein separates Dashboard oder mehr Hotline-Personal verbessert einen Kanal für sich und verbindet nichts.",
+    "The brief names three problems. Each card carries a small label with what kind of measure it is (taught in Materi A1 to A3); “One channel on its own” connects nothing.",
+    "Der Auftrag nennt drei Probleme. Jede Karte trägt ein kleines Etikett, was für eine Maßnahme sie ist (gelehrt in Materi A1 bis A3); „Ein Kanal für sich“ verbindet nichts.",
   ),
 });
 
@@ -38,6 +44,12 @@ export const PROBLEM_LABEL = bi({
   bounce: t("Channels work in isolation", "Kanäle arbeiten isoliert"),
   interaction: t("Customer experience inconsistent", "Kundenerlebnis inkonsistent"),
   coordination: t("AI potential unused", "KI-Potenzial ungenutzt"),
+});
+/** The three problems in everyday words, for the picture under the cards. */
+export const PROBLEM_PLAIN = bi({
+  bounce: t("Channels do not see each other's data", "Kanäle sehen die Daten der anderen nicht"),
+  interaction: t("Customers repeat themselves and hear different things", "Kunden wiederholen sich und hören Verschiedenes"),
+  coordination: t("Nothing uses AI on the customer data yet", "Nichts nutzt bisher KI auf den Kundendaten"),
 });
 
 export type Joins = "all" | "one" | "none";
@@ -61,17 +73,39 @@ export const EXPLAIN_RULE = bi({
   ),
 });
 
+/** The plain-word anchors for the two judged scores, printed under the score buttons and taught in Materi A7. */
+export const EFFECT_ANCHOR = bi({
+  v: t(
+    "3 = it changes what most customers experience at the switches between channels. 2 = it helps, but only some customers or only indirectly. 1 = it hardly changes what customers experience.",
+    "3 = Sie ändert, was die meisten Kunden bei den Wechseln zwischen den Kanälen erleben. 2 = Sie hilft, aber nur einigen Kunden oder nur indirekt. 1 = Sie ändert kaum, was Kunden erleben.",
+  ),
+});
+export const SCALE_ANCHOR = bi({
+  v: t(
+    "3 = once built, it serves every customer with no extra people. 2 = it needs some extra people or cost as it grows. 1 = it grows only by adding people.",
+    "3 = Einmal gebaut, dient sie jedem Kunden ohne zusätzliche Personen. 2 = Sie braucht beim Wachsen etwas mehr Personal oder Kosten. 1 = Sie wächst nur, indem man Personal ergänzt.",
+  ),
+});
+
+export type CostPart = { label: string; amount: number };
+
 export type Measure = {
   id: MeasureId;
   name: string;
+  /** A short name for bars and rows. */
+  short: string;
+  /** In everyday words: what it is. */
   what: string;
-  /** One concrete scene from OmniTech's day, and who does what (CLAUDE.md #46). */
+  /** One concrete scene from OmniTech's day (CLAUDE.md #46). */
   scene: string;
+  /** Who does what, and what the customer notices. */
   who: string;
   area: MeasureArea;
   basis: string;
   joins: Joins;
   evidence: Evidence;
+  /** What the price is made of; `cost` is their sum. */
+  costParts: CostPart[];
   cost: number;
   weeks: number;
   targets: ProblemId[];
@@ -83,14 +117,30 @@ export const MEASURES: Measure[] = [];
 const RAW = bi([
   {
     id: "unified" as MeasureId,
+    short: t("Customer profile", "Kundenprofil"),
     name: t("One customer profile across all channels", "Ein Kundenprofil über alle Kanäle"),
-    what: t("Website, shop, chat, sales and support write to one shared customer profile, and every channel reads from it.", "Website, Shop, Chat, Vertrieb und Support schreiben in ein gemeinsames Kundenprofil, und jeder Kanal liest daraus."),
-    scene: t("A customer who configured licences online calls support three months later, and the agent sees the configurator entries, the offer and the contract on one screen.", "Ein Kunde, der online Lizenzen konfiguriert hat, ruft drei Monate später den Support an, und der Mitarbeiter sieht Konfigurator-Eingaben, Angebot und Vertrag auf einem Bildschirm."),
-    who: t("IT builds the shared profile over twelve weeks; every channel team then reads from it and writes to it.", "Die IT baut das gemeinsame Profil in zwölf Wochen; danach liest und schreibt jedes Kanalteam darin."),
+    what: t(
+      "One shared customer profile. Website, shop, chat, sales and support all write to it, and every channel reads from it.",
+      "Ein gemeinsames Kundenprofil. Website, Shop, Chat, Vertrieb und Support schreiben hinein, und jeder Kanal liest daraus.",
+    ),
+    scene: t(
+      "A customer who configured licences online calls support three months later. The agent sees the configurator entries, the offer and the contract on one screen.",
+      "Ein Kunde, der online Lizenzen konfiguriert hat, ruft drei Monate später den Support an. Der Mitarbeiter sieht Konfigurator-Eingaben, Angebot und Vertrag auf einem Bildschirm.",
+    ),
+    who: t(
+      "IT builds the profile over twelve weeks. Then every channel team reads from it and writes to it. The customer stops being asked for what they already told another channel.",
+      "Die IT baut das Profil in zwölf Wochen. Danach liest und schreibt jedes Kanalteam darin. Der Kunde wird nicht mehr nach dem gefragt, was er einem anderen Kanal schon gesagt hat.",
+    ),
     area: "recognition" as MeasureArea,
-    basis: t("Connects to all channels and the CRM; in use after 12 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 12 Wochen."),
+    basis: t("Connects to all channels and the CRM.", "Verbunden mit allen Kanälen und dem CRM."),
     joins: "all" as Joins,
-    cost: 80000,
+    costParts: [
+      { label: t("links to the five systems (web, shop, chat, CRM, support), 5 × €6,000", "Anbindung der fünf Systeme (Web, Shop, Chat, CRM, Support), 5 × 6.000 €"), amount: 30000 },
+      { label: t("IT builds the profile, 40 days × €800", "IT baut das Profil, 40 Tage × 800 €"), amount: 32000 },
+      { label: t("matching duplicate customers, 150 h × €80", "doppelte Kunden zusammenführen, 150 Std. × 80 €"), amount: 12000 },
+      { label: t("profile tool licence, 6 months × €1,000", "Lizenz des Profil-Tools, 6 Monate × 1.000 €"), amount: 6000 },
+    ],
+    cost: 0,
     weeks: 12,
     targets: ["bounce", "interaction"] as ProblemId[],
     model: { feasibility: 3, effect: 3, note: t("It removes the cause of both breaks the customer feels: every channel sees the same customer, and says the same things about them.", "Es beseitigt die Ursache beider Brüche, die der Kunde spürt: Jeder Kanal sieht denselben Kunden und sagt dasselbe über ihn.") },
@@ -98,14 +148,29 @@ const RAW = bi([
   },
   {
     id: "handover" as MeasureId,
+    short: t("Hand-over standard", "Übergabestandard"),
     name: t("Hand-over standard with a hand-over card", "Übergabestandard mit Übergabekarte"),
-    what: t("At every switch from online to sales and from sales to support, a card with what the customer did so far goes with them, a named person takes over within four working hours, and the price and promises are copied, not retyped.", "Bei jedem Wechsel von online zum Vertrieb und vom Vertrieb zum Support geht eine Karte mit dem bisherigen Verlauf mit, eine benannte Person übernimmt innerhalb von vier Arbeitsstunden, und Preis und Zusagen werden übernommen, nicht neu getippt."),
-    scene: t("A salesperson closes a deal and passes the customer to support with a card: what was bought, what was promised, and the named person who calls within four working hours.", "Ein Vertriebsmitarbeiter schließt einen Abschluss und übergibt den Kunden mit einer Karte an den Support: was gekauft wurde, was versprochen wurde und die namentlich genannte Person, die innerhalb von vier Arbeitsstunden anruft."),
-    who: t("Sales and support agree the card once; the named person is always a person, never a queue.", "Vertrieb und Support einigen sich einmal auf die Karte; die genannte Person ist immer ein Mensch, nie eine Warteschlange."),
+    what: t(
+      "A rule for every switch from online to sales and from sales to support: a card with what the customer did so far goes along, a named person takes over within four working hours, and price and promises are copied, not retyped.",
+      "Eine Regel für jeden Wechsel von online zum Vertrieb und vom Vertrieb zum Support: Eine Karte mit dem bisherigen Verlauf geht mit, eine benannte Person übernimmt innerhalb von vier Arbeitsstunden, und Preis und Zusagen werden übernommen, nicht neu getippt.",
+    ),
+    scene: t(
+      "A salesperson closes a deal and passes the customer to support with a card: what was bought, what was promised, and the named person who calls within four working hours.",
+      "Ein Vertriebsmitarbeiter schließt einen Abschluss und übergibt den Kunden mit einer Karte an den Support: was gekauft wurde, was versprochen wurde und die namentlich genannte Person, die innerhalb von vier Arbeitsstunden anruft.",
+    ),
+    who: t(
+      "Sales and support agree the card once. The named person is always a person, never a queue. The customer does not tell the story again at the next step.",
+      "Vertrieb und Support einigen sich einmal auf die Karte. Die genannte Person ist immer ein Mensch, nie eine Warteschlange. Der Kunde erzählt die Geschichte beim nächsten Schritt nicht noch einmal.",
+    ),
     area: "transition" as MeasureArea,
-    basis: t("Connects to one other system (the CRM); in use after 4 weeks.", "Verbunden mit einem anderen System (dem CRM); in Betrieb nach 4 Wochen."),
+    basis: t("Connects to one other system (the CRM).", "Verbunden mit einem anderen System (dem CRM)."),
     joins: "one" as Joins,
-    cost: 25000,
+    costParts: [
+      { label: t("hand-over card built into the CRM", "Übergabekarte im CRM gebaut"), amount: 9000 },
+      { label: t("workshops to agree the card, 5 people × 20 h × €80", "Workshops zur Abstimmung der Karte, 5 Personen × 20 Std. × 80 €"), amount: 8000 },
+      { label: t("training for sales and support, 100 h in total × €80", "Schulung für Vertrieb und Support, insgesamt 100 Std. × 80 €"), amount: 8000 },
+    ],
+    cost: 0,
     weeks: 4,
     targets: ["bounce", "interaction"] as ProblemId[],
     model: { feasibility: 3, effect: 3, note: t("It fixes the two critical transitions at once and works within a month; it lives in the CRM only, so integration 2.", "Es behebt die zwei kritischen Übergänge sofort und wirkt innerhalb eines Monats; es lebt nur im CRM, daher Integration 2.") },
@@ -113,14 +178,29 @@ const RAW = bi([
   },
   {
     id: "predictive" as MeasureId,
+    short: t("Predictive analytics", "Predictive Analytics"),
     name: t("Predictive analytics in sales (B)", "Predictive Analytics im Vertrieb (B)"),
-    what: t("A model reads the contacts of every channel and tells account managers each week which customers are likely to renew, to buy more or to leave.", "Ein Modell liest die Kontakte aller Kanäle und sagt Account Managern jede Woche, welche Kunden wahrscheinlich verlängern, mehr kaufen oder gehen."),
-    scene: t("On Monday an account manager opens a list of three customers who are likely to leave, built from calls, chats and orders.", "Am Montag öffnet ein Account Manager eine Liste von drei Kunden, die wahrscheinlich gehen, gebaut aus Anrufen, Chats und Bestellungen."),
-    who: t("A data team builds the model; account managers decide what to do with each name.", "Ein Datenteam baut das Modell; Account Manager entscheiden, was sie mit jedem Namen tun."),
+    what: t(
+      "A model reads the contacts from every channel. Each week it tells account managers which customers are likely to renew, buy more or leave.",
+      "Ein Modell liest die Kontakte aller Kanäle. Jede Woche sagt es Account Managern, welche Kunden wahrscheinlich verlängern, mehr kaufen oder gehen.",
+    ),
+    scene: t(
+      "On Monday an account manager opens a list of three customers who are likely to leave, built from calls, chats and orders.",
+      "Am Montag öffnet ein Account Manager eine Liste von drei Kunden, die wahrscheinlich gehen, gebaut aus Anrufen, Chats und Bestellungen.",
+    ),
+    who: t(
+      "A data team builds the model. Account managers decide what to do with each name. The customer gets a call that fits their situation.",
+      "Ein Datenteam baut das Modell. Account Manager entscheiden, was sie mit jedem Namen tun. Der Kunde bekommt einen Anruf, der zu seiner Situation passt.",
+    ),
     area: "ai" as MeasureArea,
-    basis: t("Connects to all channels and the CRM; in use after 10 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 10 Wochen."),
+    basis: t("Connects to all channels and the CRM.", "Verbunden mit allen Kanälen und dem CRM."),
     joins: "all" as Joins,
-    cost: 50000,
+    costParts: [
+      { label: t("data team builds the model, 30 days × €800", "Datenteam baut das Modell, 30 Tage × 800 €"), amount: 24000 },
+      { label: t("licence for the modelling tool, 6 months × €2,500", "Lizenz des Modellierungs-Tools, 6 Monate × 2.500 €"), amount: 15000 },
+      { label: t("weekly lists wired into the CRM", "wöchentliche Listen im CRM verdrahtet"), amount: 11000 },
+    ],
+    cost: 0,
     weeks: 10,
     targets: ["coordination"] as ProblemId[],
     model: { feasibility: 3, effect: 2, note: t("It is the AI tool that uses the joined-up data; its effect comes through the account managers who act on it, so effect 2.", "Es ist das KI-Werkzeug, das die verbundenen Daten nutzt; seine Wirkung kommt über die Account Manager, die danach handeln, daher Wirkung 2.") },
@@ -128,44 +208,59 @@ const RAW = bi([
   },
   {
     id: "chatbot" as MeasureId,
+    short: t("Chatbot", "Chatbot"),
     name: t("Chatbot in customer service (A)", "Chatbot im Kundenservice (A)"),
-    what: t("A chatbot answers common service questions at any hour and opens a ticket for the rest.", "Ein Chatbot beantwortet häufige Servicefragen zu jeder Zeit und eröffnet für den Rest ein Ticket."),
-    scene: t("At 9 p.m. a customer asks how to add a user and gets the answer at once; a billing question becomes a ticket for the next morning.", "Um 21 Uhr fragt ein Kunde, wie er einen Nutzer hinzufügt, und bekommt die Antwort sofort; eine Abrechnungsfrage wird ein Ticket für den nächsten Morgen."),
-    who: t("Service writes the answers; the chatbot talks to customers; service agents work the tickets it opens.", "Der Service schreibt die Antworten; der Chatbot spricht mit den Kunden; Service-Mitarbeiter bearbeiten die Tickets, die er eröffnet."),
+    what: t(
+      "A chatbot answers common service questions at any hour and opens a ticket for the rest.",
+      "Ein Chatbot beantwortet häufige Servicefragen zu jeder Zeit und eröffnet für den Rest ein Ticket.",
+    ),
+    scene: t(
+      "At 9 p.m. a customer asks how to add a user and gets the answer at once. A billing question becomes a ticket for the next morning.",
+      "Um 21 Uhr fragt ein Kunde, wie er einen Nutzer hinzufügt, und bekommt die Antwort sofort. Eine Abrechnungsfrage wird ein Ticket für den nächsten Morgen.",
+    ),
+    who: t(
+      "Service writes the answers once. The chatbot talks to customers. Service agents work the tickets it opens. The customer gets an answer at any hour, but the bot knows only tickets, not the contract.",
+      "Der Service schreibt die Antworten einmal. Der Chatbot spricht mit den Kunden. Service-Mitarbeiter bearbeiten die Tickets, die er eröffnet. Der Kunde bekommt zu jeder Zeit eine Antwort, aber der Bot kennt nur Tickets, nicht den Vertrag.",
+    ),
     area: "ai" as MeasureArea,
-    basis: t("Connects to one other system (the ticket system); in use after 8 weeks.", "Verbunden mit einem anderen System (dem Ticketsystem); in Betrieb nach 8 Wochen."),
+    basis: t("Connects to one other system (the ticket system).", "Verbunden mit einem anderen System (dem Ticketsystem)."),
     joins: "one" as Joins,
-    cost: 40000,
+    costParts: [
+      { label: t("tool set-up and link to the ticket system", "Einrichtung des Tools und Anbindung an das Ticketsystem"), amount: 18000 },
+      { label: t("licence, 6 months × €2,000", "Lizenz, 6 Monate × 2.000 €"), amount: 12000 },
+      { label: t("Service writes and updates the answers, 125 h × €80", "Service schreibt und pflegt die Antworten, 125 Std. × 80 €"), amount: 10000 },
+    ],
+    cost: 0,
     weeks: 8,
     targets: ["coordination"] as ProblemId[],
     model: { feasibility: 3, effect: 2, note: t("Useful and scalable, but it sees only tickets, not the contract or the sales history, so customers still repeat themselves at the next step.", "Nützlich und skalierbar, aber er sieht nur Tickets, nicht Vertrag oder Vertriebshistorie, also wiederholen sich Kunden beim nächsten Schritt immer noch.") },
     verdict: t("Not in the model three: 12 points. Better once it can read the shared profile.", "Nicht unter den drei Modellmaßnahmen: 12 Punkte. Besser, sobald er das gemeinsame Profil lesen kann."),
   },
   {
-    id: "offers" as MeasureId,
-    name: t("Personalised offers by e-mail (C)", "Personalisierte Angebote per E-Mail (C)"),
-    what: t("Customers get offers chosen from what they bought in the web shop.", "Kunden bekommen Angebote, die aus ihren Käufen im Webshop ausgewählt werden."),
-    scene: t("A customer who bought backup in the web shop gets an e-mail with the archive add-on that goes with it.", "Ein Kunde, der im Webshop Backup gekauft hat, bekommt eine E-Mail mit dem dazu passenden Archiv-Add-on."),
-    who: t("Marketing sets the rules; the shop's purchase data picks the offer for each customer.", "Das Marketing legt die Regeln fest; die Kaufdaten des Shops wählen für jeden Kunden das Angebot."),
-    area: "ai" as MeasureArea,
-    basis: t("Connects to one other system (the shop); in use after 6 weeks.", "Verbunden mit einem anderen System (dem Shop); in Betrieb nach 6 Wochen."),
-    joins: "one" as Joins,
-    cost: 45000,
-    weeks: 6,
-    targets: ["coordination"] as ProblemId[],
-    model: { feasibility: 3, effect: 2, note: t("It knows the shop but not the sales talks or the support tickets, so an offer can contradict what sales just agreed.", "Es kennt den Shop, aber nicht die Vertriebsgespräche oder Support-Tickets, also kann ein Angebot dem widersprechen, was der Vertrieb gerade vereinbart hat.") },
-    verdict: t("Not in the model three: 12 points. Personalisation on one channel's data can deepen the inconsistency.", "Nicht unter den drei Modellmaßnahmen: 12 Punkte. Personalisierung auf den Daten eines Kanals kann die Inkonsistenz vertiefen."),
-  },
-  {
     id: "app" as MeasureId,
+    short: t("Customer app", "Kunden-App"),
     name: t("A new customer app", "Eine neue Kunden-App"),
-    what: t("An app with news, the product catalogue and a contact form.", "Eine App mit Neuigkeiten, dem Produktkatalog und einem Kontaktformular."),
-    scene: t("A customer installs the app, reads company news and can open a contact form; the app does not show their contract or their tickets.", "Ein Kunde installiert die App, liest Firmen-Neuigkeiten und kann ein Kontaktformular öffnen; die App zeigt weder seinen Vertrag noch seine Tickets."),
-    who: t("An agency builds the app; nobody connects it to the CRM or the ticket system.", "Eine Agentur baut die App; niemand verbindet sie mit dem CRM oder dem Ticketsystem."),
+    what: t(
+      "An app with company news, the product catalogue and a contact form.",
+      "Eine App mit Firmen-Neuigkeiten, dem Produktkatalog und einem Kontaktformular.",
+    ),
+    scene: t(
+      "A customer installs the app, reads company news and can open a contact form. The app does not show their contract or their tickets.",
+      "Ein Kunde installiert die App, liest Firmen-Neuigkeiten und kann ein Kontaktformular öffnen. Die App zeigt weder seinen Vertrag noch seine Tickets.",
+    ),
+    who: t(
+      "An agency builds the app. Nobody connects it to the CRM or the ticket system. The customer gets one more place to look, and it knows nothing about the other channels.",
+      "Eine Agentur baut die App. Niemand verbindet sie mit dem CRM oder dem Ticketsystem. Der Kunde bekommt einen weiteren Ort zum Nachsehen, und er weiß nichts über die anderen Kanäle.",
+    ),
     area: "channel" as MeasureArea,
-    basis: t("Connects to nothing: it stands alone; in use after 16 weeks.", "Mit nichts verbunden: steht allein; in Betrieb nach 16 Wochen."),
+    basis: t("Connects to nothing: it stands alone.", "Mit nichts verbunden: steht allein."),
     joins: "none" as Joins,
-    cost: 90000,
+    costParts: [
+      { label: t("agency designs and builds the app", "Agentur entwirft und baut die App"), amount: 70000 },
+      { label: t("app store accounts, hosting and testing", "App-Store-Konten, Hosting und Tests"), amount: 12000 },
+      { label: t("catalogue and news texts, 100 h × €80", "Katalog- und Nachrichtentexte, 100 Std. × 80 €"), amount: 8000 },
+    ],
+    cost: 0,
     weeks: 16,
     targets: [] as ProblemId[],
     model: { feasibility: 3, effect: 2, note: t("One more channel that knows nothing about the others: the multichannel trap.", "Ein weiterer Kanal, der nichts über die anderen weiß: die Multichannel-Falle.") },
@@ -173,51 +268,38 @@ const RAW = bi([
   },
   {
     id: "suite" as MeasureId,
+    short: t("One suite", "Eine Suite"),
     name: t("Replace every system with one omnichannel suite", "Jedes System durch eine Omnichannel-Suite ersetzen"),
-    what: t("A vendor suite replaces the shop, the CRM, the ticket system and the chat at once.", "Eine Anbieter-Suite ersetzt Shop, CRM, Ticketsystem und Chat auf einmal."),
-    scene: t("For thirty weeks the shop, the CRM, the ticket system and the chat are replaced at once, and every channel runs half old and half new.", "Dreißig Wochen lang werden Shop, CRM, Ticketsystem und Chat auf einmal ersetzt, und jeder Kanal läuft halb alt und halb neu."),
-    who: t("A vendor configures and migrates; OmniTech's teams retrain and keep the business running meanwhile.", "Ein Anbieter konfiguriert und migriert; die Teams von OmniTech lernen um und halten währenddessen das Geschäft am Laufen."),
+    what: t(
+      "A vendor suite replaces the shop, the CRM, the ticket system and the chat at once.",
+      "Eine Anbieter-Suite ersetzt Shop, CRM, Ticketsystem und Chat auf einmal.",
+    ),
+    scene: t(
+      "For thirty weeks the shop, the CRM, the ticket system and the chat are replaced at once, and every channel runs half old and half new.",
+      "Dreißig Wochen lang werden Shop, CRM, Ticketsystem und Chat auf einmal ersetzt, und jeder Kanal läuft halb alt und halb neu.",
+    ),
+    who: t(
+      "A vendor configures and migrates. OmniTech's teams retrain and keep the business running meanwhile. Customers notice nothing until the move is finished.",
+      "Ein Anbieter konfiguriert und migriert. Die Teams von OmniTech lernen um und halten währenddessen das Geschäft am Laufen. Kunden merken nichts, bis der Umzug beendet ist.",
+    ),
     area: "recognition" as MeasureArea,
-    basis: t("Connects to all channels and the CRM; in use after 30 weeks.", "Verbunden mit allen Kanälen und dem CRM; in Betrieb nach 30 Wochen."),
+    basis: t("Connects to all channels and the CRM.", "Verbunden mit allen Kanälen und dem CRM."),
     joins: "all" as Joins,
-    cost: 180000,
+    costParts: [
+      { label: t("suite licences, 6 months × €10,000", "Suite-Lizenzen, 6 Monate × 10.000 €"), amount: 60000 },
+      { label: t("vendor configures and migrates", "Anbieter konfiguriert und migriert"), amount: 90000 },
+      { label: t("retraining and extra staff time, 375 h × €80", "Umschulung und zusätzliche Arbeitszeit, 375 Std. × 80 €"), amount: 30000 },
+    ],
+    cost: 0,
     weeks: 30,
     targets: ["bounce", "interaction"] as ProblemId[],
     model: { feasibility: 2, effect: 1, note: t("Fully integrated on paper, but in use only after 30 weeks, beyond the six months, and every team has to be retrained.", "Auf dem Papier voll integriert, aber erst nach 30 Wochen in Betrieb, nach den sechs Monaten, und jedes Team muss neu geschult werden.") },
     verdict: t("Rejected: 6 points. Nothing changes for customers within the six months, and it takes most of the budget.", "Verworfen: 6 Punkte. Für Kunden ändert sich in den sechs Monaten nichts, und sie nimmt den Großteil des Budgets."),
   },
-  {
-    id: "dashboards" as MeasureId,
-    name: t("A separate dashboard for each channel team", "Ein eigenes Dashboard für jedes Kanalteam"),
-    what: t("Web, sales, chat and support each get their own dashboard with their own KPIs.", "Web, Vertrieb, Chat und Support bekommen je ein eigenes Dashboard mit eigenen KPIs."),
-    scene: t("On Monday web, sales, chat and support each report their own numbers from their own screen, and the numbers do not add up.", "Am Montag berichten Web, Vertrieb, Chat und Support jeweils ihre eigenen Zahlen von ihrem eigenen Bildschirm, und die Zahlen passen nicht zusammen."),
-    who: t("Each team builds or buys its own dashboard with its own definitions.", "Jedes Team baut oder kauft sein eigenes Dashboard mit eigenen Definitionen."),
-    area: "channel" as MeasureArea,
-    basis: t("Connects to nothing: each dashboard stands alone; in use after 3 weeks.", "Mit nichts verbunden: Jedes Dashboard steht allein; in Betrieb nach 3 Wochen."),
-    joins: "none" as Joins,
-    cost: 20000,
-    weeks: 3,
-    targets: [] as ProblemId[],
-    model: { feasibility: 3, effect: 1, note: t("It measures each channel on its own and so keeps them working in isolation.", "Es misst jeden Kanal für sich und hält sie so in ihrer Isolation.") },
-    verdict: t("Rejected: 3 points. Cross-channel KPIs are what the brief needs.", "Verworfen: 3 Punkte. Kanalübergreifende KPIs sind, was der Auftrag braucht."),
-  },
-  {
-    id: "hotline" as MeasureId,
-    name: t("Three more people at the hotline", "Drei zusätzliche Personen an der Hotline"),
-    what: t("The hotline gets three more staff to shorten waiting times.", "Die Hotline bekommt drei zusätzliche Mitarbeitende, um Wartezeiten zu verkürzen."),
-    scene: t("A customer waits three minutes instead of eight on the hotline, but the agent still cannot see the customer's online request.", "Ein Kunde wartet an der Hotline drei statt acht Minuten, aber der Mitarbeiter sieht die Online-Anfrage des Kunden immer noch nicht."),
-    who: t("HR hires three people; the hotline works as before.", "Die Personalabteilung stellt drei Personen ein; die Hotline arbeitet wie zuvor."),
-    area: "channel" as MeasureArea,
-    basis: t("Connects to nothing: the hotline has no access to the other systems; in use after 4 weeks.", "Mit nichts verbunden: Die Hotline hat keinen Zugriff auf die anderen Systeme; in Betrieb nach 4 Wochen."),
-    joins: "none" as Joins,
-    cost: 60000,
-    weeks: 4,
-    targets: [] as ProblemId[],
-    model: { feasibility: 1, effect: 2, note: t("Shorter queues, but the new staff do not see the customer's history either, and it grows only with people.", "Kürzere Warteschlangen, aber auch die neuen Mitarbeitenden sehen die Historie des Kunden nicht, und es wächst nur mit Personal.") },
-    verdict: t("Rejected: 2 points.", "Verworfen: 2 Punkte."),
-  },
 ]);
-for (const m of RAW) MEASURES.push(Object.assign(m, { evidence: bandOf(m.joins) }) as Measure);
+for (const m of RAW) {
+  MEASURES.push(Object.assign(m, { evidence: bandOf(m.joins), cost: m.costParts.reduce((s, p) => s + p.amount, 0) }) as Measure);
+}
 
 export const MEASURE_BY_ID = Object.fromEntries(MEASURES.map((m) => [m.id, m])) as Record<MeasureId, Measure>;
 export const MEASURE_IDS = MEASURES.map((m) => m.id);
@@ -228,3 +310,6 @@ export const modelScore = (id: MeasureId) => {
 };
 export const MODEL_MEASURES: MeasureId[] = ["unified", "handover", "predictive"];
 export const MODEL_COST = MODEL_MEASURES.reduce((s, id) => s + MEASURE_BY_ID[id].cost, 0);
+
+/** Weeks a measure is actually working inside the six months (0 when it only starts after them). */
+export const workingWeeks = (id: MeasureId) => Math.max(0, FRAME_WEEKS - MEASURE_BY_ID[id].weeks);

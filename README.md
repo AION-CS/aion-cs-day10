@@ -24,7 +24,7 @@ transition/recognition/consistency), and each file's header comment says what th
 
 | Route | Content | Export |
 |---|---|---|
-| `/route-1/` **Levels 1 + 2** | **Materi A**: seven cards, 60 min (A1 omnichannel versus multichannel, A2 a seamless experience: consistency, recognition and transitions, A3 critical transitions and where AI tools can build on them, A4 what a seamless hand-over is worth: deal rate, lift and extra revenue, A5 KPIs across channels: outcome, driver, guardrail, vanity, A6 testing across channels and reading trends, A7 AI tools and priorities: integration × effect × scalability). **Task 1, Omnichannel Analysis**: *Part 1 · Understand the omnichannel experience:* 1.1 tag nine weaknesses in one journey by the principle each breaks and name one of your own, 1.2 what a seamless hand-over is worth (F1–F3 and a sentence), 1.3 two critical transitions, two where AI can build on the data, three improvements with their advantage for customers, 1.4 coaching reflection. *Part 2 · Make it measurable and choose:* 2.1 tag twelve cross-channel metrics by kind, 2.2 link to value, meaning and use per kind, uncertainties, your three KPIs, 2.3 design a fair A/B test of a hand-over card, 2.4 choose, score and order three of nine measures (including A chatbots, B predictive analytics, C personalised offers). | `1-{name}-day10-l1l2-omnichannel-file.html` |
+| `/route-1/` **Levels 1 + 2** | **Materi A**: seven cards, 60 min (A1 omnichannel versus multichannel, A2 a seamless experience: consistency, recognition and transitions, A3 critical transitions and where AI tools can build on them, A4 what a seamless hand-over is worth: deal rate, lift and extra revenue, A5 KPIs across channels: outcome, driver, guardrail, vanity, A6 testing across channels and reading trends, A7 AI tools and priorities: integration × effect × scalability). **Task 1, Omnichannel Analysis**: *Part 1 · Understand the omnichannel experience:* 1.1 tag nine weaknesses in one journey by the principle each breaks and name one of your own, 1.2 what a seamless hand-over is worth (F1–F3 and a sentence), 1.3 two critical transitions, two where AI can build on the data, three improvements with their advantage for customers, 1.4 coaching reflection. *Part 2 · Make it measurable and choose:* 2.1 tag twelve cross-channel metrics by kind, 2.2 link to value, meaning and use per kind, uncertainties, your three KPIs, 2.3 design a fair A/B test of a hand-over card, 2.4 choose, score and order three of six measures (including A chatbots and B predictive analytics). | `1-{name}-day10-l1l2-omnichannel-file.html` |
 | `/route-2/` **Level 3** | **Materi B**: five cards, 60 min (B1 the target vision of an integrated customer system, B2 central omnichannel processes: the decision first, then the data, B3 a cross-channel KPI system: four tests, B4 selecting and integrating AI tools: roll out, keep testing, stop, B5 an investment decision under unclear prospects, and the roadmap). **Task 2, Omnichannel Strategy Memo**, one decision frame (#47): a live control panel, **Step A** (Block 3.5, the architecture: each of eight items Now / After data is ready / Not now, a two-sentence vision, what the plan gives and what it costs) and **Step B** (Block 3.6, the investment decision despite unclear prospects, why, what you will watch and when you would stop), then four folded Optional blocks, “Go deeper”: 3.1 three principles, 3.2 integrate now / connect the data first / not central for eight processes, 3.3 three KPIs rated on four tests and the greatest lever, 3.4 roll out / keep testing / stop and who acts for six AI tool tests. The memo assembles below the answers. | `2-{name}-day10-l3-omnichannel-memo.html` |
 
 Minutes: Materi A 60 + Task 1 65, Materi B 60 + Task 2 50. All in `lib/routes.ts`.
@@ -63,9 +63,9 @@ npm run build        # writes the static site to out/  (stop `npm run dev` first
 - `patterns.ts`: four kinds of metric with tests and pair tests; twelve cross-channel metrics (3 each; moved with value: outcome 3,
   driver 2, guardrail 1, vanity 0); the link rule; meaning and use per kind; seven uncertainties (four real); the A/B test card (four
   parts, one fair option each, plus hypothesis and decision rule).
-- `measures.ts`: nine measures with cost, weeks and what each connects to. Integration follows from it (all channels and the CRM 3, one
-  other system 2, stand-alone 1). One customer profile (27), hand-over standard (18), predictive analytics (18): €155,000. The chatbot
-  (A) and personalised offers (C) score 12: each sees one other system only.
+- `measures.ts`: six measures (2026-10-07, was nine; same change as Day 9's of 2026-10-05). Each price is the sum of printed parts (set-up, a licence for the six months, days or hours × a rate); weeks until it is in use. Integration follows from what it connects to (all channels and the CRM 3, one other system 2, stand-alone 1).
+  One customer profile (€80,000, 27), hand-over standard (€25,000, 18), predictive analytics (€50,000, 18): €155,000 of €250,000. The others: chatbot (A, €40,000, 12: useful AI, but it sees only the ticket system), customer app (€90,000, 6: one more channel that connects to nothing), one omnichannel suite (€180,000, 30 weeks, 6: in use only after the six months; with the profile and the hand-over standard €35,000 over).
+  Block 2.4 no longer asks which problems each measure answers: `PlanPicture` shows it (a problem is lit only if a chosen measure answers it and has working time left inside the 24 weeks) plus a 24-week bar per measure. Personalised offers (C), the per-channel dashboards and the hotline staff were dropped. Persist version 4 drops them from old blobs.
 - `route2.ts`: six principles, eight processes (rule: does the customer decide in it? does ≥ 80% of its data reach the profile?),
   eight KPI candidates with printed facts and limits, six AI tool tests (rule: uplift ≥ 10% and ≥ 100 conversions → roll out; uplift ≥
   3% → keep testing; else stop), eight roadmap items (model €240,000 of €280,000; the all-in-one suite is a black box and in use only
@@ -140,7 +140,7 @@ contact situation prints a scene and who does what (#46). Every interactive pict
 
 **What changed in Route 2 (superseded on 2026-10-04 by the redesign below).** The live memo moved to the bottom with “Hide the memo” (#39); Blocks 3.1 to 3.4 became folded Optional blocks; the trigger, pickup, assumption and tripwire kits of this first pass were replaced by the panel.
 
-**Shared mechanics.** `cs-d10-v1` persists at version 3 with a pure `migratePersisted` and a deep merge (#9); `npm run verify:calc` runs 310 checks (figures and rules, the panel's bars, tests and categories, the mentor fill and a
+**Shared mechanics.** `cs-d10-v1` persists at version 4 with a pure `migratePersisted` and a deep merge (#9); `npm run verify:calc` runs 310 checks (figures and rules, the panel's bars, tests and categories, the mentor fill and a
 Core-only fill in both languages, #40 scans of the Core blocks, old version-2 blob).
 
 ### Notes on deviations (retrofit)
@@ -230,3 +230,15 @@ P4. **Persist version 3.** The funded items of a version-2 blob become “now”
 P5. **Word documents** (#31) for Route 2 are stale (they describe the old 3.5 and 3.6) and were not rebuilt.
 P6. **Verified:** `tsc`, `verify:calc` (310 checks), a production build in a scratch copy served as a static export: clean `localStorage`, the panel with the model set (€240,000; 81% / 65% Measurable; 0% / 17% Risk; 4 of 4 tests,
     3 of 4 with weaker data), mentor fill, memo, DE, 390 px (no horizontal scroll), old blob, no console errors.
+
+## Block 2.4 reshaped (2026-10-07, copied in form from Day 9)
+
+The user said the content is the same but the way Task 1's last block is worked differs slightly from Day 9 and Day 8, and asked Day 10 to follow. Day 9 had changed Block 2.4 on 2026-10-05; Day 10 now does the same.
+
+- **Six measures, not nine**, every price itemised on its card (“The price: €80,000 = …”). Three strong, three traps of different kinds (a good tool on one system, an added channel, a suite that is too slow).
+- **No per-measure “which problems does it answer” question.** `PlanPicture` (copied from Day 9, six-month frame) shows three problem boxes (solid only if a chosen measure answers it and has working time left) and one 24-week bar per chosen measure (hatched while being built, solid once in use). It names no right answer.
+- **Plain-word score anchors** for effect and scalability printed under the cards and taught in Materi A7, next to the integration rule; two new decision rules in A7 (price from parts; weeks decide whether a measure has time to work).
+- **Check** now flags only integration scores that do not follow the printed connection; missing list no longer asks for problems; export lists each measure's problems from its data.
+- Verified: `tsc`, `verify:calc` (318 checks incl. prices, coverage in time, an old nine-measure blob), see below for the browser check.
+
+Notes on deviations: Q1. Personalised offers (C) named by the plan's Level 1 AI list are no longer a Block 2.4 option; chatbots (A) and predictive analytics (B) remain, and Block 1.3 and Materi A3 still teach personalised offers. Q2. The model plan costs the same €155,000 as before. Q3. Word documents (#31) are stale for Block 2.4 and Route 2.

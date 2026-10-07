@@ -96,17 +96,18 @@ export function scoreGuide(id: MeasureId): MentorGuide {
     title: `2.4 · ${m.name}`,
     answer: `${e} × ${m.model.effect} × ${m.model.feasibility} = ${modelScore(id)}`,
     steps: [
+      { label: "Price from its parts (printed on the card)", calc: m.costParts.map((c) => n(c.amount)).join(" + "), result: euro(m.cost) },
       { label: "Integration from what it connects to (A7)", calc: `connects to ${JOINS_LABEL[m.joins]} → all channels and the CRM: 3 · one other system: 2 · nothing: 1`, result: String(e) },
       { label: "Score = Integration × Effect × Scalability", calc: `${e} × ${m.model.effect} × ${m.model.feasibility}`, result: String(modelScore(id)) },
     ],
     why: `${m.model.note} Answers: ${m.targets.length ? m.targets.map((t) => PROBLEM_LABEL[t]).join(", ") : "none of the three problems"}. A different, well-reasoned effect or scalability score is acceptable: only the score that follows a printed rule is checked.`,
     pitfalls:
-      id === "chatbot" || id === "offers"
+      id === "chatbot"
         ? ["Integration 3 “because it is AI”: it is printed to connect to one other system only: 2."]
         : id === "suite"
-          ? ["Effect 3 “because it replaces everything”: it is in use only after 30 weeks, beyond the six months, so it cannot work in time: effect 1."]
+          ? ["Effect 3 “because it replaces everything”: it is in use only after 30 weeks, beyond the six months, so it cannot work in time: effect 1; the picture shows no bar of working time.", `Adding it to the profile and the hand-over standard: ${euro(m.cost + MEASURE_BY_ID.unified.cost + MEASURE_BY_ID.handover.cost)}, over the ${euro(BUDGET)} budget.`]
           : id === "app"
-            ? ["Answering “channels work in isolation”: a stand-alone app is one more isolated channel."]
+            ? ["Counting the app as an answer to “channels work in isolation”: a stand-alone app is one more isolated channel, and the picture leaves that problem open."]
             : undefined,
   };
 }

@@ -1,7 +1,7 @@
 import { LEVEL_LABEL, LINES } from "@/data/ladder";
 import { CHURN_TRUTH, CUSTOMERS, CUST_BY_ID, KNOWN_LABEL, PICK_WHY, VALUABLE_TRUTH } from "@/data/forecast";
 import { AB, AB_PARTS, MEANINGS, MEANING_TRUTH, MEASURE_TRUTH, PATTERNS, PATTERN_IDS, PMEASURES, RECORDS, RISK_LABEL, TRUTH_COUNTS, TRUTH_LEFT, UNCERTAINTIES, riskOf } from "@/data/patterns";
-import { BUDGET, JOINS_LABEL, MEASURES, MODEL_COST, MODEL_MEASURES, PROBLEM_LABEL, explainBucket, modelScore } from "@/data/measures";
+import { BUDGET, JOINS_LABEL, MEASURES, MEASURE_BY_ID, MODEL_COST, MODEL_MEASURES, PROBLEM_LABEL, explainBucket, modelScore } from "@/data/measures";
 import {
   ACTION_LABEL,
   ARCH_BY_ID,
@@ -146,7 +146,7 @@ export function measureKey(): AnswerKeyBlock {
       expected: MODEL_MEASURES.includes(m.id),
       why: `${m.verdict} ${m.model.note}`,
     })),
-    teachingNote: `Score = Integration × Effect × Scalability. The checks look only at the problems named (a subset of the real ones, or “none” for the app, the per-channel dashboards and the hotline) and at integration, which follows from the printed “connects to”. Effect and scalability are judged; the model values are here. The model three cost ${euro(MODEL_COST)}. The chatbot (A) and the personalised offers (C) score 12: useful AI, but each sees only one other system, so customers still meet breaks. The suite scores 6: fully connected on paper, but in use only after thirty weeks.`,
+    teachingNote: `Score = Integration × Effect × Scalability. The check looks only at integration, which follows from the printed “connects to”. Which problems a choice answers, and when it starts working, is shown by the picture under the cards, not by a verdict. Effect and scalability are judged; the model values are here. The model three cost ${euro(MODEL_COST)} (${euro(BUDGET - MODEL_COST)} left). The chatbot (A) scores 12: ${euro(MEASURE_BY_ID.chatbot.cost)} for useful AI, but it connects to one other system, so customers still meet breaks at the next step. The app scores 6: its ${euro(MEASURE_BY_ID.app.cost)} buy one more channel that connects to nothing. The suite scores 6: fully connected on paper, but at ${euro(MEASURE_BY_ID.suite.cost)} and thirty weeks it is in use only after the six months (the picture shows no bar of working time), and with the customer profile and the hand-over standard it would be ${euro(MEASURE_BY_ID.suite.cost + MEASURE_BY_ID.unified.cost + MEASURE_BY_ID.handover.cost - BUDGET)} over the budget. A different, well-reasoned choice is acceptable (CLAUDE.md #38).`,
   };
 }
 

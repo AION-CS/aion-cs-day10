@@ -43,7 +43,7 @@ function CaseBrief() {
           <ul className="mt-1 list-disc space-y-1 pl-4 text-ink">
             <li>{tt("Nine weaknesses noted along one customer's journey (Block 1.1).", "Neun Schwachstellen, notiert entlang der Journey eines Kunden (Block 1.1).")}</li>
             <li>{tt("Eight transitions between channels (Block 1.3); last year's hand-overs with and without the online history (optional Block 1.2).", "Acht Übergänge zwischen Kanälen (Block 1.3); die Übergaben des letzten Jahres mit und ohne Online-Historie (optionaler Block 1.2).")}</li>
-            <li>{tt("Twelve metrics OmniTech reports today (Block 2.1) and nine measures it could fund (Block 2.4).", "Zwölf Kennzahlen, die OmniTech heute berichtet (Block 2.1), und neun Maßnahmen, die es finanzieren könnte (Block 2.4).")}</li>
+            <li>{tt("Twelve metrics OmniTech reports today (Block 2.1) and six measures it could fund (Block 2.4).", "Zwölf Kennzahlen, die OmniTech heute berichtet (Block 2.1), und sechs Maßnahmen, die es finanzieren könnte (Block 2.4).")}</li>
           </ul>
         </div>
         <div className="rounded-lg border border-line bg-canvas p-3 text-caption">
@@ -66,7 +66,7 @@ function CaseBrief() {
             <li>{tt("Block 1.1: sort nine weaknesses by the principle each breaks, and name a break of your own (Level 1).", "Block 1.1: neun Schwachstellen nach dem Prinzip sortieren, das jede bricht, und einen eigenen Bruch nennen (Level 1).")}</li>
             <li>{tt("Block 1.3: choose the two critical transitions and the two where AI can build on the data, and write three improvements (Level 1).", "Block 1.3: die zwei kritischen Übergänge und die zwei, an denen KI auf den Daten aufbauen kann, wählen und drei Verbesserungen schreiben (Level 1).")}</li>
             <li>{tt("Block 2.1: tag twelve cross-channel metrics by kind and name your three KPIs (Level 2).", "Block 2.1: zwölf kanalübergreifende Kennzahlen nach Art zuordnen und Ihre drei KPIs nennen (Level 2).")}</li>
-            <li>{tt("Block 2.4: choose three of nine measures, score them and defend the order (Level 2).", "Block 2.4: drei von neun Maßnahmen wählen, bewerten und die Reihenfolge begründen (Level 2).")}</li>
+            <li>{tt("Block 2.4: choose three of six measures, score them and defend the order (Level 2).", "Block 2.4: drei von sechs Maßnahmen wählen, bewerten und die Reihenfolge begründen (Level 2).")}</li>
           </ol>
           <p className="mt-1 text-ash">{tt(`Four more blocks (about ${TASK1_MINUTES - CORE_MIN} min) are optional and folded.`, `Vier weitere Blöcke (ca. ${TASK1_MINUTES - CORE_MIN} Min.) sind optional und eingeklappt.`)}</p>
         </div>

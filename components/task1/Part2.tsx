@@ -14,9 +14,10 @@ import { ExampleAnswer } from "@/components/ui/ExampleAnswer";
 import { BlockMissing } from "@/components/ui/BlockMissing";
 import { AB, AB_PARTS, MEANINGS, OUTCOME_LABEL, PATTERNS, PATTERN_IDS, PATTERN_PAIR_TESTS, PMEASURES, RECORDS, RISK_GLYPH, RISK_LABEL, RISK_RULE, UNCERTAINTIES, REC_KEY } from "@/data/patterns";
 import type { AbPart, MeaningId, PatternId, PMeasureId, RecId, Risk, UncId } from "@/data/patterns";
-import { BUDGET, CHOOSE, EVIDENCE_LABEL, EXPLAIN_RULE, MEASURES, MEASURE_BY_ID, MONTHS, PROBLEM_IDS, PROBLEM_LABEL, AREA_NOTE, MEASURE_AREA_LABEL } from "@/data/measures";
-import type { MeasureId, ProblemId } from "@/data/measures";
-import { abFlagsOf, aimsHold, allTagged, coverage, expHolds, measureScore, measureScored, orderInversions, rowChecks, tagHolds, tallyOf, totalCost, uncHolds } from "@/lib/checks";
+import { BUDGET, CHOOSE, EFFECT_ANCHOR, EVIDENCE_LABEL, EXPLAIN_RULE, FRAME_WEEKS, MEASURES, MEASURE_BY_ID, MONTHS, SCALE_ANCHOR, MEASURE_AREA_LABEL } from "@/data/measures";
+import type { MeasureId } from "@/data/measures";
+import { PlanPicture } from "@/components/task1/PlanPicture";
+import { abFlagsOf, allTagged, expHolds, measureScore, measureScored, orderInversions, rowChecks, tagHolds, tallyOf, totalCost, uncHolds } from "@/lib/checks";
 import { scrollToAndFlash } from "@/lib/flash";
 import { Gloss } from "@/lib/glossify";
 import { euro, tt } from "@/lib/lang";
@@ -385,7 +386,6 @@ export function Block24() {
   const mentor = useStore((s) => s.mentorUnlocked);
   const chosen = l1.chosen;
   const cost = totalCost(chosen);
-  const cov = coverage(l1);
   const shown = l1.order.length === chosen.length && chosen.every((id) => l1.order.includes(id)) ? l1.order : chosen;
   const inv = orderInversions({ ...l1, order: shown });
   const toggle = (id: MeasureId) =>
@@ -393,7 +393,6 @@ export function Block24() {
       const next = s.chosen.includes(id) ? s.chosen.filter((x) => x !== id) : [...s.chosen, id];
       return { chosen: next, order: s.order.filter((x) => next.includes(x)), measureFlags: [] };
     });
-  const setAims = (id: MeasureId, aims: ProblemId[]) => patch((s) => ({ aims: { ...s.aims, [id]: aims }, measureFlags: s.measureFlags.filter((f) => f !== `${id}.aims`) }));
   const setScore = (k: "exp" | "fea" | "eff", id: MeasureId, v: Score) => patch((s) => ({ [k]: { ...s[k], [id]: v }, measureFlags: k === "exp" ? s.measureFlags.filter((f) => f !== `${id}.exp`) : s.measureFlags }) as Partial<typeof s>);
   const move = (id: MeasureId, d: -1 | 1) => {
     const list = [...shown];
@@ -407,12 +406,10 @@ export function Block24() {
     patch((s) => {
       const flags: string[] = [];
       for (const id of s.chosen) {
-        if (s.aims[id] !== undefined && !aimsHold(id, s.aims[id])) flags.push(`${id}.aims`);
         if (s.exp[id] && !expHolds(id, s.exp[id])) flags.push(`${id}.exp`);
       }
       return { checks: s.checks + 1, measureFlags: flags };
     });
-  const nA = l1.measureFlags.filter((f) => f.endsWith(".aims")).length;
   const nE = l1.measureFlags.filter((f) => f.endsWith(".exp")).length;
   return (
     <AnswerBlock
@@ -421,20 +418,17 @@ export function Block24() {
       kind="OBJECTIVE + JUDGED"
       core
       minutes={BLOCK_MINUTES["2.4"]}
-      findIt={tt(`Route 1 → Task 1 → “The limits” in the case above (${euro(BUDGET)}, ${MONTHS} months) and the nine measures below. Answer by choosing three and filling their cards.`, `Route 1 → Task 1 → „Die Grenzen“ im Fall oben (${euro(BUDGET)}, ${MONTHS} Monate) und die neun Maßnahmen unten. Antworten Sie, indem Sie drei wählen und ihre Karten ausfüllen.`)}
+      findIt={tt(`Route 1 → Task 1 → “The limits” in the case above (${euro(BUDGET)}, ${MONTHS} months) and the six measures below. Answer by choosing three and filling their cards.`, `Route 1 → Task 1 → „Die Grenzen“ im Fall oben (${euro(BUDGET)}, ${MONTHS} Monate) und die sechs Maßnahmen unten. Antworten Sie, indem Sie drei wählen und ihre Karten ausfüllen.`)}
     >
       <MaterialRefs refs={["A7"]} />
       <div id={IDS.measurePick} className="space-y-2">
         <p className="text-body text-ink">
-          <Gloss>{tt("Choose exactly three of the nine measures. Each says what it does, one scene from OmniTech's day, who does what, what it connects to and when it is in use; it does not say which problem of the brief it answers. That is your job.", "Wählen Sie genau drei der neun Maßnahmen. Jede sagt, was sie tut, eine Szene aus dem Alltag von OmniTech, wer was tut, womit sie verbunden ist und wann sie in Betrieb ist; sie sagt nicht, welches Problem des Auftrags sie beantwortet. Das ist Ihre Aufgabe.")}</Gloss>
+          <Gloss>{tt(`Choose exactly three of the six measures. Together they have to fit ${euro(BUDGET)} and ${MONTHS} months (${FRAME_WEEKS} weeks). Prices are Case assumptions: each is built from the parts printed on its card.`, `Wählen Sie genau drei der sechs Maßnahmen. Zusammen müssen sie in ${euro(BUDGET)} und ${MONTHS} Monate (${FRAME_WEEKS} Wochen) passen. Die Preise sind Fallannahmen: Jeder setzt sich aus den Teilen zusammen, die auf der Karte stehen.`)}</Gloss>
         </p>
         <p className="rounded-md border border-line bg-mist/40 px-3 py-2 text-caption text-ink">
           <Gloss>
-            {tt("How to read a measure card. The title carries its cost, taken from the €250,000 and six months of the brief. The small label says which kind of thing the measure is: a principle it builds, an AI tool, or one channel on its own. Below it: what it does, one scene, who does what, and “Connects to …”, which decides the integration score: all channels and the CRM is 3, one other system is 2, nothing is 1. Effect and scalability are your judgement.", "So lesen Sie eine Maßnahmenkarte. Der Titel nennt ihre Kosten, aus den 250.000 € und sechs Monaten des Auftrags. Das kleine Etikett sagt, was für eine Art Ding die Maßnahme ist: ein Prinzip, das sie aufbaut, ein KI-Werkzeug oder ein Kanal für sich. Darunter: was sie tut, eine Szene, wer was tut, und „Verbunden mit …“, das den Wert für die Integration entscheidet: alle Kanäle und das CRM ist 3, ein anderes System ist 2, nichts ist 1. Wirkung und Skalierbarkeit sind Ihr Urteil.")}
+            {tt("Which problem a measure answers is for you to see: choose it and watch the picture under the cards. “Connects to …” on a card decides its integration score (rule in the box below). Effect and scalability are your judgement.", "Welches Problem eine Maßnahme beantwortet, sehen Sie selbst: Wählen Sie sie und beobachten Sie das Bild unter den Karten. „Verbunden mit …“ auf einer Karte bestimmt ihren Wert für die Integration (Regel im Kasten unten). Wirkung und Skalierbarkeit sind Ihr Urteil.")}
           </Gloss>
-        </p>
-        <p className="text-caption text-ash">
-          <Gloss>{AREA_NOTE.v}</Gloss>
         </p>
         <OptionList<MeasureId>
           multi
@@ -443,7 +437,16 @@ export function Block24() {
           onChange={toggle}
           disabledIds={chosen.length >= CHOOSE ? MEASURES.map((m) => m.id) : []}
           onDisabledClick={() => scrollToAndFlash(IDS.measurePick, "warn")}
-          options={MEASURES.map((m) => ({ id: m.id, label: `${m.name} · ${euro(m.cost)}`, tag: tt(`Kind: ${MEASURE_AREA_LABEL[m.area]}`, `Art: ${MEASURE_AREA_LABEL[m.area]}`), sub: `${tt("What it does: ", "Was sie tut: ")}${m.what}\n${tt("A scene: ", "Eine Szene: ")}${m.scene}\n${tt("Who does what: ", "Wer was tut: ")}${m.who}\n${m.basis}` }))}
+          options={MEASURES.map((m) => ({
+            id: m.id,
+            label: tt(`${m.name} · ${euro(m.cost)} · ${m.weeks === 1 ? "1 week" : `${m.weeks} weeks`}`, `${m.name} · ${euro(m.cost)} · ${m.weeks === 1 ? "1 Woche" : `${m.weeks} Wochen`}`),
+            tag: MEASURE_AREA_LABEL[m.area],
+            sub: `${m.what}
+${tt("A scene: ", "Eine Szene: ")}${m.scene}
+${tt("Who does what: ", "Wer was tut: ")}${m.who}
+${m.basis}
+${tt("The price: ", "Der Preis: ")}${euro(m.cost)} = ${m.costParts.map((c) => `${euro(c.amount)} ${c.label}`).join(" + ")}. ${tt(`In use after ${m.weeks} ${m.weeks === 1 ? "week" : "weeks"}.`, `In Betrieb nach ${m.weeks} ${m.weeks === 1 ? "Woche" : "Wochen"}.`)}`,
+          }))}
         />
         <p role="status" className="text-caption text-ash">
           {tt(`${chosen.length} of ${CHOOSE} chosen.`, `${chosen.length} von ${CHOOSE} gewählt.`)}
@@ -457,48 +460,32 @@ export function Block24() {
           </div>
         </RevealHint>
       </div>
+      <PlanPicture l1={l1} />
       {chosen.length > 0 && (
         <div className="space-y-3">
-          <BudgetBar items={chosen.map((id) => ({ id, short: MEASURE_BY_ID[id].name.split(" ")[0], cost: MEASURE_BY_ID[id].cost }))} budget={BUDGET} title={tt(`Chosen measures against the ${euro(BUDGET)} budget`, `Gewählte Maßnahmen gegen das Budget von ${euro(BUDGET)}`)} />
+          <BudgetBar items={chosen.map((id) => ({ id, short: MEASURE_BY_ID[id].short, cost: MEASURE_BY_ID[id].cost }))} budget={BUDGET} title={tt(`Chosen measures against the ${euro(BUDGET)} budget`, `Gewählte Maßnahmen gegen das Budget von ${euro(BUDGET)}`)} />
           <p className="text-caption text-ash">
             {tt(`${chosen.length} measure${chosen.length === 1 ? "" : "s"} cost ${euro(cost)} of ${euro(BUDGET)}.`, `${chosen.length} ${chosen.length === 1 ? "Maßnahme kostet" : "Maßnahmen kosten"} ${euro(cost)} von ${euro(BUDGET)}.`)}
             {cost > BUDGET ? tt(` That is ${euro(cost - BUDGET)} over: leave out the lowest score.`, ` Das sind ${euro(cost - BUDGET)} zu viel: Lassen Sie den niedrigsten Wert weg.`) : tt(` ${euro(BUDGET - cost)} is left.`, ` ${euro(BUDGET - cost)} bleiben übrig.`)}
           </p>
         </div>
       )}
+      {chosen.length > 0 && (
+        <div className="space-y-1 rounded-md border border-line bg-mist/40 px-3 py-2 text-caption text-ink">
+          <p className="smallcaps">{tt("How to score (taught in Materi A7)", "So bewerten Sie (gelehrt in Materi A7)")}</p>
+          <p><strong>{tt("Integration.", "Integration.")}</strong> <Gloss>{EXPLAIN_RULE.v}</Gloss></p>
+          <p><strong>{tt("Effect.", "Wirkung.")}</strong> <Gloss>{EFFECT_ANCHOR.v}</Gloss></p>
+          <p><strong>{tt("Scalability.", "Skalierbarkeit.")}</strong> <Gloss>{SCALE_ANCHOR.v}</Gloss></p>
+        </div>
+      )}
       {chosen.map((id) => {
         const m = MEASURE_BY_ID[id];
-        const aims = l1.aims[id];
-        const aF = l1.measureFlags.includes(`${id}.aims`);
         const eF = l1.measureFlags.includes(`${id}.exp`);
         return (
-          <div key={id} id={IDS.measure(id)} className={clsx("space-y-3 rounded-lg border border-line bg-paper p-3.5", (aF || eF) && "is-flagged")}>
+          <div key={id} id={IDS.measure(id)} className={clsx("space-y-3 rounded-lg border border-line bg-paper p-3.5", eF && "is-flagged")}>
             <p className="font-semibold text-ink">
-              {m.name} <span className="font-normal text-ash">· {euro(m.cost)} · {MEASURE_AREA_LABEL[m.area]} · {EVIDENCE_LABEL[m.evidence]}</span>
+              {m.name} <span className="font-normal text-ash">· {euro(m.cost)} · {MEASURE_AREA_LABEL[m.area]} · {EVIDENCE_LABEL[m.evidence]} ({m.weeks} {tt("weeks", "Wochen")})</span>
             </p>
-            <div>
-              <p className="smallcaps">{tt("Which problems of the brief does it answer? (choose the ones it really answers, or none)", "Welche Probleme des Auftrags beantwortet sie? (wählen Sie die, die sie wirklich beantwortet, oder keines)")}</p>
-              <div className="mt-1 flex flex-wrap gap-2">
-                {PROBLEM_IDS.map((f) => {
-                  const on = aims?.includes(f) ?? false;
-                  return (
-                    <button key={f} type="button" aria-pressed={on} onClick={() => setAims(id, on ? (aims ?? []).filter((x) => x !== f) : [...(aims ?? []), f])} className={clsx("btn btn-sm min-h-[40px] border", on ? "border-accent bg-accentSoft text-ink" : "border-line bg-paper text-ash hover:border-ash")}>
-                      {on ? "☑ " : "☐ "}
-                      {PROBLEM_LABEL[f]}
-                    </button>
-                  );
-                })}
-                <button type="button" aria-pressed={aims !== undefined && aims.length === 0} onClick={() => setAims(id, [])} className={clsx("btn btn-sm min-h-[40px] border", aims !== undefined && aims.length === 0 ? "border-accent bg-accentSoft text-ink" : "border-line bg-paper text-ash hover:border-ash")}>
-                  {tt("None of the three", "Keines der drei")}
-                </button>
-              </div>
-              {aF && (
-                <p className="mt-1 text-caption text-ink">
-                  <span className="smallcaps mr-1 text-accent">{tt("Clue", "Hinweis")}</span>
-                  {tt("Read what this measure does: does it connect the channels or hand the customer over, does it make channels know the customer and say the same, or is it an AI tool? Name only what it really does.", "Lesen Sie, was diese Maßnahme tut: Verbindet sie die Kanäle oder übergibt den Kunden, lässt sie Kanäle den Kunden kennen und dasselbe sagen, oder ist sie ein KI-Werkzeug? Nennen Sie nur, was sie wirklich tut.")}
-                </p>
-              )}
-            </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <div>
                 <p className="smallcaps">{tt("Integration (from what it connects to)", "Integration (aus dem, womit sie verbunden ist)")}</p>
@@ -548,25 +535,12 @@ export function Block24() {
           </div>
         );
       })}
-      {chosen.length > 0 && (
-        <div className="space-y-2">
-          <p className="smallcaps">{tt("Which problems of the brief do your measures answer? (from what each really answers)", "Welche Probleme des Auftrags beantworten Ihre Maßnahmen? (aus dem, was jede wirklich beantwortet)")}</p>
-          <ul className="grid gap-1.5 sm:grid-cols-2">
-            {cov.map((c) => (
-              <li key={c.pattern} className={clsx("rounded-md border px-3 py-1.5 text-caption", c.covered ? "border-signal/40 bg-signalSoft text-ink" : "border-dashed border-ash bg-mist text-ink")}>
-                <span aria-hidden>{c.covered ? "● " : "○ "}</span>
-                <strong>{PROBLEM_LABEL[c.pattern]}</strong>: {c.covered ? tt("at least one chosen measure answers it", "mindestens eine gewählte Maßnahme beantwortet es") : tt("nothing you chose answers it", "nichts Gewähltes beantwortet es")}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
       <CheckBar onCheck={check} checkLabel={tt("Check my measures", "Meine Maßnahmen prüfen")} checks={l1.checks} />
       {chosen.length > 0 && l1.checks > 0 && (
         <Reading>
-          {l1.measureFlags.length > 0
-            ? tt(`${nA} measure${nA === 1 ? " names" : "s name"} problems it does not answer, and ${nE} integration score${nE === 1 ? " does not" : "s do not"} follow what the measure is printed to connect to. They are outlined above.`, `${nA} ${nA === 1 ? "Maßnahme nennt" : "Maßnahmen nennen"} Probleme, die sie nicht beantworten, und ${nE} ${nE === 1 ? "Wert für Integration folgt" : "Werte für Integration folgen"} nicht dem, womit die Maßnahme laut Beschreibung verbunden ist. Sie sind oben markiert.`)
-            : tt("The problems you named and the integration scores match the measures. Effect and scalability are your judgement.", "Die genannten Probleme und die Werte für Integration passen zu den Maßnahmen. Wirkung und Skalierbarkeit sind Ihr Urteil.")}
+          {nE > 0
+            ? tt(`${nE} integration score${nE === 1 ? " does not" : "s do not"} follow what the card says the measure connects to. ${nE === 1 ? "It is" : "They are"} outlined above.`, `${nE} ${nE === 1 ? "Wert für Integration folgt" : "Werte für Integration folgen"} nicht dem, womit die Karte die Maßnahme verbunden nennt. ${nE === 1 ? "Er ist" : "Sie sind"} oben markiert.`)
+            : tt("The integration scores match what the cards say the measures connect to. Effect and scalability are your judgement.", "Die Werte für Integration passen zu dem, womit die Karten die Maßnahmen verbunden nennen. Wirkung und Skalierbarkeit sind Ihr Urteil.")}
           {cost > BUDGET ? tt(` The plan is ${euro(cost - BUDGET)} over the budget.`, ` Der Plan liegt ${euro(cost - BUDGET)} über dem Budget.`) : ""}
         </Reading>
       )}
