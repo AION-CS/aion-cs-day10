@@ -8,15 +8,15 @@ export type MaterialMeta = { id: MaterialId; block: Block; title: string; minute
 
 /**
  * `optional: true` marks a card that no Core task block draws on (lib/progress.ts OPTIONAL_BLOCKS): collapsed by default via OptionalSection,
- * never removed (CLAUDE.md #35). A card a Core block needs stays Core even if an Optional block also cites it. Route 1 Optional cards: A4, A6.
+ * never removed (CLAUDE.md #35). A card a Core block needs stays Core even if an Optional block also cites it. Route 1 Core cards: A2 (block 1.1) and A7 (block 2.4); Route 1 Optional cards: A1, A3, A4, A5, A6.
  *
  * Day 10: Materi A (Route 1, Levels 1 and 2) seven cards, 60 minutes; Materi B (Route 2, Level 3) five cards, 60 minutes. */
 export const MATERIALS: MaterialMeta[] = bi([
-  { id: "A1" as MaterialId, block: "A" as Block, title: t("Omnichannel versus multichannel: integration instead of single channels", "Omnichannel statt Multichannel: Integration statt einzelner Kanäle"), minutes: 8 },
+  { id: "A1" as MaterialId, block: "A" as Block, title: t("Omnichannel versus multichannel: integration instead of single channels", "Omnichannel statt Multichannel: Integration statt einzelner Kanäle"), minutes: 8, optional: true },
   { id: "A2" as MaterialId, block: "A" as Block, title: t("A seamless experience: consistency, recognition and transitions", "Ein nahtloses Erlebnis: Konsistenz, Wiedererkennung und Übergänge"), minutes: 9 },
-  { id: "A3" as MaterialId, block: "A" as Block, title: t("Critical transitions, and where AI tools can build on them", "Kritische Übergänge, und wo KI-Werkzeuge darauf aufbauen können"), minutes: 9 },
+  { id: "A3" as MaterialId, block: "A" as Block, title: t("Critical transitions, and where AI tools can build on them", "Kritische Übergänge, und wo KI-Werkzeuge darauf aufbauen können"), minutes: 9, optional: true },
   { id: "A4" as MaterialId, block: "A" as Block, title: t("What a seamless hand-over is worth: deal rate, lift and extra revenue", "Was eine nahtlose Übergabe wert ist: Abschlussquote, Lift und zusätzlicher Umsatz"), minutes: 9, optional: true },
-  { id: "A5" as MaterialId, block: "A" as Block, title: t("KPIs across channels: outcome, driver, guardrail and vanity metrics", "KPIs über Kanäle hinweg: Outcome, Treiber, Guardrail und Vanity Metrics"), minutes: 8 },
+  { id: "A5" as MaterialId, block: "A" as Block, title: t("KPIs across channels: outcome, driver, guardrail and vanity metrics", "KPIs über Kanäle hinweg: Outcome, Treiber, Guardrail und Vanity Metrics"), minutes: 8, optional: true },
   { id: "A6" as MaterialId, block: "A" as Block, title: t("Testing across channels, and reading trends", "Kanalübergreifend testen, und Trends lesen"), minutes: 9, optional: true },
   { id: "A7" as MaterialId, block: "A" as Block, title: t("AI tools and priorities: integration, effect, scalability", "KI-Werkzeuge und Prioritäten: Integration, Wirkung, Skalierbarkeit"), minutes: 8 },
   { id: "B1" as MaterialId, block: "B" as Block, title: t("An integrated customer system: the target vision", "Ein integriertes Kundensystem: das Zielbild"), minutes: 12, optional: true },

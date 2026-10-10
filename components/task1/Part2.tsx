@@ -43,7 +43,7 @@ export function Block21() {
       id="block-2-1"
       title={tt("Block 2.1 · Tag OmniTech's twelve metrics by kind, and name your three KPIs", "Block 2.1 · Die zwölf Kennzahlen von OmniTech nach Art zuordnen, und Ihre drei KPIs nennen")}
       kind="OBJECTIVE + JUDGED"
-      core
+      core={false}
       minutes={BLOCK_MINUTES["2.1"]}
       findIt={tt("Route 1 → Task 1 → the twelve metrics on the board below, from OmniTech's reports across all channels, each with whether it moved together with customer value last year. Find the words that decide each one and answer on the board; then name your three KPIs in the field under it.", "Route 1 → Task 1 → die zwölf Kennzahlen auf der Tafel unten, aus den kanalübergreifenden Berichten von OmniTech, jede mit der Angabe, ob sie sich letztes Jahr mit dem Kundenwert bewegte. Finden Sie die Worte, die jede entscheiden, und antworten Sie auf der Tafel; nennen Sie dann Ihre drei KPIs im Feld darunter.")}
     >

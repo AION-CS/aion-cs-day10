@@ -44,7 +44,7 @@ export function Block11() {
       minutes={BLOCK_MINUTES["1.1"]}
       findIt={tt("Route 1 → Task 1 → the nine weaknesses on the sort board below, noted along one customer's journey from the online configurator to sales and to support. Answer on the sort board.", "Route 1 → Task 1 → die neun Schwachstellen auf der Sortiertafel unten, notiert entlang der Journey eines Kunden vom Online-Konfigurator zum Vertrieb und zum Support. Antworten Sie auf der Sortiertafel.")}
     >
-      <MaterialRefs refs={["A1", "A2", "A3"]} />
+      <MaterialRefs refs={["A2"]} />
       <PlacementBoard<LevelTag>
         items={LINES.map((r) => ({ id: r.id, meta: r.source, text: r.text }))}
         bins={LEVEL_TAGS.map((t) => ({ id: t.id, label: t.label, hint: t.hint }))}
@@ -68,9 +68,9 @@ export function Block11() {
         noun={tt("weakness", "Schwachstelle")}
         intro={tt("Drag a weakness onto the principle it breaks, or select it and then select a principle. Select a placed one to move it again. One principle per weakness: the one it mainly breaks.", "Ziehen Sie eine Schwachstelle auf das Prinzip, das sie bricht, oder wählen Sie sie aus und dann ein Prinzip. Wählen Sie eine platzierte, um sie zu verschieben. Ein Prinzip pro Schwachstelle: das, das sie vor allem bricht.")}
         tests={
-          <RevealHint id="sort-tests" label={tt("Show the test questions", "Testfragen zeigen")} title={tt("Test questions · taught in Materi A1 to A3", "Testfragen · aus Materi A1 bis A3")}>
+          <RevealHint id="sort-tests" label={tt("Show the test questions", "Testfragen zeigen")} title={tt("Test questions · taught in Materi A2", "Testfragen · aus Materi A2")}>
             <div className="space-y-2 text-caption text-ink">
-              <p>{tt("Ask these of every weakness. They repeat the tests from Materi A1 to A3; they never say which weakness goes where.", "Stellen Sie diese Fragen zu jeder Schwachstelle. Sie wiederholen die Tests aus Materi A1 bis A3; sie sagen nie, welche Schwachstelle wohin gehört.")}</p>
+              <p>{tt("Ask these of every weakness. They repeat the tests from Materi A2; they never say which weakness goes where.", "Stellen Sie diese Fragen zu jeder Schwachstelle. Sie wiederholen die Tests aus Materi A2; sie sagen nie, welche Schwachstelle wohin gehört.")}</p>
               <ul className="space-y-1.5">
                 {LEVEL_TESTS.map((c) => (
                   <li key={c.name}>
@@ -79,7 +79,7 @@ export function Block11() {
                   </li>
                 ))}
               </ul>
-              <MaterialRefs refs={["A2", "A3"]} lead={tt("Taught in", "Gelehrt in")} />
+              <MaterialRefs refs={["A2"]} lead={tt("Taught in", "Gelehrt in")} />
             </div>
           </RevealHint>
         }
@@ -97,7 +97,7 @@ export function Block11() {
           id="extra-insight-kit"
           refs={[
             { label: tt("Where the journey breaks today (the case)", "Wo die Journey heute bricht (der Fall)"), value: tt("channels work in isolation, the experience is inconsistent, AI potential is unused", "Kanäle arbeiten isoliert, das Erlebnis ist uneinheitlich, KI-Potenzial bleibt ungenutzt"), target: "case-brief" },
-            { label: tt("The three principles (Materi A1 to A3)", "Die drei Prinzipien (Materi A1 bis A3)"), value: tt("seamless transition · recognition · consistency", "nahtloser Übergang · Wiedererkennung · Konsistenz"), target: "mat-A2" },
+            { label: tt("The three principles (Materi A2)", "Die drei Prinzipien (Materi A2)"), value: tt("seamless transition · recognition · consistency", "nahtloser Übergang · Wiedererkennung · Konsistenz"), target: "mat-A2" },
             { label: tt("The nine weaknesses above", "Die neun Schwächen oben"), value: tt("see which breaks the teams already name", "sehen Sie, welche Brüche die Teams schon nennen"), target: IDS.line(LINES[0].id) },
           ]}
           steps={[
@@ -234,7 +234,7 @@ export function Block13() {
       id="block-1-3"
       title={tt("Block 1.3 · Critical transitions, where AI can build, and three improvements", "Block 1.3 · Kritische Übergänge, wo KI aufbauen kann, und drei Verbesserungen")}
       kind="OBJECTIVE + JUDGED"
-      core
+      core={false}
       minutes={BLOCK_MINUTES["1.3"]}
       findIt={tt("Route 1 → Task 1 → the table “Eight transitions between channels” below: journeys a month, the share who drop out there, whether a buying or renewal decision is open, and what travels with the customer. Answer in the two lists and the three fields under it.", "Route 1 → Task 1 → die Tabelle „Acht Übergänge zwischen Kanälen“ unten: Journeys pro Monat, der Anteil, der dort abspringt, ob eine Kauf- oder Verlängerungsentscheidung offen ist, und was mit dem Kunden mitreist. Antworten Sie in den zwei Listen und den drei Feldern darunter.")}
     >
